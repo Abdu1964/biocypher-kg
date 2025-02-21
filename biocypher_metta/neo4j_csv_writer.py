@@ -1,11 +1,10 @@
-from collections import Counter, defaultdict
 import json
 import csv
-from biocypher._logger import logger
-import rdflib
-import os
-from biocypher_metta import BaseWriter
+from collections import defaultdict, Counter
 from pathlib import Path
+import rdflib
+from biocypher_metta import BaseWriter
+from biocypher._logger import logger
 
 class Neo4jCSVWriter(BaseWriter):
     def __init__(self, schema_config, biocypher_config, output_dir):
@@ -15,10 +14,12 @@ class Neo4jCSVWriter(BaseWriter):
         self.create_edge_types()
 
         self.excluded_properties = []
-        self.translation_table = str.maketrans({self.csv_delimiter: '', 
-                                                self.array_delimiter: ' ', 
-                                                "'": "",
-                                                '"': ""})
+        self.translation_table = str.maketrans({
+            self.csv_delimiter: '',
+            self.array_delimiter: ' ',
+            "'": "",
+            '"': ""
+        })
         self.ontologies = set(['go', 'bto', 'efo', 'cl', 'clo', 'uberon'])
 
     def create_edge_types(self):
@@ -44,8 +45,7 @@ class Neo4jCSVWriter(BaseWriter):
                     }
 
     def preprocess_value(self, value):
-        value_type = type(value)
-        
+        """Preprocess the values to clean and format them."""
         if isinstance(value, list):
             return json.dumps([self.preprocess_value(item) for item in value])
         
@@ -56,16 +56,18 @@ class Neo4jCSVWriter(BaseWriter):
             return value.translate(self.translation_table)
         
         return value
-    
+
     def convert_input_labels(self, label):
         """Convert input labels to a standard format."""
         return label.lower().replace(" ", "_")
 
     def preprocess_id(self, prev_id):
+        """Preprocess and standardize IDs."""
         replace_map = str.maketrans({' ': '_', ':':'_'})
         return prev_id.lower().strip().translate(replace_map)
-    
+
     def write_chunk(self, chunk, headers, file_path, csv_delimiter):
+        """Write data chunks to a CSV file."""
         with open(file_path, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=csv_delimiter)
             for row in chunk:
@@ -74,6 +76,7 @@ class Neo4jCSVWriter(BaseWriter):
             csvfile.flush()
 
     def write_to_csv(self, data, file_path, chunk_size=1000):
+        """Write data to a CSV file in chunks to reduce memory usage."""
         headers = set()
         for entry in data:
             headers.update(entry.keys())
@@ -94,6 +97,7 @@ class Neo4jCSVWriter(BaseWriter):
             self.write_chunk(chunk, headers, file_path, self.csv_delimiter)
 
     def write_nodes(self, nodes, path_prefix=None, adapter_name=None):
+        """Write node data to CSV and generate Cypher queries."""
         output_dir = self.output_path / (path_prefix or adapter_name or "")
         output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -137,6 +141,7 @@ RETURN batches, total;
         return node_freq, node_props
 
     def write_edges(self, edges, path_prefix=None, adapter_name=None):
+        """Write edge data to CSV and generate Cypher queries."""
         output_dir = self.output_path / (path_prefix or adapter_name or "")
         output_dir.mkdir(parents=True, exist_ok=True)
 
