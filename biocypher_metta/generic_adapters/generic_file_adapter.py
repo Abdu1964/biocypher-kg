@@ -1,211 +1,240 @@
-# biocypher_metta/generic_adapters/generic_file_adapter.py
 import pandas as pd
-import yaml
-import os
+import gtfparse
+import csv
+from loguru import logger
 import json
-import gtfparse # You MUST install this: pip install gtfparse
-import datetime # For current_timestamp_iso
-import pickle # For loading auxiliary data like HGNC aliases
+import os
+import traceback
+import yaml # <--- NEW: Import the PyYAML library
 
 class GenericDataSourceAdapter:
-    def __init__(self, schema_filepath: str, data_filepath: str, auxiliary_data: dict = None):
-        """
-        Initializes the generic adapter.
-
-        Args:
-            schema_filepath: Path to the YAML schema file for this dataset.
-            data_filepath: Path to the raw data file.
-            auxiliary_data: A dictionary containing universal auxiliary data
-                            (e.g., {'tissue_ontology_map': map_data, 'hgnc_gene_aliases': alias_data}).
-        """
-        if not os.path.exists(schema_filepath):
-            raise FileNotFoundError(f"Schema file not found: {schema_filepath}")
-        if not os.path.exists(data_filepath):
-            raise FileNotFoundError(f"Data file not found: {data_filepath}")
-
-        self.schema = self._load_yaml(schema_filepath)
+    def __init__(self, schema_filepath, data_filepath, auxiliary_data=None):
+        self.schema_filepath = schema_filepath
         self.data_filepath = data_filepath
         self.auxiliary_data = auxiliary_data if auxiliary_data is not None else {}
-        self.source_id = self.schema.get('source_id', os.path.basename(schema_filepath).replace('.yaml', ''))
         
-        self.raw_data = self._load_data() # Loads data based on 'data_format' specified in schema
+        # Load schema first, which defines data_format
+        self.schema = self._load_schema() 
+        self.data_format = self.schema.get("data_format")
 
-        if 'nodes' not in self.schema and 'relationships' not in self.schema:
-            raise ValueError(f"Schema {schema_filepath} for '{self.source_id}' must define 'nodes' or 'relationships'.")
+        # Then load data based on the format
+        self.raw_data = self._load_data() 
+        if self.raw_data.empty:
+            logger.warning(f"No valid raw data loaded for {self.data_filepath}. "
+                           "This dataset will not contribute nodes or edges.")
 
-    def _load_yaml(self, path: str):
-        with open(path, 'r') as f:
-            return yaml.safe_load(f)
+        self._initialize_mappings()
+
+    def _load_schema(self):
+        """
+        Loads the schema configuration for the data source.
+        Uses yaml.safe_load to correctly parse YAML files.
+        """
+        try:
+            with open(self.schema_filepath, 'r') as f:
+                return yaml.safe_load(f) # <--- MODIFIED: Use yaml.safe_load
+        except FileNotFoundError:
+            logger.error(f"Schema file not found: {self.schema_filepath}")
+            raise # Re-raise if the schema file itself is missing, as it's critical
+        except yaml.YAMLError as e: # <--- MODIFIED: Catch YAML specific errors
+            logger.error(f"Error parsing schema file '{self.schema_filepath}': {e}.")
+            logger.error(f"Please ensure '{self.schema_filepath}' is a valid YAML file.")
+            raise # Re-raise if schema parsing fails, as it's critical
 
     def _load_data(self):
-        data_format = self.schema.get('data_format', 'csv').lower()
-
-        if data_format == 'csv':
-            return pd.read_csv(self.data_filepath)
-        elif data_format == 'tsv':
-            return pd.read_csv(self.data_filepath, sep='\t')
-        elif data_format == 'json':
-            with open(self.data_filepath, 'r') as f:
-                return json.load(f)
-        elif data_format == 'gtf':
-            print(f"Loading GTF file using gtfparse: {self.data_filepath}")
-            try:
+        """
+        Loads raw data from the specified data_filepath based on the data_format.
+        Includes robust error handling to prevent script crashes due to malformed files.
+        """
+        logger.info(f"Attempting to load {self.data_format} file: {self.data_filepath}")
+        try:
+            if self.data_format == "gtf":
+                # gtfparse.read_gtf handles .gz files automatically
                 df = gtfparse.read_gtf(self.data_filepath)
-                # Filter for gene entries directly, as in your original adapter
-                genes_df = df[df["feature"] == "gene"].copy()
-                # Rename 'seqname' to 'chromosome' for consistency with schema
-                if "seqname" in genes_df.columns:
-                    genes_df = genes_df.rename(columns={"seqname": "chromosome"})
-                return genes_df
-            except Exception as e:
-                raise RuntimeError(f"Failed to parse GTF file '{self.data_filepath}': {e}. "
-                                   "Please ensure 'gtfparse' is installed and the GTF file is valid.")
-        else:
-            raise ValueError(f"Unsupported data format '{data_format}' in schema for {self.source_id}")
+                logger.info(f"Successfully loaded GTF file: {self.data_filepath}")
+                return df
+            elif self.data_format == "csv" or self.data_format == "tsv":
+                delimiter = self.schema.get("delimiter", "," if self.data_format == "csv" else "\t")
+                # Adding 'comment' parameter to skip comment lines (often starting with '#')
+                df = pd.read_csv(self.data_filepath, sep=delimiter, comment='#')
+                logger.info(f"Successfully loaded {self.data_format} file: {self.data_filepath}")
+                return df
+            else:
+                logger.error(f"Unsupported data format: '{self.data_format}' specified in schema for '{self.data_filepath}'. "
+                             "Supported formats are 'gtf', 'csv', 'tsv'.")
+                return pd.DataFrame() # Return empty DataFrame for unsupported format
 
-    def _get_property_value(self, record, prop_mapping):
-        """
-        Helper to get a property value from a raw data record,
-        handling direct column/key names, static values, and auxiliary lookups.
-        'record' can be a pandas Series (row) or a dictionary (JSON record).
-        """
-        if isinstance(prop_mapping, dict): # Advanced mapping (e.g., using aux data, dynamic values)
-            map_type = prop_mapping.get('map_using')
-            source_key_name = prop_mapping.get('column') # Column/key in raw data to extract value from
+        except FileNotFoundError:
+            logger.error(f"Data file not found at '{self.data_filepath}'. Please ensure the path is correct.")
+            return pd.DataFrame() # Return empty DataFrame on file not found
+        except Exception as e:
+            # Catch any other exception during loading (e.g., TypeError from gtfparse, parsing errors from pandas)
+            logger.error(f"Failed to parse {self.data_format} file '{self.data_filepath}': {e}.")
+            logger.debug(f"Full traceback for parsing error:\n{traceback.format_exc()}")
+            logger.warning(f"Returning empty DataFrame for '{self.data_filepath}' due to parsing error. "
+                           "This dataset will be skipped. Please check the file's validity and content, "
+                           "especially for malformed lines in GTF attributes or incorrect delimiters in CSV/TSV.")
+            return pd.DataFrame() # <--- CRITICAL: Returns empty DataFrame to prevent crash
 
-            # Handle special dynamic value types first
-            if map_type == "current_timestamp_iso":
-                return datetime.datetime.now().isoformat()
-            
-            # Get the raw value from the record based on source_key_name
-            raw_value = None
-            if source_key_name: # If a column/key is specified for the mapping
-                if isinstance(record, pd.Series):
-                    if source_key_name in record.index and pd.notna(record[source_key_name]):
-                        raw_value = record[source_key_name]
-                elif isinstance(record, dict):
-                    if source_key_name in record:
-                        raw_value = record[source_key_name]
-            
-            # Apply auxiliary data mappings or custom transformations
-            if map_type == "hgnc_gene_aliases" and raw_value is not None:
-                if 'hgnc_gene_aliases' in self.auxiliary_data:
-                    lookup_map = self.auxiliary_data['hgnc_gene_aliases']
-                    # The HGNC map often maps gene_name to a list of synonyms
-                    return lookup_map.get(raw_value, []) # Return empty list if not found
-                else:
-                    print(f"Warning: 'hgnc_gene_aliases' map not provided but requested for '{source_key_name}' in schema '{self.source_id}'. Returning empty list for synonyms.")
-                    return []
-            elif map_type == "tissue_ontology_map" and raw_value is not None:
-                if 'tissue_ontology_map' in self.auxiliary_data:
-                    lookup_map = self.auxiliary_data['tissue_ontology_map']
-                    return lookup_map.get(raw_value, raw_value) # Fallback to original value if not found
-                else:
-                    print(f"Warning: 'tissue_ontology_map' not provided but requested for '{source_key_name}' in schema '{self.source_id}'. Returning original value.")
-                    return raw_value
-            elif map_type == "gencode_url_builder" and raw_value is not None:
-                # Assuming raw_value is the version string (e.g., "M43" or "43")
-                try:
-                    # Extract numeric part, handling 'M' prefix if present
-                    major_version = raw_value.replace('M', '').split('.')[0] 
-                    return f"https://www.gencodegenes.org/human/release-{major_version}.html"
-                except Exception as e:
-                    print(f"Warning: Could not build Gencode URL for version '{raw_value}' from schema '{self.source_id}': {e}. Returning generic URL.")
-                    return f"https://www.gencodegenes.org/human/release-overview.html" # Fallback URL
-            
-            # If map_type is unknown or raw_value is None and no special handling applied
-            return raw_value
-
-        elif isinstance(prop_mapping, (str, int, float, bool, list)): # Direct column name or static value
-            # Try to get value from record first (if it's a column name)
-            if isinstance(record, pd.Series):
-                if prop_mapping in record.index and pd.notna(record[prop_mapping]):
-                    return record[prop_mapping]
-            elif isinstance(record, dict):
-                if prop_mapping in record:
-                    return record[prop_mapping]
-            
-            # If not found as a column/key, treat it as a static value from the schema
-            return prop_mapping
-        
-        return None # Default return if nothing matches or value is None/NaN
+    def _initialize_mappings(self):
+        # 'node_mappings' and 'edge_mappings' should align with the 'nodes' and 'relationships' keys in your generic schema
+        self.node_mappings = self.schema.get("nodes", {})
+        self.edge_mappings = self.schema.get("relationships", {})
 
     def get_nodes(self):
-        nodes = []
-        for node_type, node_config in self.schema.get('nodes', {}).items():
-            id_field = node_config.get('id_field')
-            properties_map = node_config.get('properties', {})
+        """
+        Generates BioCypher node representations from the loaded raw data.
+        Includes row-level error handling.
+        """
+        if self.raw_data is None or self.raw_data.empty:
+            logger.info("No raw data available for node extraction.")
+            return # Yield nothing if no data was loaded
+
+        for data_type, mapping in self.node_mappings.items():
+            filter_column = mapping.get("filter_column") # For GTF, often 'feature'
+            filter_value = mapping.get("filter_value")   # For GTF, often 'gene'
+            id_field = mapping.get("id_field")           # New: Using 'id_field' as per your schema
+
+            df_filtered = self.raw_data
+            if filter_column and filter_value:
+                if filter_column not in df_filtered.columns:
+                    logger.warning(f"Filter column '{filter_column}' not found for node type '{data_type}' from '{self.data_filepath}'. Skipping filter.")
+                else:
+                    df_filtered = self.raw_data[self.raw_data[filter_column] == filter_value]
 
             if not id_field:
-                print(f"Warning: Node type '{node_type}' in {self.source_id} is missing required 'id_field'. Skipping.")
+                logger.error(f"Missing 'id_field' in schema for node type '{data_type}' from '{self.data_filepath}'. Skipping node extraction for this type.")
                 continue
 
-            records_to_process = []
-            if isinstance(self.raw_data, pd.DataFrame):
-                if id_field not in self.raw_data.columns:
-                    print(f"Warning: ID field '{id_field}' not found in DataFrame for node type '{node_type}' in {self.source_id}. Skipping.")
-                    continue
-                records_to_process = self.raw_data.iterrows()
-            elif isinstance(self.raw_data, list) and all(isinstance(i, dict) for i in self.raw_data):
-                records_to_process = [(None, r) for r in self.raw_data] # Simulate iterrows for list of dicts
-            else:
-                print(f"Warning: Data format for '{self.source_id}' not suitable for generic node extraction. Data type: {type(self.raw_data)}. Skipping.")
+            if id_field not in df_filtered.columns:
+                logger.error(f"ID field '{id_field}' not found in filtered data for node type '{data_type}' from '{self.data_filepath}'. Skipping node extraction for this type.")
                 continue
 
-            for _, record in records_to_process:
+            properties_map = mapping.get("properties", {})
+
+            for idx, row in df_filtered.iterrows():
                 try:
-                    node_id = str(record[id_field])
-                    properties = {}
-                    for bio_prop_name, raw_mapping in properties_map.items():
-                        val = self._get_property_value(record, raw_mapping)
-                        if val is not None: # Only add property if value is not None
-                            properties[bio_prop_name] = val
-                    nodes.append((node_id, node_type, properties))
-                except KeyError as ke:
-                    print(f"Error processing record for node type '{node_type}' from schema '{self.source_id}': Missing expected key '{ke}'. Skipping record.")
-                    continue
-                except Exception as e:
-                    print(f"Error processing record for node type '{node_type}' from schema '{self.source_id}': {e}. Skipping record.")
-                    continue
-        return nodes
+                    node_id = str(row[id_field]) # Ensure node_id is always a string
+
+                    node_props = {}
+                    for prop_key, prop_value_source in properties_map.items():
+                        if isinstance(prop_value_source, dict):
+                            # Handle special mapping types
+                            if prop_value_source.get("map_using") == "auxiliary_lookup":
+                                aux_data_key = prop_value_source.get("aux_data_key") # Key to find data in self.auxiliary_data
+                                lookup_key_column = prop_value_source.get("column")  # Column in GTF to use as lookup key
+                                default_value = prop_value_source.get("default")
+                                
+                                if aux_data_key and lookup_key_column and lookup_key_column in row:
+                                    lookup_val = row[lookup_key_column]
+                                    # Handle comma-separated keys if necessary (e.g., multiple gene names)
+                                    if isinstance(lookup_val, str) and ',' in lookup_val:
+                                        lookup_keys = [k.strip() for k in lookup_val.split(',')]
+                                    else:
+                                        lookup_keys = [lookup_val]
+
+                                    found_value = None
+                                    for k in lookup_keys:
+                                        if k in self.auxiliary_data.get(aux_data_key, {}):
+                                            found_value = self.auxiliary_data[aux_data_key][k]
+                                            break
+                                    node_props[prop_key] = found_value if found_value is not None else default_value
+                                else:
+                                    node_props[prop_key] = default_value # Or handle as missing
+                            elif prop_value_source.get("map_using") == "gencode_url_builder":
+                                column = prop_value_source.get("column")
+                                if column and column in row:
+                                    # Example: Build URL from version or gene_id
+                                    version = str(row[column])
+                                    node_props[prop_key] = f"https://www.gencodegenes.org/human/release_{version}.html"
+                                else:
+                                    node_props[prop_key] = None # Or a default URL
+                            elif prop_value_source.get("map_using") == "current_timestamp_iso":
+                                from datetime import datetime
+                                node_props[prop_key] = datetime.now().isoformat()
+                            else:
+                                # Handle other complex mappings if they arise
+                                logger.warning(f"Unsupported complex property mapping for '{prop_key}': {prop_value_source}")
+                                node_props[prop_key] = None # Default for unsupported complex mapping
+                        elif prop_value_source in row: # Direct column mapping
+                            value = row[prop_value_source]
+                            # Handle NaN/empty strings from pandas
+                            if pd.isna(value) or (isinstance(value, str) and value.strip() == ""):
+                                node_props[prop_key] = None
+                            else:
+                                node_props[prop_key] = value
+                        else: # Static value
+                            node_props[prop_key] = prop_value_source 
+
+                    # Add default 'source' property if not already present
+                    if 'source' not in node_props:
+                        node_props['source'] = os.path.basename(self.data_filepath)
+
+                    yield node_id, data_type, node_props
+
+                except Exception as row_e:
+                    logger.warning(f"Skipping node for row {idx} from {self.data_filepath} (ID: {node_id if 'node_id' in locals() else 'N/A'}) due to error: {row_e}. "
+                                   f"Row data: {row.to_dict()}")
+                    logger.debug(f"Full traceback for row {idx}:\n{traceback.format_exc()}")
+                    continue # Continue to the next row
 
     def get_edges(self):
-        edges = []
-        for rel_type, rel_config in self.schema.get('relationships', {}).items():
-            source_id_field = rel_config.get('source_id_field')
-            target_id_field = rel_config.get('target_id_field')
-            properties_map = rel_config.get('properties', {})
+        """
+        Generates BioCypher edge representations from the loaded raw data.
+        Includes row-level error handling.
+        """
+        if self.raw_data is None or self.raw_data.empty:
+            logger.info("No raw data available for edge extraction.")
+            return # Yield nothing if no data was loaded
 
-            if not (source_id_field and target_id_field):
-                print(f"Warning: Relationship '{rel_type}' in {self.source_id} is missing required source/target ID fields. Skipping.")
+        for edge_type, mapping in self.edge_mappings.items():
+            filter_column = mapping.get("filter_column")
+            filter_value = mapping.get("filter_value")
+            source_id_field = mapping.get("source_id_field") # New: Using 'source_id_field'
+            target_id_field = mapping.get("target_id_field") # New: Using 'target_id_field'
+
+            df_filtered = self.raw_data
+            if filter_column and filter_value:
+                if filter_column not in df_filtered.columns:
+                    logger.warning(f"Filter column '{filter_column}' not found for edge type '{edge_type}' from '{self.data_filepath}'. Skipping filter.")
+                else:
+                    df_filtered = self.raw_data[self.raw_data[filter_column] == filter_value]
+
+            if not source_id_field or not target_id_field:
+                logger.error(f"Missing 'source_id_field' or 'target_id_field' in schema for edge type '{edge_type}' from '{self.data_filepath}'. Skipping edge extraction for this type.")
+                continue
+            
+            if source_id_field not in df_filtered.columns or target_id_field not in df_filtered.columns:
+                logger.error(f"Source or target ID field missing in filtered data for edge type '{edge_type}' from '{self.data_filepath}'. Skipping edge extraction for this type.")
                 continue
 
-            records_to_process = []
-            if isinstance(self.raw_data, pd.DataFrame):
-                if not (source_id_field in self.raw_data.columns and target_id_field in self.raw_data.columns):
-                    print(f"Warning: Source ('{source_id_field}') or target ('{target_id_field}') ID column not found in DataFrame for relationship '{rel_type}' in {self.source_id}. Skipping.")
-                    continue
-                records_to_process = self.raw_data.iterrows()
-            elif isinstance(self.raw_data, list) and all(isinstance(i, dict) for i in self.raw_data):
-                records_to_process = [(None, r) for r in self.raw_data]
-            else:
-                print(f"Warning: Data format for '{self.source_id}' not suitable for generic edge extraction. Data type: {type(self.raw_data)}. Skipping.")
-                continue
+            properties_map = mapping.get("properties", {})
 
-            for _, record in records_to_process:
+            for idx, row in df_filtered.iterrows():
                 try:
-                    source_id = str(record[source_id_field])
-                    target_id = str(record[target_id_field])
-                    properties = {}
-                    for bio_prop_name, raw_mapping in properties_map.items():
-                        val = self._get_property_value(record, raw_mapping)
-                        if val is not None:
-                            properties[bio_prop_name] = val
-                    edges.append((source_id, target_id, rel_type, properties))
-                except KeyError as ke:
-                    print(f"Error processing record for relationship type '{rel_type}' from schema '{self.source_id}': Missing expected key '{ke}'. Skipping record.")
-                    continue
-                except Exception as e:
-                    print(f"Error processing record for relationship type '{rel_type}' from schema '{self.source_id}': {e}. Skipping record.")
-                    continue
-        return edges
+                    source_id = str(row[source_id_field])
+                    target_id = str(row[target_id_field])
+                    
+                    edge_props = {}
+                    for prop_key, prop_value_source in properties_map.items():
+                        # This section can be expanded for complex edge property mappings like nodes
+                        if prop_value_source in row:
+                            value = row[prop_value_source]
+                            if pd.isna(value) or (isinstance(value, str) and value.strip() == ""):
+                                edge_props[prop_key] = None
+                            else:
+                                edge_props[prop_key] = value
+                        else:
+                            edge_props[prop_key] = prop_value_source # Static value
+
+                    # Add default 'source' property if not already present
+                    if 'source' not in edge_props:
+                        edge_props['source'] = os.path.basename(self.data_filepath)
+
+                    yield None, source_id, target_id, edge_type, edge_props
+
+                except Exception as row_e:
+                    logger.warning(f"Skipping edge for row {idx} from {self.data_filepath} (Source: {source_id if 'source_id' in locals() else 'N/A'}, Target: {target_id if 'target_id' in locals() else 'N/A'}) due to error: {row_e}. "
+                                   f"Row data: {row.to_dict()}")
+                    logger.debug(f"Full traceback for row {idx}:\n{traceback.format_exc()}")
+                    continue # Continue to the next row
