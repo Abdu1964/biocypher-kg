@@ -1,0 +1,47 @@
+# data_source_schemas/GencodeGene_generic.yaml
+#
+# This schema defines how raw Gencode GTF data is mapped to BioCypher
+# 'gene' nodes. It is used by the GenericDataSourceAdapter.
+#
+# The 'node' and 'relationship' types defined here (e.g., 'gene') MUST
+# exist in your global schema_config.yaml.
+
+source_id: gencode_gene_generic
+description: "Gene annotations from Gencode GTF for generic ingestion via BioCypher."
+data_format: gtf # Crucial: tells GenericDataSourceAdapter to use GTF parsing
+
+nodes:
+  gene: # This node type ('gene') must be defined in your config/schema_config.yaml
+    id_field: "gene_id" # The primary identifier for a gene within the GTF file
+    properties:
+      # Mapping GTF attributes/static values (right) to BioCypher properties (left)
+      # These BioCypher properties MUST be defined for the 'gene' node type in your schema_config.yaml
+
+      taxid: 9606 # Static value: Human Taxonomy ID
+      chromosome: "chromosome" # Maps directly from the 'chromosome' column in the parsed GTF
+      start: "start"
+      end: "end"
+      gene_id: "gene_id" # Redundant, but explicit mapping for the ID field
+      gene_type: "gene_type"
+      gene_name: "gene_name"
+      strand: "strand"
+      description: "gene_name" # Reuses 'gene_name' as description, as in original adapter
+      version: "version"
+      source: "Gencode" # Static value
+      source_url:
+        column: "version" # Uses the 'version' column from GTF
+        map_using: "gencode_url_builder" # Custom logic in GenericDataSourceAdapter to build the URL
+      build_version: "GRCh38" # Static value, representing the human genome build
+      date_retrieved:
+        map_using: "current_timestamp_iso" # Tells GenericDataSourceAdapter to generate current timestamp
+      ensembl_gene_id: "gene_id" # As in your original adapter, maps GTF gene_id to ensembl_gene_id
+      synonyms:
+        column: "gene_name" # Uses the 'gene_name' from GTF as a key for lookup
+        map_using: "hgnc_gene_aliases" # Key to look up in the auxiliary_data provided to GenericDataSourceAdapter
+      biotype: "gene_type" # Maps GTF 'gene_type' to BioCypher 'biotype' property
+
+relationships:
+  # Your original gencode_gene_adapter.py does not create relationships from GTF data.
+  # Therefore, we'll keep this section empty for now.
+  # If you later define relationships from GTF (e.g., Gene ENCODES RNA),
+  # you would add them here, defining source_id_field, target_id_field, etc.

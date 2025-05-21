@@ -1,0 +1,14 @@
+# config/adapters_config_generic.yaml
+#
+# This configuration file defines the datasets to be processed by the
+# 'create_generic_kg.py' script using the generic file adapter.
+# It points to the data source specific schema files and the raw data paths.
+
+datasets:
+  gencode_gene_generic_source: # A unique, descriptive name for this dataset within the pipeline
+    type: generic_file_adapter # Specifies that this dataset should be handled by the GenericDataSourceAdapter
+    schema_filepath: ./data_source_schemas/GencodeGene_generic.yaml # Path to the schema YOU just created
+    data_filepath: ./samples/gencode_sample.gtf.gz # Updated to use the sample GTF file
+    # The 'gene_alias_file_path' is NOT needed here.
+    # HGNC aliases are passed globally via the --hgnc-aliases argument to create_generic_kg.py
+    # and then passed to the GenericDataSourceAdapter via the 'auxiliary_data' dictionary.
