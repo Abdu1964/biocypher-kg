@@ -2,9 +2,7 @@
 
 A project for creating [BioCypher-driven](https://github.com/biocypher/biocypher) knowledge graphs with multiple output formats.
 
-```{bash}
 # option 1
-```
 
 # BioCypher Knowledge Graph CLI Tool
 
@@ -55,10 +53,8 @@ poetry run python biocypher_cli/cli.py
 # ├── output_fly/               # Default fly output
 # └── pyproject.toml            # Dependencies
 
-```{bash}
-# option 2
 ```
-
+## option 2
 ## ⚙️ Installation (local)
 
 1. Clone this repository.
