@@ -48,7 +48,7 @@ Identify scalable and efficient storage and querying methods suitable for large 
 | Neo4j            | Good for graph traversals        | Limited by graph size           | Free community edition   | Already in use               | Moderate                   | Baseline system                   |
 | TigerGraph       | Superior speed on complex queries| High (massively parallel)       | Enterprise license needed| Limited free use             | Good                       | Not feasible due to cost/licensing|
 | MongoDB          | Moderate; impacted by API overhead| Scalable for property data      | Free/community edition   | Requires API integration     | Good                       | Introduces query latency         |
-| DuckDB + Parquet | High for batch analytical queries| Excellent for large datasets    | Open source              | Standalone, integrates via files| Excellent compression     | Not suitable for graph queries   |
+| DuckDB + Parquet | High for batch analytical queries| Excellent for large datasets    | Open source              | Standalone, integrates via files| Excellent compression     | NWe use Parquet for disconnected datasets    |
 
 ---
 
@@ -65,9 +65,10 @@ Identify scalable and efficient storage and querying methods suitable for large 
 
 ### Deliverables
 
-- Comparison tables (this document and spreadsheet)
+- Comparison tables (this document and ![This Summary Table](https://github.com/user-attachments/assets/8870bcdb-382c-4630-a9a5-ac1b8887a07a)
+)
 - Summary report (this markdown file)
-- Optional video walkthrough (to be recorded)
+- Optional the detail Report for task 1-4 [Detailed Document for Task1-2](https://docs.google.com/document/d/15AsNDrXggA_YM9By50YWr7aYABU5xnU2tcm14MNkgyQ/edit?tab=t.0)
 
 ---
 
