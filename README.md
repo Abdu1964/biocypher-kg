@@ -1,198 +1,86 @@
-# BioCypher KG
+# 🚀 Knowledge Graph Property Database Experiment
 
-A project for creating [BioCypher-driven](https://github.com/biocypher/biocypher) knowledge graphs with multiple output formats.
-##option 1
-# BioCypher Knowledge Graph CLI Tool
+This repository presents an experimental implementation of a **separate property database** architecture for knowledge graphs using **MongoDB** and **Neo4j**, focused on optimizing query performance and scalability.
 
-A user-friendly command line interface for generating knowledge graphs using BioCypher, with support for both Human and Drosophila melanogaster (Fly) data.
+---
 
-## Features
+## 🎯 Objective
 
-- 🧬 Human and 🪰 Fly organism support  
-- ⚡ Default configurations for quick start  
-- 🛠️ Custom configuration options  
-- 📊 Interactive menu system with rich visual interface  
-- 🔍 Multiple output formats (Neo4j, MeTTa, Prolog)  
-- 📈 Progress tracking and logging  
+The goals of the experiment were to:
 
-## Installation
+1. **Implement a separate property database** to optimize querying speed.
+2. **Benchmark and compare query performance** with and without property-based storage.
 
-### Prerequisites
+---
 
-- Python 3.9+  
-- Poetry (for dependency management)  
+## ⚙️ What Was Implemented
 
-### Setup
+To achieve this, I designed a system that separates the **graph structure** and **property data** using the following approach:
 
-```bash
-# 1. Clone the repository:
-git clone https://github.com/rejuve-bio/biocypher-kg.git
-cd biocypher-kg
+### 🔁 Dual Storage Design
 
-# 2. Install dependencies using Poetry
-poetry install
+- **Neo4j** stores only lightweight **node IDs and relationships** to ensure high-speed graph traversals and path queries.
+- **MongoDB** serves as the **property database**, storing **all detailed properties of nodes and edges** in a flexible JSON-like format.
 
-# 3. Create required directories and run the CLI
-mkdir -p output_human output_fly
-poetry run python biocypher_cli/cli.py
+This architecture reduces storage overhead in Neo4j and leverages MongoDB’s scalability and schema flexibility for complex property data.
 
-# 📂 Project Structure:
-# biocypher-kg/
-# ├── biocypher_cli/            # CLI source code
-# │   └── cli.py
-# ├── config/                   # Configuration files or (Custom Config files)
-# │   ├── adapters_config.yaml/adapters_config_sample.yaml
-# │   ├── dmel_adapters_config.yaml/dmel_adapters_config_sample.yaml
-# │   └── biocypher_config.yaml
-# ├── aux_files/                # Auxiliary data files (or Custom config files)
-# │   ├── gene_mapping.pkl/abc_tissues_to_ontology_map.pkl
-# │   └── sample_dbsnp_rsids.pkl
-# ├── output_human/             # Default human output
-# ├── output_fly/               # Default fly output
-# └── pyproject.toml            # Dependencies
+---
 
-##Option 2
-## ⚙️ Installation (local)
+### 🧱 Components
 
-1. Clone this repository.
-```{bash}
-git clone https://github.com/rejuve-bio/biocypher-kg.git
-```
+#### ✅ 1. `MongodbWriter`
+- Writes nodes and edges' properties to MongoDB collections.
+- Supports structured and flexible property writing via custom adapters.
 
-2. Install the dependencies using [Poetry](https://python-poetry.org/). (Or feel
- free to use your own dependency management system. We provide a `pyproject.toml`
- to define dependencies.)
-```{bash}
-poetry install
-```
+➡️ [Commit: MongoDB Writer](https://github.com/Abdu1964/Abdu1964-Storage_Query_Optimization/commit/c89278a)
 
-3. You are ready to go!
-```{bash}
-poetry shell
-python create_knowledge_graph.py \
-    --output_dir <output_directory> \
-    --adapters_config <path_to_adapters_config> \
-    --dbsnp_rsids <path_to_dbsnp_rsids_map> \
-    --dbsnp_pos <path_to_dbsnp_pos_map> \
-    [--writer_type {metta,prolog,neo4j}] \
-    [--write_properties {true,false}] \
-    [--add_provenance {true,false}]
-```
+---
 
-### Knowledge Graph Creation
-The `create_knowledge_graph.py` script supports multiple configuration options:
+#### ✅ 2. `knowledge_graph.py` (Pipeline Orchestrator)
+- Coordinates the entire process:
+  - Loads adapter configurations
+  - Preprocesses schemas
+  - Initializes the writer
+  - Triggers writing to MongoDB
 
-**Arguments:**
-- `--output_dir`: Directory to save generated knowledge graph files (required)
-- `--adapters_config`: Path to YAML file with adapter configurations (required)
-- `--dbsnp_rsids`: Path to pickle file with dbSNP RSID mappings (required)
-- `--dbsnp_pos`: Path to pickle file with dbSNP position mappings (required)
-- `--writer_type`: Choose output format (optional)
-  - `metta`: MeTTa format (default)
-  - `prolog`: Prolog format
-  - `neo4j`: Neo4j CSV format
-- `--write_properties`: Include node and edge properties (optional, default: true)
-- `--add_provenance`: Add provenance information (optional, default: true)
+➡️ [Commit: BioCypher KG Pipeline](https://github.com/Abdu1964/Abdu1964-Storage_Query_Optimization/commit/b3a89bc)
 
-## 🛠 Usage
+---
 
-### Structure
-The project template is structured as follows:
-```
-.
-.
-│ # Project setup
-│
-├── LICENSE
-├── README.md
-├── pyproject.toml
-│
-│ # Docker setup
-│
-├── Dockerfile
-├── docker
-│   ├── biocypher_entrypoint_patch.sh
-│   ├── create_table.sh
-│   └── import.sh
-├── docker-compose.yml
-├── docker-variables.env
-│
-│ # Project pipeline
-|── biocypher_metta
-│   ├── adapters
-│   ├── metta_writer.py
-│   ├── prolog_writer.py
-│   └── neo4j_csv_writer.py
-│
-├── create_knowledge_graph.py
-│ 
-│ # Scripts
-├── scripts
-│   ├── metta_space_import.py
-│   ├── neo4j_loader.py
-│   └── ...
-│
-├── config
-│   ├── adapters_config_sample.yaml
-│   ├── biocypher_config.yaml
-│   ├── biocypher_docker_config.yaml
-│   ├── download.yaml
-│   └── schema_config.yaml
-│
-│ # Downloading data
-├── downloader/
-    ├── __init__.py
-    ├── download_data.py
-    ├── download_manager.py
-    ├── protocols/
-        ├── __init__.py
-        ├── base.py
-        └── http.py
-```
+#### ✅ 3. `Flask API`
+- Serves as a middleware to expose MongoDB through a RESTful interface.
+- Improves data access control and simplifies querying for downstream applications.
 
-The main components of the BioCypher pipeline are the
-`create_knowledge_graph.py`, the configuration in the `config` directory, and
-the adapter module in the `biocypher_metta` directory. The input adapters are used for preprocessing biomedical
-databases and converting them into BioCypher nodes and edges. 
+➡️ [Commit: Flask API](https://github.com/Abdu1964/Abdu1964-Storage_Query_Optimization/commit/2e8a5f1)
 
-### Writers
-The project supports multiple output formats for the knowledge graph:
+---
 
-1. **MeTTa Writer (`metta_writer.py`)**: Generates knowledge graph data in the MeTTa format.
-2. **Prolog Writer (`prolog_writer.py`)**: Generates knowledge graph data in the Prolog format.
-3. **Neo4j CSV Writer (`neo4j_csv_writer.py`)**: Generates CSV files containing nodes and edges of the knowledge graph, along with Cypher queries to load the data into a Neo4j database.
+#### ✅ 4. `FastAPI` Version (Enhanced Interface)
+- Alternative API implementation with FastAPI for better performance and async handling.
+- Uses Neo4j’s APOC to query MongoDB directly based on node IDs stored in Neo4j.
 
-### Neo4j Loader
-To load the generated knowledge graph into a Neo4j database, use the `neo4j_loader.py` script:
+➡️ [Commit: FastAPI Integration](https://github.com/Abdu1964/Abdu1964-Storage_Query_Optimization/commit/4f22d02)
 
-```bash
-python scripts/neo4j_loader.py --output-dir <path_to_output_directory>
-```
+---
 
-#### Neo4j Loader Options
-- `--output-dir`: **Required**. Path to the directory containing the generated Cypher query files.
-- `--uri`: Optional. Neo4j database URI (default: `bolt://localhost:7687`)
-- `--username`: Optional. Neo4j username (default: `neo4j`)
+## 📊 Results and Observations
 
-When you run the script, you'll be prompted to enter your Neo4j database password securely.
+- ✅ **Storage**: Using MongoDB for properties allows scalable and flexible property storage, ideal for rich biomedical or genomic datasets.
+- ⚠️ **Performance**:
+  - Querying from MongoDB via API introduces **network overhead** and **API round trips**.
+  - Performance is acceptable for **small datasets**, but **very slow for large-scale queries** due to MongoDB’s response time and the overhead of cross-service querying.
+- ✅ **Neo4j Traversal**: Graph queries remain very fast, since only essential IDs are stored.
 
-**Notes:**
-- Ensure your Neo4j database is running before executing the loader.
-- The script will automatically find and process all Cypher query files (node and edge files) in the specified output directory.
-- It supports processing multiple directories containing Cypher files.
-- The loader creates constraints and loads data in a single session.
-- Logging is provided to help you track the loading process.
+---
 
-## ⬇ Downloading data
-The `downloader` directory contains code for downloading data from various sources.
-The `download.yaml` file contains the configuration for the data sources.
+## 🧠 Summary
 
-To download the data, run the `download_data.py` script with the following command:
-```{bash}
-python downloader/download_data.py --output_dir <output_directory>
-```
+While MongoDB is well-suited for storing rich property data due to its document model, using it as a live query backend (especially through API and APOC) introduces latency and bottlenecks. For optimal performance:
+- Neo4j should handle core graph logic.
+- MongoDB can serve **enrichment** or **external property resolution**, not intensive real-time queries.
 
-To download data from a specific source, run the script with the following command:
-```{bash}
-python downloader/download_data.py --output_dir <output_directory> --source <source_name>
-```
+---
+
+## 📌 Repository
+
+🔗 [View the full project on GitHub](https://github.com/Abdu1964/Abdu1964-Storage_Query_Optimization)
