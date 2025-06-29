@@ -1,7 +1,7 @@
 # Task 1 & Task 2: Exploration and Evaluation of Storage Solutions for Large Genomic Datasets
 
 **Prepared by:** Abdu Mohammed  
-**Date:** June 24, 2025
+
 
 ---
 
