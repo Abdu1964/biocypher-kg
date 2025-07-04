@@ -68,7 +68,7 @@ Identify scalable and efficient storage and querying methods suitable for large 
 - Comparison tables (this document and ![This Summary Table](https://github.com/user-attachments/assets/8870bcdb-382c-4630-a9a5-ac1b8887a07a)
 )
 - Summary report (this markdown file)
-- Optional the detail Report for task 1-4 [Detailed Document for Task1-2](https://docs.google.com/document/d/15AsNDrXggA_YM9By50YWr7aYABU5xnU2tcm14MNkgyQ/edit?tab=t.0)
+- Optional the detail Report for task 1-4 
 
 ---
 
