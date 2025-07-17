@@ -50,17 +50,29 @@ class PathValidator(Validator):
                 cursor_position=len(document.text),
             )
 
+class YamlValidator(Validator):
+    def validate(self, document):
+        if not document.text:
+            raise ValidationError(
+                message="Please enter YAML content",
+                cursor_position=len(document.text),
+            )
+        try:
+            yaml.safe_load(document.text)
+        except yaml.YAMLError as e:
+            raise ValidationError(
+                message=f"Invalid YAML: {str(e)}",
+                cursor_position=len(document.text),
+            )
+
 def find_config_files(organism: str = None) -> Dict[str, str]:
     """Find available config files with friendly names"""
     config_dir = PROJECT_ROOT / "config"
     files = {
-        # Human configs
         "Human - Sample Adapters": str(config_dir / "adapters_config_sample.yaml"),
         "Human - Full Adapters": str(config_dir / "adapters_config.yml"),
-        # Fly configs
         "Fly - Sample Adapters": str(config_dir / "dmel_adapters_config_sample.yaml"),
         "Fly - Full Adapters": str(config_dir / "dmel_adapters_config.yml"),
-        # Common configs
         "Biocypher Config": str(config_dir / "biocypher_config.yml"),
         "Docker Config": str(config_dir / "biocypher_docker_config.yml"),
         "Data Source Config": str(config_dir / "data_source_config.yml"),
@@ -77,11 +89,9 @@ def find_aux_files(organism: str = None) -> Dict[str, str]:
     """Find available auxiliary files with friendly names"""
     aux_dir = PROJECT_ROOT / "aux_files"
     files = {
-        # Human files
         "Human - Tissues Ontology Map": str(aux_dir / "abc_tissues_to_ontology_map.pkl"),
         "Human - Gene Mapping": str(aux_dir / "gene_mapping.pkl"),
         "Human - Variant Data": str(aux_dir / "variant_data.pkl"),
-        # Fly files
         "Fly - dbSNP rsIDs": str(aux_dir / "sample_dbsnp_rsids.pkl"),
         "Fly - dbSNP Positions": str(aux_dir / "sample_dbsnp_pos.pkl"),
     }
@@ -141,7 +151,7 @@ def build_default_fly_command() -> List[str]:
 def get_file_selection(
     prompt: str,
     options: Dict[str, str],
-    allow_multiple: bool = False,
+    allow_multiple: bool = True,
     allow_custom: bool = True,
     back_option: bool = True
 ) -> Optional[Union[str, List[str]]]:
@@ -202,56 +212,42 @@ def display_config_summary(config: Dict[str, Union[str, List[str]]]) -> None:
     console.print(Panel.fit(table, style="blue"))
 
 def run_generation(cmd: List[str], show_logs: bool) -> None:
-    """Execute the generation process with enhanced progress tracking"""
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        BarColumn(),
-        TaskProgressColumn(),
-        TimeRemainingColumn(),
-        transient=False,
-    ) as progress:
-        task = progress.add_task("[cyan]Generating knowledge graph...", total=100)
+    """Execute the generation process with full output mirroring command line"""
+    try:
+        console.print("\n[bold]Starting knowledge graph generation...[/]\n")
         
-        if show_logs:
-            console.print("\n[bold]Running with logs visible:[/]\n")
-            process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                cwd=str(PROJECT_ROOT),
-                bufsize=1,
-                universal_newlines=True
-            )
-            
-            for i in range(10):
-                progress.update(task, advance=10)
-                for line in process.stdout:
-                    if "progress" in line.lower():
-                        pass
-                    console.print(line, end='')
-                time.sleep(0.5)
-            
-            process.wait()
-        else:
-            for i in range(10):
-                progress.update(task, advance=10)
-                time.sleep(0.5)
-            
-            process = subprocess.run(
-                cmd,
-                cwd=str(PROJECT_ROOT),
-                capture_output=True,
-                text=True
-            )
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            cwd=str(PROJECT_ROOT),
+            bufsize=1,
+            universal_newlines=True
+        )
         
-        progress.stop()
+        while True:
+            stdout_line = process.stdout.readline()
+            stderr_line = process.stderr.readline()
+            
+            if stdout_line:
+                if stdout_line.startswith("INFO --"):
+                    console.print(stdout_line.strip())
+                else:
+                    console.print(f"[dim]{stdout_line.strip()}[/]")
+            
+            if stderr_line:
+                if stderr_line.startswith("ERROR --"):
+                    console.print(f"[red]{stderr_line.strip()}[/]")
+                else:
+                    console.print(f"[yellow]{stderr_line.strip()}[/]")
+            
+            if process.poll() is not None:
+                break
         
         if process.returncode == 0:
             console.print(Panel.fit(
                 "[bold green]✔ Knowledge Graph generation completed successfully![/]",
-                subtitle="Thank you for using BioCypher!",
                 style="green"
             ))
         else:
@@ -259,11 +255,112 @@ def run_generation(cmd: List[str], show_logs: bool) -> None:
                 "[bold red]✖ KG generation failed[/]",
                 style="red"
             ))
-            if not show_logs and confirm("Show error details?", default=False).unsafe_ask():
-                console.print(f"\n[red]Error output:[/]\n{process.stderr}")
+            
+    except Exception as e:
+        console.print(Panel.fit(
+            f"[bold red]✖ Execution failed: {str(e)}[/]",
+            style="red"
+        ))
+
+def build_custom_adapter_config() -> str:
+    """Build complete adapter configuration with dynamic arguments"""
+    console.print("\n[bold]Building Custom Adapter Configuration[/]", style="blue")
+    
+    # First ask if user wants to write YAML or use guided mode
+    config_method = select(
+        "How would you like to configure the adapter?",
+        choices=[
+            {"name": "✍️ Write YAML directly", "value": "yaml"},
+            {"name": "🛠️ User guided configuration", "value": "guided"},
+            "🔙 Back"
+        ],
+        pointer="→"
+    ).unsafe_ask()
+    
+    if config_method == "🔙 Back":
+        return None
+    elif config_method == "yaml":
+        return get_yaml_input_adapter_config()
+    
+    # Original guided configuration
+    adapter_name = text("Adapter name (e.g., 'gencode_gene'):").unsafe_ask()
+    module = text("Module path (e.g., 'biocypher_metta.adapters.gencode_gene_adapter'):").unsafe_ask()
+    cls = text("Class name (e.g., 'GencodeGeneAdapter'):").unsafe_ask()
+
+    args = {}
+    console.print("\n[bold]Enter adapter arguments:[/]", style="blue")
+    while True:
+        arg_name = text("Argument name (leave empty to finish):").unsafe_ask()
+        if not arg_name:
+            break
+        arg_value = text(f"Value for '{arg_name}':").unsafe_ask()
+        args[arg_name] = str(Path(arg_value))  # Normalize path
+
+    outdir = text("\nOutput subdirectory (e.g., 'gencode/gene'):").unsafe_ask()
+    nodes = confirm("Process nodes?", default=True).unsafe_ask()
+    edges = confirm("Process edges?", default=False).unsafe_ask()
+
+    config = {
+        adapter_name: {
+            "adapter": {
+                "module": module,
+                "cls": cls,
+                "args": args
+            },
+            "outdir": outdir,
+            "nodes": nodes,
+            "edges": edges
+        }
+    }
+
+    return save_temp_adapter_config(config)
+
+def get_yaml_input_adapter_config() -> str:
+    """Get adapter configuration via direct YAML input"""
+    console.print("\n[bold]Enter your adapter configuration in YAML format:[/]", style="blue")
+    console.print("Example format:\n")
+    console.print("""
+adapter_name:
+  adapter:
+    module: module.path
+    cls: ClassName
+    args:
+      arg1: value1
+      arg2: value2
+  outdir: output/path
+  nodes: true
+  edges: false
+""", style="dim")
+    
+    yaml_content = text(
+        "Paste your YAML configuration below:",
+        multiline=True,
+        validate=YamlValidator
+    ).unsafe_ask()
+    
+    try:
+        config = yaml.safe_load(yaml_content)
+        if not config:
+            raise ValueError("Empty YAML configuration")
+        return save_temp_adapter_config(config)
+    except Exception as e:
+        console.print(f"[red]Error parsing YAML: {str(e)}[/]")
+        return None
+
+def save_temp_adapter_config(config: dict) -> str:
+    """Save adapter config to temporary file"""
+    temp_dir = PROJECT_ROOT / "config" / "temp_adapters"
+    temp_dir.mkdir(exist_ok=True)
+    temp_file = temp_dir / f"adapter_{int(time.time())}.yaml"
+    
+    with open(temp_file, 'w') as f:
+        yaml.dump(config, f, sort_keys=False, default_flow_style=False)
+    
+    console.print(f"[green]Adapter configuration saved to: {temp_file}[/]")
+    return str(temp_file)
 
 def configuration_workflow(organism: str) -> Optional[Dict[str, Union[str, List[str]]]]:
-    """Interactive configuration workflow with organism-specific defaults"""
+    """Interactive configuration workflow"""
     config_files = find_config_files(organism)
     aux_files = find_aux_files(organism)
     
@@ -283,30 +380,47 @@ def configuration_workflow(organism: str) -> Optional[Dict[str, Union[str, List[
     
     # Adapters config
     while True:
-        result = get_file_selection(
-            "Select adapters config:",
-            config_files,
-            allow_multiple=False,
-            allow_custom=True
-        )
-        if result is None:
-            continue
-        selections["--adapters-config"] = result
-        break
-    
-    # Get available adapters
-    adapters = get_available_adapters(selections["--adapters-config"])
-    if adapters:
-        selected_adapters = checkbox(
-            "Select adapters to include:",
-            choices=adapters,
-            instruction="(Space to select, Enter to confirm)"
+        choice = select(
+            "Adapter configuration method:",
+            choices=[
+                {"name": "📁 Use existing config", "value": "existing"},
+                {"name": "🛠️ Create custom adapter", "value": "custom"},
+                "🔙 Back"
+            ],
+            pointer="→"
         ).unsafe_ask()
         
-        if selected_adapters:
-            selections["--include-adapters"] = selected_adapters
+        if choice == "🔙 Back":
+            return None
+        elif choice == "existing":
+            result = get_file_selection(
+                "Select adapters config:",
+                config_files,
+                allow_multiple=False,
+                allow_custom=True
+            )
+            if result:
+                selections["--adapters-config"] = result
+                break
+        elif choice == "custom":
+            custom_config = build_custom_adapter_config()
+            if custom_config:
+                selections["--adapters-config"] = custom_config
+                break
     
-    # dbSNP rsIDs file
+    # Get available adapters for existing configs
+    if choice == "existing":
+        adapters = get_available_adapters(selections["--adapters-config"])
+        if adapters:
+            selected_adapters = checkbox(
+                "Select adapters to include:",
+                choices=adapters,
+                instruction="(Space to select, Enter to confirm)"
+            ).unsafe_ask()
+            if selected_adapters:
+                selections["--include-adapters"] = selected_adapters
+    
+    # dbSNP files
     while True:
         result = get_file_selection(
             "Select dbSNP rsIDs file:",
@@ -319,7 +433,6 @@ def configuration_workflow(organism: str) -> Optional[Dict[str, Union[str, List[
         selections["--dbsnp-rsids"] = result
         break
     
-    # dbSNP positions file
     while True:
         result = get_file_selection(
             "Select dbSNP positions file:",
@@ -335,7 +448,7 @@ def configuration_workflow(organism: str) -> Optional[Dict[str, Union[str, List[
     # Writer type
     selections["--writer-type"] = select(
         "Select output format:",
-        choices=["neo4j", "metta", "prolog"],
+        choices=["neo4j", "metta", "prolog", "parquet", "KGX"],
         default="neo4j"
     ).unsafe_ask()
     
@@ -412,8 +525,7 @@ def main_menu() -> None:
             sys.exit(0)
 
 def generate_kg_workflow() -> None:
-    """Complete KG generation workflow with organism selection"""
-    # select organism
+    """Complete KG generation workflow"""
     organism = select(
         "Select organism to generate KG for:",
         choices=[
@@ -428,7 +540,6 @@ def generate_kg_workflow() -> None:
     if organism == "🔙 Back":
         return
     
-    #select configuration type
     config_type = select(
         f"Select configuration type for {organism}:",
         choices=[
@@ -458,7 +569,7 @@ def generate_kg_workflow() -> None:
                 "Output will be saved to 'output_fly' directory",
                 style="blue"
             ))
-    else:  # Custom Configuration
+    else:
         selections = configuration_workflow(organism)
         if not selections:
             return
@@ -466,7 +577,6 @@ def generate_kg_workflow() -> None:
         display_config_summary(selections)
         cmd = build_command_from_selections(selections)
     
-    # Execution options
     console.print(Panel.fit(
         "[bold]Ready to generate knowledge graph[/]",
         style="blue"
