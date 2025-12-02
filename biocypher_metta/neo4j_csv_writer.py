@@ -104,9 +104,17 @@ class Neo4jCSVWriter(BaseWriter):
             value = str(value).translate(self.translation_table)
         elif value_type is str:
             value = value.translate(self.translation_table)
-
-        
+            if ':' in value:
+                prefix, local_id = value.split(':', 1)
+                # Check if this looks like an ontology prefix (typically 2-6 uppercase letters)
+                if len(prefix) <= 6 and prefix.isupper() and not prefix.startswith('ENS'):
+                    # Keep ontology prefixes
+                    pass
+                else:
+                    # Remove non-ontology prefixes
+                    value = local_id    
         return value
+        
     def normalize_text(self, label, replace_char="_", lowercase=True):
         if isinstance(label, list):
             labels = []
