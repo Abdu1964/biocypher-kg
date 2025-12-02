@@ -137,16 +137,24 @@ class MeTTaWriter(BaseWriter):
                     out_str = node_data_constructor(node_type, l)
                     file.write(out_str + "\n")
 
-    def preprocess_id(self, prev_id, preserve_prefix=False):
+    def preprocess_id(self, prev_id, label=None):
+        """
+        Clean ID for MeTTa format - keep colons for ontology terms.
+        """
         prev_id = str(prev_id)
+
         if ':' in prev_id:
             prefix, local_id = prev_id.split(':', 1)
-            if preserve_prefix:
-                clean_id = f"{prefix.strip().upper()}_{local_id.strip().replace(' ', '_').upper()}"
+
+            if label and self._is_ontology_label(label):
+                # keep colon for ontology terms: "CL:0000000" → "CL:0000000"
+                clean_id = f"{prefix}:{local_id}"
                 return clean_id
             else:
+                # REMOVES prefix for non-ontologies: "ENSEMBL:ENSE00001901152" → "ENSE00001901152"
                 clean_local = local_id.strip().replace(' ', '_').upper()
                 return clean_local
+
         return prev_id.strip().replace(' ', '_').upper()
 
     def write_nodes(self, nodes, path_prefix=None, create_dir=True):
@@ -193,7 +201,7 @@ class MeTTaWriter(BaseWriter):
         label_to_check = label.split(".")[1] if "." in label else label
         is_ontology = self._is_ontology_label(label_to_check)
         # Preserve prefix only for ontology terms
-        id = self.preprocess_id(str(id), preserve_prefix=is_ontology)
+        id = self.preprocess_id(str(id), label=label_to_check)
         if "." in label:
             label = label.split(".")[1]
         def_out = f"({self.normalize_text(label)} {id})"
@@ -208,7 +216,10 @@ class MeTTaWriter(BaseWriter):
         if isinstance(source_id, tuple):
             source_type = source_id[0]
             preserve_source_prefix = self._is_ontology_label(source_type)
-            source_id_processed = self.preprocess_id(str(source_id[1]), preserve_prefix=preserve_source_prefix)
+            source_id_processed = self.preprocess_id(str(source_id[1]), label=source_type)
+            source_id_processed = self.preprocess_id(str(source_id), label=source_type)
+            target_id_processed = self.preprocess_id(str(target_id[1]), label=target_type)
+            target_id_processed = self.preprocess_id(str(target_id), label=target_type)
             if label in self.edge_node_types:
                 valid_source_types = self.edge_node_types[label]["source"]
                 if isinstance(valid_source_types, list):
@@ -261,9 +272,9 @@ class MeTTaWriter(BaseWriter):
             label_to_use = label
 
         if source_type == "ontology_term":
-            source_type = source_id_processed.replace(':', '_').split('_')[0].lower()
+            source_type = source_id_processed.split(':')[0].lower() if ':' in source_id_processed else source_id_processed
         if target_type == "ontology_term":
-            target_type = target_id_processed.replace(':', '_').split('_')[0].lower()
+            target_type = target_id_processed.split(':')[0].lower() if ':' in target_id_processed else target_id_processed
 
         if isinstance(source_type, list):
             def_out = ""
@@ -312,7 +323,11 @@ class MeTTaWriter(BaseWriter):
 
     def check_property(self, prop):
         if isinstance(prop, str):
-            if "" in prop:
+            # Remove non-ontology prefixes from property values
+            if ':' in prop and not self._looks_like_ontology_prefix(prop):
+                prop = prop.split(':', 1)[1]
+            
+            if " " in prop:
                 prop = prop.replace(" ", "_").strip("_")
             if '->' in prop:
                 prop = prop.replace('->', '-\\>')
@@ -322,6 +337,14 @@ class MeTTaWriter(BaseWriter):
             return "".join(escape_char + c if c in special_chars or c == escape_char else c for c in prop)
         
         return str(prop)
+
+    def _looks_like_ontology_prefix(self, value):
+        """Check if value has an ontology-style prefix"""
+        if ':' not in value:
+            return False
+        prefix = value.split(':', 1)[0]
+        # Ontology prefixes are typically 2-6 uppercase letters
+        return len(prefix) >= 2 and len(prefix) <= 6 and prefix.isupper()
 
     def normalize_text(self, label, replace_char="_", lowercase=True):
         if isinstance(label, list):
