@@ -556,7 +556,11 @@ roadmap_dhs:
 
 abc:
   adapter:
+<<<<<<< HEAD
     module: biocypher_metta.adapters.abc_adaptery
+=======
+    module: biocypher_metta.adapters.abc_adapter
+>>>>>>> upstream/main
     cls: ABCAdapter
     args:
       filepath: ./samples/hsa/abc.forgedb_sample.csv.gz
@@ -576,7 +580,11 @@ cadd:
     args:
       filepath: ./samples/hsa/cadd.forgedb_sample.csv.gz
       label: snp
+<<<<<<< HEAD
       dbsnp_rsid_map: None
+=======
+      dbsnp_rsid_map: None # will be provided by import script
+>>>>>>> upstream/main
 
   outdir: cadd
   nodes: True

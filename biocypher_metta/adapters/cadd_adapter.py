@@ -39,16 +39,7 @@ class CADDAdapter(Adapter):
             for row in reader:
                 try:
                     rsid = row[0]
-                    entry = self.dbsnp_rsid_map.get(rsid)
-                    if entry is None:
-                        raise KeyError(rsid)
-                    # support both formats: int position or {'pos': int}
-                    if isinstance(entry, dict):
-                        pos = entry.get("pos")
-                    else:
-                        pos = entry
-                    if pos is None:
-                        raise KeyError(rsid)
+                    pos = self.dbsnp_rsid_map[rsid]["pos"]
                     chr = row[1]
                     _props = {}
                     if check_genomic_location(self.chr, self.start, self.end, chr, pos, pos):
