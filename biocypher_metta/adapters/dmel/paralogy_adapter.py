@@ -41,28 +41,21 @@ from biocypher._logger import logger
 
 class ParalogyAssociationAdapter(Adapter):
 
-<<<<<<< HEAD
     def __init__(self, write_properties, add_provenance, dmel_data_filepath,
                  source_prefix='FlyBase', target_prefix='FlyBase',
                  organism='Drosophila melanogaster', taxon_id=7227):
-=======
-    def __init__(self, write_properties, add_provenance, dmel_data_filepath):
->>>>>>> upstream/main
         self.dmel_data_filepath = dmel_data_filepath
         self.label = 'paralogs_genes'
         self.type = 'paralogy association'
         self.source = 'FLYBASE'
         self.source_url = 'https://flybase.org/'
 
-<<<<<<< HEAD
         # Configurable for multi-species usage (defaults to D. melanogaster)
         self.source_prefix = source_prefix
         self.target_prefix = target_prefix
         self.organism = organism
         self.taxon_id = taxon_id
 
-=======
->>>>>>> upstream/main
         super(ParalogyAssociationAdapter, self).__init__(write_properties, add_provenance)
 
 
@@ -79,7 +72,6 @@ class ParalogyAssociationAdapter(Adapter):
                 props['source_symbol'] = row[1]
                 target = row[5]
                 props['target_symbol'] = row[6]
-<<<<<<< HEAD
                 try:
                     props['DIOPT_score'] = int(row[10])
                 except Exception:
@@ -90,11 +82,3 @@ class ParalogyAssociationAdapter(Adapter):
                 print(f'\nDeffective ROW:\n{row}\nException: {e}')
                 continue
             yield f'{self.source_prefix}:{source}', f'{self.target_prefix}:{target}', self.label, props
-=======
-                props['DIOPT_score'] = int(row[10])
-                props['taxon_id'] = 7227
-            except Exception as e:
-                print(f'\nDeffective ROW:\n{row}\nException: {e}')
-                continue
-            yield f'FlyBase:{source}', f'FlyBase:{target}', self.label, props
->>>>>>> upstream/main

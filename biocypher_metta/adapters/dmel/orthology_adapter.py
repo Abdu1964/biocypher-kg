@@ -44,22 +44,17 @@ import pickle
 
 class OrthologyAssociationAdapter(Adapter):
 
-<<<<<<< HEAD
     def __init__(self, write_properties, add_provenance, dmel_data_filepath,
                  hsa_hgnc_to_ensemble_map=None,
                  source_prefix='FlyBase', target_prefix='Ensembl',
                  source_organism='Drosophila melanogaster', target_organism='Homo sapiens',
                  source_taxon_id=7227, target_taxon_id=9606):
-=======
-    def __init__(self, write_properties, add_provenance, dmel_data_filepath, hsa_hgnc_to_ensemble_map):
->>>>>>> upstream/main
         self.dmel_data_filepath = dmel_data_filepath
         self.label = 'orthologs_genes'
         self.type = 'orthology association'
         self.source = 'FLYBASE'
         self.source_url = 'https://flybase.org/'
 
-<<<<<<< HEAD
         # Configurable prefixes / organism info for multi-species support
         self.source_prefix = source_prefix
         self.target_prefix = target_prefix
@@ -75,9 +70,6 @@ class OrthologyAssociationAdapter(Adapter):
                 self.hsa_hgnc2ensemble = pickle.load(open(hsa_hgnc_to_ensemble_map, 'rb'))
             except Exception as e:
                 logger.warning(f"Could not load HGNC->Ensembl map: {e}; proceeding without it.")
-=======
-        self.hsa_hgnc2ensemble = pickle.load(open(hsa_hgnc_to_ensemble_map, 'rb'))
->>>>>>> upstream/main
 
         super(OrthologyAssociationAdapter, self).__init__(write_properties, add_provenance)
 
@@ -94,7 +86,6 @@ class OrthologyAssociationAdapter(Adapter):
             props = {}
             source = row[0]
             hsa_hgnc_id = row[2]
-<<<<<<< HEAD
 
             # Determine target id using optional mapping; otherwise fall back to HGNC id
             target_id = None
@@ -129,25 +120,3 @@ class OrthologyAssociationAdapter(Adapter):
             props['target_taxon_id'] = self.target_taxon_id
 
             yield f'{self.source_prefix}:{source}', f'{self.target_prefix}:{target_id}', self.label, props
-=======
-            try:
-                target = self.hsa_hgnc2ensemble[ hsa_hgnc_id ]
-            except KeyError as ke:
-                no_hgnc_id += 1
-                logger.info(
-                    f'orthology_adapter.py::OrthologyAdapter::get_edges-DMEL: failed to process for label to load: {self.label}, type to load: {self.type}:\n'
-                    f'Exception: {ke}\n'
-                    f'Missing data:\n {row}'f'\nGenes without HGNC ID: {no_hgnc_id} / {total_rows}'                    
-                )
-                continue
-            props['hsa_hgnc_id'] = hsa_hgnc_id
-            props['hsa_omim_id'] = row[3]
-            props['hsa_hgnc_symbol'] = row[4]
-            props['DIOPT_score'] = int(row[5])
-            props['hsa_omim_phenotype_ids'] = row[6]
-            props['hsa_omim_phenotype_ids_names'] = row[7]
-            props['source_organism'] = 'Drosophila melanogaster'
-            props['target_organism'] = 'Homo sapiens'
-
-            yield f'FlyBase:{source}', f'Ensembl:{target}', self.label, props
->>>>>>> upstream/main

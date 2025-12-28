@@ -23,8 +23,8 @@ def build_default_human_command() -> List[str]:
         "python3", str(PROJECT_ROOT / "create_knowledge_graph.py"),
         "--output-dir", str(PROJECT_ROOT / "output_human"),
         "--adapters-config", str(PROJECT_ROOT / "config/adapters_config_sample.yaml"),
-        "--dbsnp-rsids", str(PROJECT_ROOT / "aux_files/abc_tissues_to_ontology_map.pkl"),
-        "--dbsnp-pos", str(PROJECT_ROOT / "aux_files/abc_tissues_to_ontology_map.pkl"),
+        "--dbsnp-rsids", str(PROJECT_ROOT / "aux_files/sample_dbsnp_rsids.pkl"),
+        "--dbsnp-pos", str(PROJECT_ROOT / "aux_files/sample_dbsnp_pos.pkl"),
         "--writer-type", "neo4j", "--no-add-provenance"
     ]
 
@@ -73,6 +73,21 @@ def generate_kg_workflow() -> None:
         if not selections: return
         display_config_summary(selections)
         cmd = build_command_from_selections(selections)
+    # Before prompting to start generation, ensure sample files exist for adapters used
+    try:
+        adapters_config_path = None
+        selected_adapters = None
+        if config_type == "⚡ Default Configuration":
+            adapters_config_path = str(PROJECT_ROOT / ("config/adapters_config_sample.yaml" if organism == "human" else "config/dmel_adapters_config_sample.yaml"))
+        else:
+            adapters_config_path = selections.get("--adapters-config")
+            selected_adapters = selections.get("--include-adapters")
+        if adapters_config_path:
+            created = check_and_prepare_samples(adapters_config_path, selected_adapters)
+            if created:
+                console.print(Panel.fit(f"[green]Prepared {len(created)} sample files.[/]", style="green"))
+    except Exception as e:
+        console.print(f"[yellow]Warning: sample preparation step failed: {e}[/]")
     console.print(Panel.fit("[bold]Ready to generate knowledge graph[/]", style="blue"))
     show_logs = confirm("Show detailed logs during generation?", default=False).unsafe_ask()
     if confirm("Start knowledge graph generation?", default=True).unsafe_ask(): run_generation(cmd, show_logs)

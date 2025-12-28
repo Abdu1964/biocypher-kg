@@ -2,7 +2,6 @@
 roadmap:
   name: Roadmap Epigenomics Project
   url: https://personal.broadinstitute.org/jernst/MODEL_IMPUTED12MARKS
-<<<<<<< HEAD
 
 gencode:
   name: GENCODE v49
@@ -12,14 +11,6 @@ uniprot:
   name: UniProtKB/Swiss-Prot
   url:  https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/taxonomic_divisions/uniprot_sprot_human.dat.gz
 
-=======
-gencode:
-  name: GENCODE v44
-  url: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_44/gencode.v44.annotation.gtf.gz
-uniprot:
-  name: UniProtKB/Swiss-Prot
-  url: https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/taxonomic_divisions/uniprot_sprot_human.dat.gz
->>>>>>> upstream/main
 reactome:
   name: Reactome
   url:
@@ -30,12 +21,9 @@ reactome:
 gaf:
   name: GO Annotation File (GAF)
   url: http://geneontology.org/gene-associations/goa_human.gaf.gz
-<<<<<<< HEAD
 goa:
   name: Gene Ontology Associations (GOA)
   url: http://geneontology.org/gene-associations/goa_human.gaf.gz
-=======
->>>>>>> upstream/main
 coxpressdb:
   name: Coxpress DB
   url: https://zenodo.org/record/6861444/files/Hsa-u.v22-05.G16651-S245698.combat_pca.subagging.z.d.zip
@@ -45,23 +33,14 @@ tflink:
 string:
   name: STRING PPI
   url: https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz
-<<<<<<< HEAD
 tad:
-=======
-tadmap:
->>>>>>> upstream/main
   name: TADMap
   url: https://cb.csail.mit.edu/cb/tadmap/TADMap_geneset_hs.csv
 gtex_eqtl:
   name: GTEx eQTL
-<<<<<<< HEAD
   # bucket: adult-gtex
   # path: bulk-qtl/v8/single-tissue-cis-qtl/GTEx_Analysis_v8_eQTL.tar
   url: https://storage.googleapis.com/adult-gtex/bulk-qtl/v10/single-tissue-cis-qtl/GTEx_Analysis_v10_eQTL.tar
-=======
-  bucket: adult-gtex
-  path: bulk-qtl/v8/single-tissue-cis-qtl/GTEx_Analysis_v8_eQTL.tar
->>>>>>> upstream/main
 topld:
   name: TopLD
   url:
@@ -77,11 +56,7 @@ hocomoco:
 favor:
   name: FAVOR
   url:
-<<<<<<< HEAD
     chr16: https://dataverse.harvard.edu/api/access/datafile/6388551/   # file in the url: FAVOR.FullDB.Chr16.tar.gz
-=======
-    chr16: https://dataverse.harvard.edu/api/access/datafile/6388551
->>>>>>> upstream/main
 cadd:
   name: Combined Annotation Dependent Depletion (CADD)
   url: https://forgedb.cancer.gov/api/cadd/v1.0/cadd.forgedb.csv.gz
@@ -91,7 +66,6 @@ refseq:
 tfbs:
   name: UCSC TFBS Clusters
   url: https://hgdownload.soe.ucsc.edu/goldenpath/hg38/database/encRegTfbsClustered.txt.gz
-<<<<<<< HEAD
 # dbsuper:
 #   name: dbSUPER
 #   url: http://asntech.org/dbsuper/data/dbSUPER_v1_GRCh38.bed.gz       #  no  such file
@@ -110,35 +84,14 @@ abc:
 # roadmap_h3marks:
 #   name: Roadmap Epigenomics H3 Marks
 #   url: https://personal.broadinstitute.org/jernst/MODEL_IMPUTED12MARKS/marks  # there is no marks directory
-=======
-dbsuper:
-  name: dbSUPER
-  url: http://asntech.org/dbsuper/data/dbSUPER_v1_GRCh38.bed.gz
-abc:
-  name: Activity-By-Contact (ABC)
-  url: https://forgedb.cancer.gov/api/abc/v1.0/abc.forgedb.csv.gz
-roadmap_dhs:
-  name: RoadMap DHS
-  url: https://forgedb.cancer.gov/api/roadmap/dhs/forge2.erc2-DHS.forgedb.csv.gz
-roadmap_state:
-  name: Roadmap Epigenomics State
-  url: https://personal.broadinstitute.org/jernst/MODEL_IMPUTED12MARKS/state_calls
-roadmap_h3marks:
-  name: Roadmap Epigenomics H3 Marks
-  url: https://personal.broadinstitute.org/jernst/MODEL_IMPUTED12MARKS/marks
->>>>>>> upstream/main
 bgee:
   name: Bgee Expression Data
   url: https://bgee.org/ftp/current/download/calls/expr_calls/Homo_sapiens_expr_simple_development.tsv.gz
 rna_central:
   name: RNA Central
   url:
-<<<<<<< HEAD
     # bed: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/genome_coordinates/human.GRCh38.bed.gz
     bed: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/genome_coordinates/bed/homo_sapiens.GRCh38.bed.gz
-=======
-    bed: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/genome_coordinates/human.GRCh38.bed.gz
->>>>>>> upstream/main
     rfam: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz
 dgv:
   name: Database of Genomic Variants
@@ -157,7 +110,6 @@ polyphen2:
   url: http://genetics.bwh.harvard.edu/pph2/data/polyphen-2.2.2-whess-2011_12.tab.gz
 gwas:
   name: GWAS Catalog
-<<<<<<< HEAD
   # url: https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2024/07/29/gwas-catalog-associations_ontology-annotated.tsv
   url: https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2025/09/30/gwas-catalog-associations_ontology-annotated.tsv*
 enhancer_atlas:
@@ -170,15 +122,3 @@ fabian:
 # brenda_tissue_ontology:
 #   name: BRENDA Tissue Ontology
 #   url: http://purl.obolibrary.org/obo/bto.owl
-=======
-  url: https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2024/07/29/gwas-catalog-associations_ontology-annotated.tsv
-enhancer_atlas:
-  name: EnhancerAtlas
-  url: http://www.enhanceratlas.org/data/download/enhancer_atlas_2.0/9606_all_tissues.bed
-fabian:
-  name: Fabian
-  url: https://fabian.bioinf.mpi-inf.mpg.de/downloads/human_grch38.tar.gz
-brenda_tissue_ontology:
-  name: BRENDA Tissue Ontology
-  url: http://purl.obolibrary.org/obo/bto.owl
->>>>>>> upstream/main
