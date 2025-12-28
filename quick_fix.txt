@@ -1,0 +1,10 @@
+# QUICKEST FIX TO TRY:
+
+1. Change adapter class to GenericDataAdapter
+2. Remove all filters from mapping configs  
+3. Test upstream adapter only first
+
+# This should work because:
+# - GenericDataAdapter is more permissive than UserDataAdapter
+# - Filters might be blocking all data
+# - Isolated testing helps identify the issue
