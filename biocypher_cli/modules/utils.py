@@ -188,7 +188,6 @@ def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List
         console.print(f"[red]Failed to read adapters config: {e}[/]")
         return created
 
-    # load data source config for download urls
     data_source = {}
     try:
         ds_path = PROJECT_ROOT / "config" / "data_source_config.yaml"
@@ -206,6 +205,15 @@ def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List
         try:
             if not path.exists():
                 return False, "file missing"
+
+            if path.is_dir():
+                for child in path.rglob('*'):
+                    if child.is_file():
+                        sane, reason = _is_file_sane(child)
+                        if sane:
+                            return True, "directory contains at least one sane file"
+                return False, "directory contains no sane files"
+
             size = path.stat().st_size
             if size == 0:
                 return False, "file size is 0 bytes"
@@ -238,7 +246,6 @@ def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List
             if not out_path.is_absolute():
                 out_path = PROJECT_ROOT / out_path
 
-            # If file already exists — perform Level-1 sanity check before skipping
             if out_path.exists():
                 sane, reason = _is_file_sane(out_path)
                 if sane:
@@ -247,21 +254,61 @@ def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List
                     console.print(f"[yellow]Existing sample {out_path} failed sanity check: {reason}. Will attempt to recreate.[/]")
 
             basename = Path(fp).name
-            key_guess = basename.split('.')[0].split('_')[0]
             url = None
-            if key_guess and key_guess in data_source:
-                entry = data_source[key_guess]
-                url_field = entry.get("url") if isinstance(entry, dict) else entry
-                if isinstance(url_field, list):
-                    url = url_field[0]
-                elif isinstance(url_field, dict):
-                    vals = list(url_field.values())
-                    url = vals[0] if vals else None
-                else:
-                    url = url_field
+
+            # Robust key matching: build a broad set of candidate keys derived from the
+            # basename so the matcher works for many filename shapes. We generate
+            # progressively shorter prefixes and different token joins (underscore,
+            # dash, concatenated) to increase chance of matching a data_source key.
+            name_no_ext = basename.split('.')[0]
+            tokens = re.split(r'[-_.]+', name_no_ext)
+            candidates_set = set()
+            candidates_set.add(name_no_ext)
+            candidates_set.add(name_no_ext.replace('-', '_'))
+
+            for end in range(len(tokens), 0, -1):
+                prefix_tokens = tokens[:end]
+                if not prefix_tokens:
+                    continue
+                candidates_set.add('_'.join(prefix_tokens))
+                candidates_set.add('-'.join(prefix_tokens))
+                candidates_set.add(''.join(prefix_tokens))
+
+            if tokens:
+                candidates_set.add(tokens[0])
+
+            candidates = [c.lower().strip('_-') for c in candidates_set if c]
+            candidates = sorted(dict.fromkeys(candidates), key=lambda s: (-len(s), s))
+
+            for k in candidates:
+                if not k: continue
+                if k in data_source:
+                    entry = data_source[k]
+                    url_field = entry.get("url") if isinstance(entry, dict) else entry
+                    if isinstance(url_field, list):
+                        url = url_field[0]
+                    elif isinstance(url_field, dict):
+                        vals = list(url_field.values())
+                        url = vals[0] if vals else None
+                    else:
+                        url = url_field
+                    break
 
             if not url:
-                # ask user for input URL/path
+                for ds_key in data_source.keys():
+                    if ds_key in name_no_ext or name_no_ext.startswith(ds_key) or ds_key.startswith(name_no_ext):
+                        entry = data_source[ds_key]
+                        url_field = entry.get("url") if isinstance(entry, dict) else entry
+                        if isinstance(url_field, list):
+                            url = url_field[0]
+                        elif isinstance(url_field, dict):
+                            vals = list(url_field.values())
+                            url = vals[0] if vals else None
+                        else:
+                            url = url_field
+                        break
+
+            if not url:
                 console.print(Panel.fit(f"[yellow]Sample for adapter '{name}' is missing: {out_path}[/]"))
                 inp = text(f"Enter input URL or local path to download for '{name}' (leave blank to skip):")
                 val = inp.unsafe_ask()
@@ -278,15 +325,39 @@ def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List
                 for line in proc.stdout:
                     console.print(f"[dim]{line.rstrip()}[/]")
                 proc.wait()
-                if proc.returncode == 0 and out_path.exists():
-                    sane, reason = _is_file_sane(out_path)
-                    if sane:
-                        console.print(f"[green]Wrote sample file: {out_path}[/]")
-                        created.append(str(out_path))
+
+                def _handle_result(returncode, out_path, attempt_url):
+                    if returncode == 0 and out_path.exists():
+                        sane, reason = _is_file_sane(out_path)
+                        if sane:
+                            console.print(f"[green]Wrote sample file: {out_path}[/]")
+                            created.append(str(out_path))
+                            return True
+                        else:
+                            console.print(f"[red]Sample created but failed sanity check ({reason}): {out_path}[/]")
+                            return False
                     else:
-                        console.print(f"[red]Sample created but failed sanity check ({reason}): {out_path}[/]")
-                else:
-                    console.print(f"[red]Failed to create sample for adapter {name}[/]")
+                        console.print(f"[red]Failed to create sample for adapter {name} using {attempt_url}[/]")
+                        return False
+
+                success = _handle_result(proc.returncode, out_path, url)
+                if not success:
+                   
+                    alt_inp = text(f"Enter alternate input URL or local path for '{name}' (leave blank to skip):")
+                    alt_val = alt_inp.unsafe_ask()
+                    if not alt_val:
+                        console.print(f"[dim]Skipping adapter {name} (no alternative provided).[/]")
+                    else:
+                        retry_cmd = ["python3", str(PROJECT_ROOT / "scripts" / "download_and_sample.py"), "--input", str(alt_val), "--output", str(out_path), "--limit", str(limit)]
+                        console.print(Panel.fit(f"[blue]Retrying sample preparation for '{name}' with provided input[/]"))
+                        try:
+                            proc2 = subprocess.Popen(retry_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, cwd=str(PROJECT_ROOT))
+                            for line in proc2.stdout:
+                                console.print(f"[dim]{line.rstrip()}[/]")
+                            proc2.wait()
+                            _handle_result(proc2.returncode, out_path, alt_val)
+                        except Exception as e:
+                            console.print(f"[red]Retry failed for {name}: {e}[/]")
             except Exception as e:
                 console.print(f"[red]Error running download_and_sample for {name}: {e}[/]")
 

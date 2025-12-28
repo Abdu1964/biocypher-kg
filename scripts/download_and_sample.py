@@ -20,6 +20,7 @@ import json
 import tarfile
 import tempfile
 import mimetypes
+import zipfile
 from pathlib import Path
 from typing import Iterator, Optional
 from urllib.parse import urlparse
@@ -29,10 +30,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-try:
-    from biocypher_metta.adapters.tfbs_adapter import TfbsAdapter
-except ImportError:
-    TfbsAdapter = None
+# Avoid importing adapters with heavy dependencies at module import time
+TfbsAdapter = None
 
 
 def parse_args() -> argparse.Namespace:
@@ -81,14 +80,70 @@ def stream_sample_http(src: str, out_path: Path, limit: int, no_header: bool) ->
     assert parsed.scheme in {"http", "https"}
 
     is_gz = parsed.path.endswith(".gz")
+    is_zip = parsed.path.endswith(".zip")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     data_rows = 0
+    
+    if is_zip:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_zip = Path(tmpdir) / Path(parsed.path).name
+            with urllib.request.urlopen(src) as resp, tmp_zip.open("wb") as outb:
+                shutil.copyfileobj(resp, outb)
+
+            with zipfile.ZipFile(tmp_zip, "r") as zf:
+                candidate = None
+                for name in zf.namelist():
+                    # skip directories
+                    if name.endswith("/"):
+                        continue
+                    suffix = Path(name).suffix.lower()
+                    if suffix in {".txt", ".tsv", ".csv", ".gtf", ".gff", ".gff3", ".bed"} or True:
+                        candidate = name
+                        break
+
+                if not candidate:
+                    print("[ERROR] No suitable file found inside ZIP archive.")
+                    return 0
+
+                with zf.open(candidate) as member:
+                    # If the member is gzipped inside the zip, handle that
+                    if Path(candidate).suffix.lower() == ".gz":
+                        with gzip.GzipFile(fileobj=io.BytesIO(member.read())) as gf:
+                            reader = io.TextIOWrapper(gf, encoding="utf-8", errors="replace")
+                            with open_maybe_gzip(out_path, "wt") as out:
+                                if not no_header:
+                                    try:
+                                        header = next(reader)
+                                    except StopIteration:
+                                        return 0
+                                    out.write(header)
+                                for line in reader:
+                                    if data_rows >= limit:
+                                        break
+                                    out.write(line)
+                                    data_rows += 1
+                    else:
+                        reader = io.TextIOWrapper(member, encoding="utf-8", errors="replace")
+                        with open_maybe_gzip(out_path, "wt") as out:
+                            if not no_header:
+                                try:
+                                    header = next(reader)
+                                except StopIteration:
+                                    return 0
+                                out.write(header)
+                            for line in reader:
+                                if data_rows >= limit:
+                                    break
+                                out.write(line)
+                                data_rows += 1
+
+        return data_rows
 
     with urllib.request.urlopen(src) as resp:
         if is_gz:
-            reader: io.TextIOBase = io.TextIOWrapper(gzip.GzipFile(fileobj=resp), encoding="utf-8")
+            reader: io.TextIOBase = io.TextIOWrapper(gzip.GzipFile(fileobj=resp), encoding="utf-8", errors="replace")
         else:
-            reader = io.TextIOWrapper(resp, encoding="utf-8")
+            reader = io.TextIOWrapper(resp, encoding="utf-8", errors="replace")
 
         with open_maybe_gzip(out_path, "wt") as out:
             if not no_header:
