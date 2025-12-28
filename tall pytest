@@ -1,0 +1,25 @@
+[33mcommit 062a926887a89b09d77020685ea37e60d844d723[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Eyerusalem-Hailemariam <eyerusalem008@gmail.com>
+Date:   Sun Dec 28 19:03:24 2025 +0300
+
+    saving changes
+
+[1mdiff --git a/biocypher_cli/modules/utils.py b/biocypher_cli/modules/utils.py[m
+[1mindex 1d47ab5..216d6cf 100644[m
+[1m--- a/biocypher_cli/modules/utils.py[m
+[1m+++ b/biocypher_cli/modules/utils.py[m
+[36m@@ -256,10 +256,7 @@[m [mdef check_and_prepare_samples(adapters_config_path: str, selected_adapters: List[m
+             basename = Path(fp).name[m
+             url = None[m
+ [m
+[31m-            # Robust key matching: build a broad set of candidate keys derived from the[m
+[31m-            # basename so the matcher works for many filename shapes. We generate[m
+[31m-            # progressively shorter prefixes and different token joins (underscore,[m
+[31m-            # dash, concatenated) to increase chance of matching a data_source key.[m
+[32m+[m[41m           [m
+             name_no_ext = basename.split('.')[0][m
+             tokens = re.split(r'[-_.]+', name_no_ext)[m
+             candidates_set = set()[m
+[1mdiff --git a/samples/hsa/gtex.forgedb.sample.csv.gz b/samples/hsa/gtex.forgedb.sample.csv.gz[m
+[1mindex f3a532b..9c50fc2 100644[m
+Binary files a/samples/hsa/gtex.forgedb.sample.csv.gz and b/samples/hsa/gtex.forgedb.sample.csv.gz differ
