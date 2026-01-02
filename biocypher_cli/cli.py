@@ -41,22 +41,28 @@ def build_default_fly_command() -> List[str]:
 def run_generation(cmd: List[str], show_logs: bool) -> None:
     try:
         console.print("\n[bold]Starting knowledge graph generation...[/]\n")
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=str(PROJECT_ROOT), bufsize=1, universal_newlines=True)
-        while True:
-            stdout_line = process.stdout.readline()
-            stderr_line = process.stderr.readline()
-            if stdout_line:
-                if stdout_line.startswith("INFO --"): console.print(stdout_line.strip())
-                else: console.print(f"[dim]{stdout_line.strip()}[/]")
-            if stderr_line:
-                if stderr_line.startswith("ERROR --"): console.print(f"[red]{stderr_line.strip()}[/]")
-                else: console.print(f"[yellow]{stderr_line.strip()}[/]")
-            if process.poll() is not None: break
+        # Merge stderr into stdout so we can read a single stream without deadlocks
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, cwd=str(PROJECT_ROOT), bufsize=1, universal_newlines=True)
+        output_lines = []
+        for raw_line in iter(process.stdout.readline, ''):
+            if raw_line is None:
+                break
+            line = raw_line.rstrip()
+            output_lines.append(line)
+            if line.startswith("INFO --"):
+                console.print(line)
+            elif line.startswith("ERROR --"):
+                console.print(f"[red]{line}[/]")
+            else:
+                console.print(f"[dim]{line}[/]")
+        process.wait()
         if process.returncode == 0:
             console.print(Panel.fit("[bold green]✔ Knowledge Graph generation completed successfully![/]", style="green"))
         else:
+            logger.error("Knowledge graph generation failed (returncode=%s). Child output:\n%s", process.returncode, "\n".join(output_lines))
             console.print(Panel.fit("[bold red]✖ KG generation failed[/]", style="red"))
     except Exception as e:
+        logger.exception("Exception while running generation")
         console.print(Panel.fit(f"[bold red]✖ Execution failed: {str(e)}[/]", style="red"))
 
 def generate_kg_workflow() -> None:
@@ -87,10 +93,35 @@ def generate_kg_workflow() -> None:
             if created:
                 console.print(Panel.fit(f"[green]Prepared {len(created)} sample files.[/]", style="green"))
     except Exception as e:
+        logger.exception("Sample preparation failed")
         console.print(f"[yellow]Warning: sample preparation step failed: {e}[/]")
     console.print(Panel.fit("[bold]Ready to generate knowledge graph[/]", style="blue"))
     show_logs = confirm("Show detailed logs during generation?", default=False).unsafe_ask()
-    if confirm("Start knowledge graph generation?", default=True).unsafe_ask(): run_generation(cmd, show_logs)
+    if confirm("Start knowledge graph generation?", default=True).unsafe_ask():
+        # verify output-dir is writable before launching long-running subprocess
+        try:
+            output_dir = None
+            if "--output-dir" in cmd:
+                idx = cmd.index("--output-dir")
+                if idx + 1 < len(cmd):
+                    output_dir = Path(cmd[idx + 1])
+            if output_dir:
+                try:
+                    output_dir.mkdir(parents=True, exist_ok=True)
+                    test_file = output_dir / ".biocypher_write_test"
+                    with open(test_file, "w") as fh:
+                        fh.write("")
+                    test_file.unlink()
+                except PermissionError:
+                    logger.error("Permission denied creating or writing to output dir %s", output_dir, exc_info=True)
+                    console.print(Panel.fit(f"[bold red]Cannot write to output directory: {output_dir}.\nFix permissions or choose a different output directory.[/]", style="red"))
+                    return
+                except Exception:
+                    logger.exception("Unexpected error while checking output directory %s", output_dir)
+                    console.print(f"[yellow]Warning: could not verify output directory {output_dir}; continuing...[/]")
+        except Exception:
+            logger.exception("Error while preparing output directory check")
+        run_generation(cmd, show_logs)
         
 def config_options_workflow() -> None:
     while True:
@@ -127,7 +158,17 @@ def main_menu() -> None:
             sys.exit(0)
 
 if __name__ == "__main__":
-    try: main_menu()
-    except KeyboardInterrupt: console.print("\n[italic]Operation cancelled by user. Exiting...[/]"); sys.exit(0)
-    except questionary.ValidationError as e: console.print(f"[red]Error: {e.message}[/]"); sys.exit(1)
-    except Exception as e: console.print(f"[red]Unexpected error: {str(e)}[/]"); sys.exit(1)
+    try:
+        main_menu()
+    except KeyboardInterrupt:
+        logger.info("Interactive run cancelled by user (KeyboardInterrupt)")
+        console.print("\n[italic]Operation cancelled by user. Exiting...[/]")
+        sys.exit(0)
+    except questionary.ValidationError as e:
+        logger.exception("Validation error in interactive CLI")
+        console.print(f"[red]Error: {e.message}[/]")
+        sys.exit(1)
+    except Exception as e:
+        logger.exception("Unhandled exception in interactive CLI")
+        console.print(f"[red]Unexpected error: {str(e)}[/]")
+        sys.exit(1)

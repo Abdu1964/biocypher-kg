@@ -30,9 +30,6 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-# Avoid importing adapters with heavy dependencies at module import time
-TfbsAdapter = None
-
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Download (or copy) and sample first N data rows")
@@ -59,6 +56,54 @@ def open_maybe_gzip(path: Path, mode: str):
     if "b" in mode:
         return gzip.open(path, mode) if is_gzip_file(path) else open(path, mode)
     return gzip.open(path, mode) if is_gzip_file(path) else open(path, mode, encoding="utf-8")
+
+
+def ensure_file_terminator(path: Path) -> None:
+    """Ensure sampled file endings are sane.
+
+    - For UniProt `.dat` files (heuristically detected), ensure the file
+      terminates with a clean "//" line (no extra blank line before it).
+    - For other files, ensure the file ends with exactly one newline
+      (remove excess trailing blank lines, append a newline if missing).
+
+    Operates on gzipped or plain text files. Best-effort: non-fatal on error.
+    """
+    try:
+        gz = is_gzip_file(path)
+        if gz:
+            opener = lambda mode: gzip.open(path, mode)
+        else:
+            opener = lambda mode: open(path, mode, encoding="utf-8", errors="replace")
+
+        with opener("rt") as fh:
+            lines = fh.readlines()
+
+        tail_lines = lines[-16:] if lines else []
+        tail = "".join(tail_lines)
+
+        looks_like_uniprot = any(l.startswith("ID   ") or l.startswith("AC   ") for l in tail_lines)
+
+        if looks_like_uniprot:
+            if not tail.rstrip().endswith("//"):
+                last_line = lines[-1] if lines else ""
+                add_prefix = "" if last_line.endswith("\n") else "\n"
+                if lines and lines[-1].strip() == "":
+                    cleaned = "".join(l for l in lines if True).rstrip("\n")
+                    with opener("wt") as fh:
+                        fh.write(cleaned)
+                        fh.write("\n//\n")
+                else:
+                    with opener("at") as fh:
+                        fh.write(f"{add_prefix}//\n")
+        else:
+            if not lines:
+                return
+            cleaned = "\n".join(l.rstrip("\n") for l in lines).rstrip()
+            with opener("wt") as fh:
+                fh.write(cleaned)
+                fh.write("\n")
+    except Exception:
+        return
 
 
 def download_to_tmp(src: str, tmp_path: Path) -> Path:
@@ -214,24 +259,31 @@ def main() -> None:
                     out.write(line)
                     data_rows += 1
             print(f"[DEBUG] Finished writing sampled lines from archive. data_rows={data_rows}")
+        # If this looks like a UniProt .dat sample, ensure terminator
+        try:
+            if 'uniprot' in args.input.lower() or 'uniprot' in out_path.name.lower() or args.input.lower().endswith('.dat') or args.input.lower().endswith('.dat.gz'):
+                ensure_uniprot_terminator(out_path)
+        except Exception:
+            pass
         print(f"Wrote {data_rows} rows to {out_path}")
     else:
         if parsed.scheme in {"http", "https"}:
             print(f"[DEBUG] Detected HTTP/HTTPS input")
             data_rows = stream_sample_http(args.input, out_path, args.limit, args.no_header)
             print(f"[DEBUG] stream_sample_http returned: {data_rows}")
+            try:
+                if 'uniprot' in args.input.lower() or 'uniprot' in out_path.name.lower() or args.input.lower().endswith('.dat') or args.input.lower().endswith('.dat.gz'):
+                    ensure_uniprot_terminator(out_path)
+            except Exception:
+                ensure_file_terminator(out_path)
+            print(f"Wrote {data_rows} rows to {out_path}")
         else:
-            print(f"[DEBUG] Detected local file input")
-            tmp = Path("/tmp/download_and_sample")
-            src_path = download_to_tmp(args.input, tmp)
-
             out_path.parent.mkdir(parents=True, exist_ok=True)
             data_rows = 0
+            src_path = Path(args.input)
             with open_maybe_gzip(out_path, "wt") as out:
                 lines = iter_lines(src_path)
-                if args.no_header:
-                    pass
-                else:
+                if not args.no_header:
                     try:
                         header = next(lines)
                     except StopIteration:
@@ -243,13 +295,16 @@ def main() -> None:
                         break
                     out.write(line)
                     data_rows += 1
+            try:
+                if 'uniprot' in args.input.lower() or 'uniprot' in out_path.name.lower() or args.input.lower().endswith('.dat') or args.input.lower().endswith('.dat.gz'):
+                    ensure_uniprot_terminator(out_path)
+            except Exception:
+                pass
             print(f"[DEBUG] Finished writing sampled lines. data_rows={data_rows}")
-        print(f"Wrote {data_rows} rows to {out_path}")
+            print(f"Wrote {data_rows} rows to {out_path}")
 
 
 
 if __name__ == "__main__":
     main()
-
-
 

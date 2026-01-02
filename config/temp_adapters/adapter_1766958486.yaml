@@ -1,0 +1,12 @@
+roadmap_dhs:
+  adapter:
+    module: biocypher_metta.adapters.roadmap_dhs_adapter
+    cls: RoadMapDHSAdapter
+    args:
+      filepath: ./samples/hsa/roadmap/dhs/erc2-DHS_sample.csv.gz
+      label: in_dnase_I_hotspot
+      cell_to_ontology_id_map: ./aux_files/roadmap_ids_to_ontology.pkl
+      dbsnp_rsid_map: None
+  outdir: roadmap/dhs
+  nodes: false
+  edges: true

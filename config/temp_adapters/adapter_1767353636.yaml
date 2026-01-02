@@ -1,0 +1,10 @@
+dbsnp_snps:
+  adapter:
+    module: biocypher_metta.adapters.dbsnp_adapter
+    cls: DBSNPAdapter
+    args:
+      filepath: ./samples/hsa/dbsnp/dbsnp-sample-00-common_all.vcf.gz
+      label: snp
+  outdir: dbsnp
+  nodes: true
+  edges: false

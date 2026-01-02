@@ -172,7 +172,8 @@ def show_help() -> None:
 
 
 
-def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List[str] = None, limit: int = 100) -> List[str]:
+def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List[str] = None, limit: int = 10000
+) -> List[str]:
     """Ensure sample files referenced by the adapters config exist.
     If a sample is missing, attempt to find a download URL in `config/data_source_config.yaml`
     and run `scripts/download_and_sample.py` to create a sampled file. Returns list of created files.
@@ -255,42 +256,7 @@ def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List
                     console.print(f"[yellow]Existing sample {out_path} failed sanity check: {reason}. Will attempt to recreate.[/]")
 
             basename = Path(fp).name
-            url = None
-
-           
-            name_no_ext = basename.split('.')[0]
-            tokens = re.split(r'[-_.]+', name_no_ext)
-            candidates_set = set()
-            candidates_set.add(name_no_ext)
-            candidates_set.add(name_no_ext.replace('-', '_'))
-
-            for end in range(len(tokens), 0, -1):
-                prefix_tokens = tokens[:end]
-                if not prefix_tokens:
-                    continue
-                candidates_set.add('_'.join(prefix_tokens))
-                candidates_set.add('-'.join(prefix_tokens))
-                candidates_set.add(''.join(prefix_tokens))
-
-            if tokens:
-                candidates_set.add(tokens[0])
-
-            candidates = [c.lower().strip('_-') for c in candidates_set if c]
-            candidates = sorted(dict.fromkeys(candidates), key=lambda s: (-len(s), s))
-
-            for k in candidates:
-                if not k: continue
-                if k in data_source:
-                    entry = data_source[k]
-                    url_field = entry.get("url") if isinstance(entry, dict) else entry
-                    if isinstance(url_field, list):
-                        url = url_field[0]
-                    elif isinstance(url_field, dict):
-                        vals = list(url_field.values())
-                        url = vals[0] if vals else None
-                    else:
-                        url = url_field
-                    break
+            url = find_url_for_filename(str(PROJECT_ROOT / "config" / "data_source_config.yaml"), basename)
 
             if not url:
                 for ds_key in data_source.keys():
@@ -360,3 +326,44 @@ def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List
                 console.print(f"[red]Error running download_and_sample for {name}: {e}[/]")
 
     return created
+
+def find_url_for_filename(config_path: str, filename: str) -> Optional[str]:
+    """
+    Search all URLs in the data_source_config YAML for a URL ending with the given filename.
+    Handles URLs as strings, lists, or dicts.
+    """
+    config_path = Path(config_path)
+    if not config_path.exists():
+        return None
+
+    with open(config_path, "r") as f:
+        config = yaml.safe_load(f)
+
+    for entry in config.values():
+        urls = entry.get("url")
+        if not urls:
+            continue
+        # Handle string
+        if isinstance(urls, str):
+            if urls.strip().endswith(filename):
+                return urls.strip()
+       
+       
+        elif isinstance(urls, list):
+            for u in urls:
+                if isinstance(u, str) and u.strip().endswith(filename):
+                    return u.strip()
+                elif isinstance(u, dict):
+                    for suburl in u.values():
+                        if isinstance(suburl, str) and suburl.strip().endswith(filename):
+                            return suburl.strip()
+        
+        elif isinstance(urls, dict):
+            for suburl in urls.values():
+                if isinstance(suburl, str) and suburl.strip().endswith(filename):
+                    return suburl.strip()
+                elif isinstance(suburl, list):
+                    for u in suburl:
+                        if isinstance(u, str) and u.strip().endswith(filename):
+                            return u.strip()
+    return None

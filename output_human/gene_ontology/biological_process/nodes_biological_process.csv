@@ -1,101 +1,101 @@
 alternative_ids|id|synonym|term_name
-|GO_0090169|"[""regulation of spindle formation""]"|regulation of spindle assembly
-|GO_0035938|"[""oestradiol secretion""]"|estradiol secretion
-|GO_1901634|"[""activation of synaptic vesicle membrane organization and biogenesis"", ""positive regulation of synaptic vesicle membrane organization and biogenesis"", ""up regulation of synaptic vesicle membrane organization and biogenesis"", ""up-regulation of synaptic vesicle membrane organization and biogenesis"", ""upregulation of synaptic vesicle membrane organization and biogenesis"", ""positive regulation of synaptic vesicle membrane organisation"", ""up regulation of synaptic vesicle membrane organisation"", ""up regulation of synaptic vesicle membrane organization"", ""up-regulation of synaptic vesicle membrane organisation"", ""up-regulation of synaptic vesicle membrane organization"", ""upregulation of synaptic vesicle membrane organisation"", ""upregulation of synaptic vesicle membrane organization""]"|positive regulation of synaptic vesicle membrane organization
-|GO_0046173|"[""polyhydric alcohol biosynthetic process"", ""polyol anabolism"", ""polyol biosynthesis"", ""polyol formation"", ""polyol synthesis""]"|polyol biosynthetic process
-|GO_0140113|"[""extracellular microvesicle assembly""]"|extracellular microvesicle biogenesis
-|GO_0002302|"[""CD8-positive, alpha-beta T cell differentiation during immune response"", ""CD8-positive, alpha-beta T lymphocyte differentiation during immune response"", ""CD8-positive, alpha-beta T-cell differentiation during immune response"", ""CD8-positive, alpha-beta T-lymphocyte differentiation during immune response"", ""CD8-positive, alpha-beta intraepithelial T cell development""]"|CD8-positive, alpha-beta T cell differentiation involved in immune response
-|GO_0048206|"[""cis-Golgi to rough ER targeting"", ""cis-Golgi to rough endoplasmic reticulum targeting"", ""vesicle targeting, cis-Golgi to rough ER""]"|vesicle targeting, cis-Golgi to rough endoplasmic reticulum
-|GO_0006084|"[""acetyl coenzyme A metabolic process"", ""acetyl coenzyme A metabolism"", ""acetyl-CoA metabolism""]"|acetyl-CoA metabolic process
-|GO_0060318|"[""definitive RBC differentiation"", ""definitive erythropoiesis"", ""definitive red blood cell differentiation""]"|definitive erythrocyte differentiation
-|GO_1905051|"[""regulation of BER""]"|regulation of base-excision repair
-"[""GO:0048470""]"|GO_0010198|"[""synergid cell death"", ""synergid degeneration""]"|synergid death
-|GO_0003133|"[""endodermal-mesodermal cell signalling""]"|endodermal-mesodermal cell signaling
-|GO_0036184|"[""asperthecin biosynthesis"", ""asperthecin formation"", ""asperthecin synthesis""]"|asperthecin biosynthetic process
-|GO_0002051||osteoblast fate commitment
-|GO_1900082|"[""down regulation of arginine breakdown"", ""down regulation of arginine catabolic process"", ""down regulation of arginine catabolism"", ""down regulation of arginine degradation"", ""down-regulation of arginine breakdown"", ""down-regulation of arginine catabolic process"", ""down-regulation of arginine catabolism"", ""down-regulation of arginine degradation"", ""downregulation of arginine breakdown"", ""downregulation of arginine catabolic process"", ""downregulation of arginine catabolism"", ""downregulation of arginine degradation"", ""negative regulation of arginine breakdown"", ""negative regulation of arginine catabolism"", ""negative regulation of arginine degradation""]"|negative regulation of arginine catabolic process
-|GO_0048753|"[""pigment granule organization and biogenesis"", ""pigment granule organisation""]"|pigment granule organization
-|GO_0036198|"[""dTMP biosynthesis via salvage pathway"", ""deoxythymidine monophosphate biosynthesis via salvage pathway""]"|dTMP salvage
-|GO_2000765||regulation of cytoplasmic translation
-|GO_0120070||negative regulation of stomach fundus smooth muscle contraction
-|GO_0099613||protein localization to cell wall
-|GO_0032489||regulation of Cdc42 protein signal transduction
-|GO_1900305|"[""up regulation of laminaritriose transport"", ""up-regulation of laminaritriose transport"", ""upregulation of laminaritriose transport""]"|positive regulation of laminaritriose transport
-|GO_2000208|"[""positive regulation of 30S ribosomal subunit export from nucleus"", ""positive regulation of 40S ribosomal subunit export from nucleus"", ""positive regulation of ribosomal small subunit export from cell nucleus"", ""positive regulation of ribosomal small subunit export out of nucleus"", ""positive regulation of ribosomal small subunit transport from nucleus to cytoplasm"", ""positive regulation of ribosomal small subunit-nucleus export""]"|positive regulation of ribosomal small subunit export from nucleus
-|GO_1905053|"[""positive regulation of BER"", ""up regulation of BER"", ""up regulation of base-excision repair"", ""up-regulation of BER"", ""up-regulation of base-excision repair"", ""upregulation of BER"", ""upregulation of base-excision repair""]"|positive regulation of base-excision repair
-|GO_0043685||conversion of glutamyl-tRNA to glutaminyl-tRNA
-|GO_1900713|"[""regulation of violaceol I anabolism"", ""regulation of violaceol I biosynthesis"", ""regulation of violaceol I formation"", ""regulation of violaceol I synthesis""]"|regulation of violaceol I biosynthetic process
-|GO_0099505|"[""regulation of pre-synaptic membrane potential""]"|regulation of presynaptic membrane potential
-|GO_0071032|"[""nuclear mRNA catabolic process of mRNAs in aberrant mRNPs"", ""nuclear mRNA quality control of mRNAs in aberrant mRNPs""]"|nuclear mRNA surveillance of mRNP export
-|GO_0075025|"[""initiation of appressorium on or near host"", ""appressorium initiation on or near host"", ""initiation of appressorium by symbiont on or near host"", ""initiation of symbiont appressorium on or near host""]"|initiation of appressorium formation
-|GO_0090402|"[""OIS""]"|oncogene-induced cell senescence
-|GO_1900557|"[""emericellamide anabolism"", ""emericellamide biosynthesis"", ""emericellamide formation"", ""emericellamide synthesis""]"|emericellamide biosynthetic process
-|GO_0070157||mitochondrial prolyl-tRNA aminoacylation
-|GO_0051665|"[""establishment and maintenance of membrane raft localization"", ""lipid raft localization"", ""membrane raft localisation""]"|membrane raft localization
-|GO_1900981|"[""down regulation of acridizine biosynthesis"", ""down regulation of acridizine biosynthetic process"", ""down regulation of azophenylene biosynthesis"", ""down regulation of azophenylene biosynthetic process"", ""down regulation of dibenzo-p-diazine biosynthesis"", ""down regulation of dibenzo-p-diazine biosynthetic process"", ""down regulation of dibenzopyrazine biosynthesis"", ""down regulation of dibenzopyrazine biosynthetic process"", ""down-regulation of acridizine biosynthesis"", ""down-regulation of acridizine biosynthetic process"", ""down-regulation of azophenylene biosynthesis"", ""down-regulation of azophenylene biosynthetic process"", ""down-regulation of dibenzo-p-diazine biosynthesis"", ""down-regulation of dibenzo-p-diazine biosynthetic process"", ""down-regulation of dibenzopyrazine biosynthesis"", ""down-regulation of dibenzopyrazine biosynthetic process"", ""downregulation of acridizine biosynthesis"", ""downregulation of acridizine biosynthetic process"", ""downregulation of azophenylene biosynthesis"", ""downregulation of azophenylene biosynthetic process"", ""downregulation of dibenzo-p-diazine biosynthesis"", ""downregulation of dibenzo-p-diazine biosynthetic process"", ""downregulation of dibenzopyrazine biosynthesis"", ""downregulation of dibenzopyrazine biosynthetic process"", ""inhibition of acridizine biosynthesis"", ""inhibition of acridizine biosynthetic process"", ""inhibition of azophenylene biosynthesis"", ""inhibition of azophenylene biosynthetic process"", ""inhibition of dibenzo-p-diazine biosynthesis"", ""inhibition of dibenzo-p-diazine biosynthetic process"", ""inhibition of dibenzopyrazine biosynthesis"", ""inhibition of dibenzopyrazine biosynthetic process"", ""negative regulation of acridizine biosynthesis"", ""negative regulation of acridizine biosynthetic process"", ""negative regulation of azophenylene biosynthesis"", ""negative regulation of azophenylene biosynthetic process"", ""negative regulation of dibenzo-p-diazine biosynthesis"", ""negative regulation of dibenzo-p-diazine biosynthetic process"", ""negative regulation of dibenzopyrazine biosynthesis"", ""negative regulation of dibenzopyrazine biosynthetic process"", ""down regulation of phenazine biosynthetic process"", ""down-regulation of phenazine biosynthetic process"", ""downregulation of phenazine biosynthetic process""]"|negative regulation of phenazine biosynthetic process
-|GO_0000353||formation of quadruple SL/U4/U5/U6 snRNP
-|GO_1905711|"[""response to PE"", ""response to PtdEtn"", ""response to phosphatidyl(amino)ethanols"", ""response to phosphatidylethanolamines""]"|response to phosphatidylethanolamine
-|GO_1901162|"[""primary amino compound anabolism"", ""primary amino compound biosynthesis"", ""primary amino compound formation"", ""primary amino compound synthesis""]"|primary amino compound biosynthetic process
-|GO_0045895|"[""positive regulation of mating-type specific transcription, DNA-dependent"", ""up regulation of transcription, mating-type specific"", ""up-regulation of transcription, mating-type specific"", ""upregulation of transcription, mating-type specific""]"|positive regulation of mating-type specific transcription, DNA-templated
-|GO_0080190||lateral growth
-|GO_0030727|"[""germarium-derived female germline cyst formation""]"|germarium-derived female germ-line cyst formation
-|GO_0070943|"[""neutrophil mediated killing of symbiont cell""]"|neutrophil-mediated killing of symbiont cell
-|GO_0021639|"[""CH IV morphogenesis""]"|trochlear nerve morphogenesis
-|GO_0051514|"[""down regulation of monopolar cell growth"", ""down-regulation of monopolar cell growth"", ""downregulation of monopolar cell growth""]"|negative regulation of monopolar cell growth
-|GO_0048201|"[""plasma membrane to endosome targeting""]"|vesicle targeting, plasma membrane to endosome
-|GO_0007134||meiotic telophase I
-|GO_0170040|"[""proteinogenic amino acid breakdown"", ""proteinogenic amino acid catabolism"", ""proteinogenic amino acid degradation""]"|proteinogenic amino acid catabolic process
-|GO_1901989|"[""activation of cell cycle transition"", ""positive regulation of cell cycle transition"", ""up regulation of cell cycle phase transition"", ""up regulation of cell cycle transition"", ""up-regulation of cell cycle phase transition"", ""up-regulation of cell cycle transition"", ""upregulation of cell cycle phase transition"", ""upregulation of cell cycle transition""]"|positive regulation of cell cycle phase transition
-|GO_0033487|"[""pelargonidin 3-O-glucoside anabolism"", ""pelargonidin 3-O-glucoside biosynthesis"", ""pelargonidin 3-O-glucoside formation"", ""pelargonidin 3-O-glucoside synthesis""]"|pelargonidin 3-O-glucoside biosynthetic process
-|GO_0045035|"[""sense organ precursor cell division""]"|sensory organ precursor cell division
-|GO_0141091|"[""TGF-beta receptor superfamily signaling pathway"", ""TGF-beta receptor superfamily signalling pathway"", ""TGFbeta receptor superfamily signaling pathway"", ""TGFbeta receptor superfamily signalling pathway"", ""transforming growth factor beta receptor superfamily signalling pathway""]"|transforming growth factor beta receptor superfamily signaling pathway
-|GO_0033080|"[""thymic T cell proliferation"", ""thymocyte cell proliferation"", ""thymocyte proliferation""]"|immature T cell proliferation in thymus
-|GO_1903224|"[""regulation of endoderm cell differentiation""]"|regulation of endodermal cell differentiation
-|GO_1903110||regulation of single-strand break repair via homologous recombination
-|GO_0045185|"[""maintenance of protein localization""]"|maintenance of protein location
-|GO_1904045||cellular response to aldosterone
-|GO_0099047||clearance of foreign intracellular RNA
-|GO_1903949|"[""up regulation of atrial cardiac muscle cell action potential"", ""up-regulation of atrial cardiac muscle cell action potential"", ""upregulation of atrial cardiac muscle cell action potential""]"|positive regulation of atrial cardiac muscle cell action potential
-|GO_0014030||mesenchymal cell fate commitment
-|GO_0032107||regulation of response to nutrient levels
-|GO_1901161|"[""primary amino compound breakdown"", ""primary amino compound catabolism"", ""primary amino compound degradation""]"|primary amino compound catabolic process
-|GO_0048857||neural nucleus development
-|GO_0097241|"[""hemopoietic stem cell migration to bone marrow""]"|hematopoietic stem cell migration to bone marrow
-|GO_0071570||cement gland development
-"[""GO:0045376""]"|GO_0032699|"[""down regulation of interleukin-16 production"", ""down-regulation of interleukin-16 production"", ""downregulation of interleukin-16 production"", ""negative regulation of IL-16 production""]"|negative regulation of interleukin-16 production
-|GO_0097089|"[""methyl-branched fatty acid metabolism""]"|methyl-branched fatty acid metabolic process
-|GO_0000455||enzyme-directed rRNA pseudouridine synthesis
-|GO_0009745|"[""sucrose mediated signalling""]"|sucrose mediated signaling
-|GO_0042464||dosage compensation by hypoactivation of X chromosome
-|GO_0043617||cellular response to sucrose starvation
-|GO_0048056||R3/R4 cell differentiation
-|GO_0141005||transposable element silencing by heterochromatin formation
-|GO_1905382|"[""positive regulation of snRNA transcription from Pol II promoter"", ""positive regulation of snRNA transcription from RNA polymerase II promoter"", ""up regulation of snRNA transcription from Pol II promoter"", ""up regulation of snRNA transcription from RNA polymerase II promoter"", ""up-regulation of snRNA transcription from Pol II promoter"", ""up-regulation of snRNA transcription from RNA polymerase II promoter"", ""upregulation of snRNA transcription from Pol II promoter"", ""upregulation of snRNA transcription from RNA polymerase II promoter""]"|positive regulation of snRNA transcription by RNA polymerase II
-|GO_0009850|"[""auxin metabolism""]"|auxin metabolic process
-|GO_1901177|"[""lycopene anabolism"", ""lycopene biosynthesis"", ""lycopene formation"", ""lycopene synthesis""]"|lycopene biosynthetic process
-|GO_0002485|"[""TAP-dependent antigen processing and presentation of endogenous peptide antigen via MHC class I via ER pathway"", ""TAP-dependent endogenous peptide antigen processing and presentation via MHC class I via ER pathway"", ""endogenous peptide antigen processing and presentation via MHC class I via ER pathway, TAP-dependent""]"|antigen processing and presentation of endogenous peptide antigen via MHC class I via ER pathway, TAP-dependent
-|GO_0035043||male pronuclear envelope synthesis
-|GO_0000303||response to superoxide
-|GO_0106210|"[""culmorin anabolism"", ""culmorin biosynthesis"", ""culmorin formation"", ""culmorin synthesis""]"|culmorin biosynthetic process
-|GO_0072595|"[""maintenance of protein localisation to organelle"", ""maintenance of protein localization to organelle""]"|maintenance of protein localization in organelle
-|GO_0008213|"[""protein amino acid alkylation""]"|protein alkylation
-|GO_0035435|"[""phosphate ion membrane transport""]"|phosphate ion transmembrane transport
-|GO_1902815||N,N-diacetylchitobiose import
-|GO_0010661||positive regulation of muscle cell apoptotic process
-"[""GO:0048424""]"|GO_0048454|"[""sepal structural organisation""]"|sepal structural organization
-|GO_0060127|"[""epsilon-acidophil differentiation"", ""lactotrope differentiation"", ""lactotroph differentiation"", ""lactotropic cell differentiation"", ""mammotrope differentiation"", ""mammotroph differentiation"", ""mammotrophic cell differentiation"", ""mammotropic cell differentiation""]"|prolactin secreting cell differentiation
-|GO_0140231||anterograde axonal transport of neurotransmitter receptor complex
-|GO_1900437||regulation of filamentous growth of a population of unicellular organisms in response to chemical stimulus
-|GO_0070490|"[""Pup-protein conjugation"", ""pupylation""]"|protein pupylation
-|GO_2000875|"[""negative regulation of glyoxylate bypass""]"|negative regulation of glyoxylate cycle
-|GO_0051946|"[""regulation of glutamate uptake during transmission of nerve impulse"", ""regulation of L-glutamate reuptake"", ""regulation of L-glutamate uptake during transmission of nerve impulse"", ""regulation of glutamate reuptake"", ""regulation of glutamate uptake involved in conduction of nerve impulse""]"|regulation of glutamate uptake involved in transmission of nerve impulse
-|GO_0060729|"[""epithelial structure maintenance of intestine"", ""maintenance of intestinal epithelium""]"|intestinal epithelial structure maintenance
-|GO_0036306||embryonic heart tube elongation
-|GO_0021703|"[""locus caeruleus development"", ""locus coeruleus development""]"|locus ceruleus development
-|GO_0061145||lung smooth muscle development
-|GO_2000544||regulation of endothelial cell chemotaxis to fibroblast growth factor
-|GO_0120290|"[""stalled replication fork localization to nuclear periphery involved in replication fork processing""]"|stalled replication fork localization to nuclear periphery
-|GO_0046455|"[""organosilicon breakdown"", ""organosilicon catabolism"", ""organosilicon degradation"", ""organosilicone catabolic process"", ""organosilicone catabolism""]"|organosilicon catabolic process
-|GO_1903680|"[""sebocyte differentiation""]"|acinar cell of sebaceous gland differentiation
-|GO_0097722|"[""sperm movement""]"|sperm motility
-|GO_0062191|"[""GalXM biosynthetic process"", ""galactoxylomannan anabolism"", ""galactoxylomannan biosynthesis"", ""galactoxylomannan formation"", ""galactoxylomannan synthesis"", ""glucuronoxylomannogalactan biosynthetic process""]"|galactoxylomannan biosynthetic process
+|GO_0045702|"[""up regulation of spermatid nuclear differentiation"", ""up-regulation of spermatid nuclear differentiation"", ""upregulation of spermatid nuclear differentiation""]"|positive regulation of spermatid nuclear differentiation
+|GO_1904966|"[""positive regulation of tocopherol biosynthesis"", ""positive regulation of tocopherol biosynthetic process"", ""positive regulation of vitamin E anabolism"", ""positive regulation of vitamin E biosynthesis"", ""positive regulation of vitamin E formation"", ""positive regulation of vitamin E synthesis"", ""up regulation of tocopherol biosynthesis"", ""up regulation of tocopherol biosynthetic process"", ""up regulation of vitamin E anabolism"", ""up regulation of vitamin E biosynthesis"", ""up regulation of vitamin E biosynthetic process"", ""up regulation of vitamin E formation"", ""up regulation of vitamin E synthesis"", ""up-regulation of tocopherol biosynthesis"", ""up-regulation of tocopherol biosynthetic process"", ""up-regulation of vitamin E anabolism"", ""up-regulation of vitamin E biosynthesis"", ""up-regulation of vitamin E biosynthetic process"", ""up-regulation of vitamin E formation"", ""up-regulation of vitamin E synthesis"", ""upregulation of tocopherol biosynthesis"", ""upregulation of tocopherol biosynthetic process"", ""upregulation of vitamin E anabolism"", ""upregulation of vitamin E biosynthesis"", ""upregulation of vitamin E biosynthetic process"", ""upregulation of vitamin E formation"", ""upregulation of vitamin E synthesis""]"|positive regulation of vitamin E biosynthetic process
+|GO_0099016|"[""evasion by virus of DNA end degradation"", ""DNA end degradation evasion by virus"", ""evasion of DNA end degradation by host""]"|symbiont-mediated evasion of DNA end degradation by host
+|GO_0090638||phosphatidylcholine biosynthesis from phosphatidylethanolamine
+|GO_1902060|"[""up regulation of sporocarp development involved in sexual reproduction"", ""up-regulation of sporocarp development involved in sexual reproduction"", ""upregulation of sporocarp development involved in sexual reproduction""]"|positive regulation of sporocarp development involved in sexual reproduction
+|GO_1901750|"[""leukotriene D4 anabolism"", ""leukotriene D4 biosynthesis"", ""leukotriene D4 formation"", ""leukotriene D4 synthesis""]"|leukotriene D4 biosynthetic process
+|GO_1900877|"[""nonadec-1-ene anabolism"", ""nonadec-1-ene biosynthesis"", ""nonadec-1-ene formation"", ""nonadec-1-ene synthesis""]"|nonadec-1-ene biosynthetic process
+|GO_0014006|"[""regulation of microglial cell differentiation""]"|regulation of microglia differentiation
+|GO_1901140|"[""4-hydroxycinnamyl alcohol transport""]"|p-coumaryl alcohol transport
+|GO_0048811||male analia morphogenesis
+|GO_2000591|"[""positive regulation of metanephric mesenchyme chemotaxis""]"|positive regulation of metanephric mesenchymal cell migration
+|GO_2000938|"[""positive regulation of cellotriose catabolism""]"|positive regulation of cellotriose catabolic process
+|GO_0070789|"[""development of primary sterigmata""]"|metula development
+|GO_1900720|"[""down regulation of smooth muscle relaxation of the uterus"", ""down regulation of uterine smooth muscle relaxation"", ""down-regulation of smooth muscle relaxation of the uterus"", ""down-regulation of uterine smooth muscle relaxation"", ""downregulation of smooth muscle relaxation of the uterus"", ""downregulation of uterine smooth muscle relaxation"", ""inhibition of smooth muscle relaxation of the uterus"", ""negative regulation of smooth muscle relaxation of the uterus""]"|negative regulation of uterine smooth muscle relaxation
+|GO_0061161||positive regulation of establishment of bipolar cell polarity regulating cell shape
+|GO_1902076||regulation of lateral motor column neuron migration
+"[""GO:0035414""]"|GO_0090090|"[""negative regulation of Wnt receptor signaling pathway through beta-catenin"", ""negative regulation of canonical Wnt receptor signaling pathway"", ""negative regulation of canonical Wnt receptor signalling pathway"", ""negative regulation of canonical Wnt-activated signaling pathway""]"|negative regulation of canonical Wnt signaling pathway
+|GO_0048262|"[""determination of adaxial/abaxial asymmetry"", ""determination of dorsal-ventral asymmetry"", ""determination of dorsoventral asymmetry""]"|determination of dorsal/ventral asymmetry
+|GO_2000123||positive regulation of stomatal complex development
+|GO_0072382|"[""microtubule minus-end-directed vesicle localization""]"|minus-end-directed vesicle transport along microtubule
+|GO_0010018|"[""far red light signalling pathway"", ""far red signaling pathway"", ""far-red light signal transduction""]"|far-red light signaling pathway
+|GO_1905884|"[""down regulation of triacylglycerol transport"", ""down regulation of triglyceride transport"", ""down-regulation of triacylglycerol transport"", ""down-regulation of triglyceride transport"", ""downregulation of triacylglycerol transport"", ""downregulation of triglyceride transport"", ""negative regulation of triacylglycerol transport""]"|negative regulation of triglyceride transport
+|GO_0062013|"[""positive regulation of small molecule metabolism""]"|positive regulation of small molecule metabolic process
+|GO_0070473|"[""uterine smooth muscle relaxation"", ""down regulation of uterine smooth muscle contraction"", ""down-regulation of uterine smooth muscle contraction"", ""downregulation of uterine smooth muscle contraction"", ""negative regulation of myometrial contraction"", ""negative regulation of myometrial smooth muscle contraction"", ""negative regulation of myometrium contraction""]"|negative regulation of uterine smooth muscle contraction
+|GO_0061187|"[""regulation of ribosomal DNA heterochromatin assembly""]"|regulation of rDNA heterochromatin formation
+|GO_1902899|"[""FAME biosynthetic process"", ""fatty acid methyl ester anabolism"", ""fatty acid methyl ester biosynthesis"", ""fatty acid methyl ester formation"", ""fatty acid methyl ester synthesis""]"|fatty acid methyl ester biosynthetic process
+|GO_1905326|"[""up regulation of meiosis I spindle assembly checkpoint"", ""up-regulation of meiosis I spindle assembly checkpoint"", ""upregulation of meiosis I spindle assembly checkpoint""]"|positive regulation of meiosis I spindle assembly checkpoint
+|GO_0003336|"[""epidermal desquamation""]"|corneocyte desquamation
+|GO_0060773||flower phyllotactic patterning
+|GO_0048379|"[""positive regulation of lateral plate mesodermal cell fate specification"", ""up regulation of lateral mesodermal cell fate specification"", ""up-regulation of lateral mesodermal cell fate specification"", ""upregulation of lateral mesodermal cell fate specification""]"|positive regulation of lateral mesodermal cell fate specification
+|GO_0043090|"[""amino acid uptake""]"|amino acid import
+"[""GO:0002642"", ""GO:0051024""]"|GO_0002639|"[""up regulation of immunoglobulin production"", ""up-regulation of immunoglobulin production"", ""upregulation of immunoglobulin production""]"|positive regulation of immunoglobulin production
+|GO_1904982||sucrose transmembrane transport
+|GO_0061692||cellular detoxification of hydrogen peroxide
+|GO_0035019||somatic stem cell population maintenance
+|GO_0001947|"[""cardiac looping""]"|heart looping
+|GO_2000345||regulation of hepatocyte proliferation
+|GO_0009920|"[""cell plate formation involved in cellulose and pectin-containing cell wall biogenesis""]"|cell plate formation involved in plant-type cell wall biogenesis
+|GO_2000540|"[""negative regulation of C-terminal protein geranylgeranylation"", ""negative regulation of protein amino acid geranylgeranylation""]"|negative regulation of protein geranylgeranylation
+|GO_0046880|"[""regulation of FSH secretion"", ""regulation of follicle stimulating hormone secretion""]"|regulation of follicle-stimulating hormone secretion
+|GO_1902235|"[""regulation of ER stress-induced apoptosis"", ""regulation of apoptosis in response to ER stress"", ""regulation of apoptosis triggered by ER stress"", ""regulation of endoplasmic reticulum stress-induced apoptosis"", ""regulation of intrinsic apoptotic signaling pathway in response to endoplasmic reticulum stress"", ""regulation of intrinsic apoptotic signaling pathway induced by endoplasmic reticulum stress""]"|regulation of endoplasmic reticulum stress-induced intrinsic apoptotic signaling pathway
+|GO_1902750|"[""down regulation of cell cycle G2/M phase transition"", ""down-regulation of cell cycle G2/M phase transition"", ""downregulation of cell cycle G2/M phase transition""]"|negative regulation of cell cycle G2/M phase transition
+|GO_1905654||regulation of artery smooth muscle contraction
+|GO_1904699|"[""positive regulation of acinic cell proliferation"", ""positive regulation of acinous cell proliferation"", ""up regulation of acinar cell proliferation"", ""up regulation of acinic cell proliferation"", ""up regulation of acinous cell proliferation"", ""up-regulation of acinar cell proliferation"", ""up-regulation of acinic cell proliferation"", ""up-regulation of acinous cell proliferation"", ""upregulation of acinar cell proliferation"", ""upregulation of acinic cell proliferation"", ""upregulation of acinous cell proliferation""]"|positive regulation of acinar cell proliferation
+|GO_0019387|"[""methane biosynthesis from methanol"", ""methane biosynthetic process from methanol""]"|methanogenesis, from methanol
+|GO_0048884||neuromast development
+|GO_0018401||peptidyl-proline hydroxylation to 4-hydroxy-L-proline
+|GO_0031669||cellular response to nutrient levels
+|GO_0050688|"[""regulation of antiviral response""]"|regulation of defense response to virus
+|GO_1904443|"[""up regulation of thyroid gland epithelial cell proliferation"", ""up-regulation of thyroid gland epithelial cell proliferation"", ""upregulation of thyroid gland epithelial cell proliferation""]"|positive regulation of thyroid gland epithelial cell proliferation
+|GO_0098530|"[""positive regulation of D-loop biosynthesis"", ""positive regulation of D-loop formation"", ""positive regulation of Rad51-mediated strand invasion""]"|positive regulation of strand invasion
+|GO_0021586||pons maturation
+|GO_0043267|"[""transmembrane conductance regulator activity"", ""down regulation of potassium ion transport"", ""down-regulation of potassium ion transport"", ""downregulation of potassium ion transport"", ""negative regulation of K+ transport"", ""negative regulation of potassium transport""]"|negative regulation of potassium ion transport
+|GO_1904543|"[""down regulation of free ubiquitin chain polymerization"", ""down-regulation of free ubiquitin chain polymerization"", ""downregulation of free ubiquitin chain polymerization""]"|negative regulation of free ubiquitin chain polymerization
+|GO_0045721|"[""down regulation of gluconeogenesis"", ""down-regulation of gluconeogenesis"", ""downregulation of gluconeogenesis""]"|negative regulation of gluconeogenesis
+|GO_0070862|"[""down regulation of protein exit from endoplasmic reticulum"", ""down-regulation of protein exit from endoplasmic reticulum"", ""downregulation of protein exit from endoplasmic reticulum"", ""negative regulation of protein exit from ER"", ""negative regulation of protein export from ER"", ""negative regulation of protein export from endoplasmic reticulum""]"|negative regulation of protein exit from endoplasmic reticulum
+|GO_0060919||auxin import into cell
+|GO_0035076|"[""ecdysone receptor-mediated signalling pathway"", ""nuclear receptor-mediated ecdysone signaling pathway""]"|ecdysone receptor signaling pathway
+|GO_0033334||fin morphogenesis
+|GO_1902627|"[""regulation of preribosome, large subunit precursor formation""]"|regulation of assembly of large subunit precursor of preribosome
+"[""GO:0070632"", ""GO:0071789""]"|GO_1990608|"[""establishment and maintenance of spindle pole body localization""]"|mitotic spindle pole body localization
+|GO_0043290|"[""apo carotenoid catabolic process"", ""apocarotenoid breakdown"", ""apocarotenoid catabolism"", ""apocarotenoid degradation""]"|apocarotenoid catabolic process
+|GO_0045984|"[""down regulation of pyrimidine base metabolic process"", ""down-regulation of pyrimidine base metabolic process"", ""downregulation of pyrimidine base metabolic process"", ""negative regulation of pyrimidine base metabolic process"", ""negative regulation of pyrimidine base metabolism""]"|negative regulation of pyrimidine nucleobase metabolic process
+|GO_0098677|"[""virus particle maturation"", ""viral particle maturation""]"|virion maturation
+|GO_1905651|"[""regulation of arterial morphogenesis"", ""regulation of arteriogenesis""]"|regulation of artery morphogenesis
+|GO_0043114||regulation of vascular permeability
+|GO_0090014||leaflet formation
+|GO_0014742||positive regulation of muscle hypertrophy
+|GO_0061975|"[""articular cartilage of joint development""]"|articular cartilage development
+|GO_0018418|"[""nickel incorporation into iron-sulphur cluster via tris-L-cysteinyl L-cysteine persulphido L-glutamato L-histidino L-serinyl nickel triiron disulphide trioxide""]"|nickel incorporation into iron-sulfur cluster via tris-L-cysteinyl L-cysteine persulfido L-glutamato L-histidino L-serinyl nickel triiron disulfide trioxide
+|GO_0003295|"[""cell proliferation involved in atrial ventricular junction remodelling"", ""cell proliferation involved in atrio-ventricular junction remodeling"", ""cell proliferation involved in atrio-ventricular junction remodelling"", ""cell proliferation involved in atrioventricular junction remodeling"", ""cell proliferation involved in atrioventricular junction remodelling""]"|cell proliferation involved in atrial ventricular junction remodeling
+|GO_0140043|"[""adiposome localization to forespore membrane leading edge"", ""lipid body localization to forespore membrane leading edge"", ""lipid particle localization to forespore membrane leading edge"", ""adiposome localization to FSM membrane leading edge"", ""adiposome localization to ascospore-type prospore membrane leading edge"", ""lipid body localization to FSM membrane leading edge"", ""lipid body localization to ascospore-type prospore membrane leading edge"", ""lipid particle localization to FSM membrane leading edge"", ""lipid particle localization to ascospore-type prospore membrane leading edge""]"|lipid droplet localization to prospore membrane leading edge
+|GO_0031860|"[""telomere end processing"", ""telomere 3-end processing""]"|telomeric 3 overhang formation
+|GO_0035172|"[""arthropod blood cell proliferation""]"|hemocyte proliferation
+|GO_0006809|"[""nitric oxide anabolism"", ""nitric oxide biosynthesis"", ""nitric oxide formation"", ""nitric oxide synthesis""]"|nitric oxide biosynthetic process
+|GO_0002780||antibacterial peptide biosynthetic process
+|GO_0032886||regulation of microtubule-based process
+|GO_0060480|"[""pulmonary goblet cell differentiation""]"|lung goblet cell differentiation
+|GO_0099072||regulation of postsynaptic membrane neurotransmitter receptor levels
+|GO_0034633|"[""vitamin A1 transport""]"|retinol transport
+|GO_1905604|"[""down-regulation of BBB permeability"", ""down-regulation of blood-brain barrier permeability"", ""down-regulation of blood/brain barrier permeability"", ""downregulation of BBB permeability"", ""downregulation of blood-brain barrier permeability"", ""downregulation of blood/brain barrier permeability"", ""negative regulation of BBB permeability"", ""negative regulation of blood/brain barrier permeability""]"|negative regulation of blood-brain barrier permeability
+|GO_2001233|"[""regulation of apoptotic signalling pathway""]"|regulation of apoptotic signaling pathway
+|GO_0036344||platelet morphogenesis
+|GO_0044651||adhesion of symbiont to host epithelial cell
+|GO_0046221|"[""pyridine breakdown"", ""pyridine catabolism"", ""pyridine degradation""]"|pyridine catabolic process
+|GO_0006148|"[""inosine breakdown"", ""inosine catabolism"", ""inosine degradation""]"|inosine catabolic process
+|GO_0032832|"[""regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell development involved in immune response"", ""regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation during immune response"", ""regulation of CD4-positive, CD25-positive, alpha-beta regulatory T lymphocyte differentiation during immune response"", ""regulation of CD4-positive, CD25-positive, alpha-beta regulatory T-cell differentiation during immune response"", ""regulation of CD4-positive, CD25-positive, alpha-beta regulatory T-lymphocyte differentiation during immune response""]"|regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation involved in immune response
+|GO_1990669|"[""ER-Golgi intermediate compartment derived vesicle fusion with ER membrane"", ""endoplasmic reticulum-Golgi intermediate compartment (ERGIC) derived vesicle fusion with ER membrane""]"|endoplasmic reticulum-Golgi intermediate compartment (ERGIC) derived vesicle fusion with endoplasmic reticulum membrane
+|GO_2000753|"[""positive regulation of glucosylceramide breakdown"", ""positive regulation of glucosylceramide catabolism"", ""positive regulation of glucosylceramide degradation""]"|positive regulation of glucosylceramide catabolic process
+|GO_0160086||protein localization to polar microtubule
+|GO_1901287|"[""FeMo-co breakdown"", ""FeMo-co catabolic process"", ""FeMo-co catabolism"", ""FeMo-co degradation"", ""iron-molybdenum breakdown"", ""iron-molybdenum catabolic process"", ""iron-molybdenum catabolism"", ""iron-molybdenum degradation"", ""iron-sulfur-molybdenum cofactor breakdown"", ""iron-sulfur-molybdenum cofactor catabolism"", ""iron-sulfur-molybdenum cofactor degradation""]"|iron-sulfur-molybdenum cofactor catabolic process
+|GO_0043405|"[""Regulation of MAPK activity"", ""regulation of mitogen activated protein kinase activity"", ""regulation of mitogen-activated protein kinase activity""]"|regulation of MAP kinase activity
+|GO_0030302||deoxynucleotide transport
+|GO_0061064||negative regulation of nematode larval development
+|GO_0033595||response to genistein
+|GO_0003140||determination of left/right asymmetry in lateral mesoderm
+|GO_0051282|"[""regulation of calcium ion (Ca2+) retention"", ""regulation of calcium ion (Ca2+) sequestering"", ""regulation of calcium ion (Ca2+) sequestration"", ""regulation of calcium ion (Ca2+) storage"", ""regulation of retention of calcium ion (Ca2+)"", ""regulation of sequestering of calcium ion (Ca2+)"", ""regulation of sequestration of calcium ion (Ca2+)"", ""regulation of storage of calcium ion (Ca2+)""]"|regulation of sequestering of calcium ion
+|GO_0006546|"[""glycine breakdown"", ""glycine catabolism"", ""glycine degradation""]"|glycine catabolic process
+|GO_0016058|"[""maintenance of rhodopsin mediated signaling"", ""maintenance of rhodopsin mediated signalling""]"|maintenance of membrane potential in photoreceptor cell by rhodopsin mediated signaling
+|GO_0071763|"[""nuclear membrane organization and biogenesis"", ""nuclear membrane organisation""]"|nuclear membrane organization

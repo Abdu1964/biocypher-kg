@@ -44,6 +44,6 @@ def test_check_property_preserves_url(writer):
 def test_check_property_sanitizes_other_text(writer):
     prop = "Some Value (weird) -> end"
     out = writer.check_property(prop)
-    assert "Some_Value" in out  # ensure spaces replaced
+    assert "Some_Value" in out 
     assert "->" not in out
     assert "weird" in out

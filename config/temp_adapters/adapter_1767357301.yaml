@@ -1,0 +1,22 @@
+child_pathway_of:
+  adapter:
+    module: biocypher_metta.adapters.reactome_adapter
+    cls: ReactomeAdapter
+    args:
+      filepath: ./samples/hsa/reactome/ReactomePathwaysRelation.txt
+      label: child_pathway_of
+      taxon_id: 9606
+  outdir: reactome
+  nodes: false
+  edges: true
+parent_pathway_of:
+  adapter:
+    module: biocypher_metta.adapters.reactome_adapter
+    cls: ReactomeAdapter
+    args:
+      filepath: ./samples/hsa/reactome/ReactomePathwaysRelation.txt
+      label: parent_pathway_of
+      taxon_id: 9606
+  outdir: reactome
+  nodes: false
+  edges: true

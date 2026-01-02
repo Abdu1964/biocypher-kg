@@ -1,0 +1,10 @@
+dbvar_variant:
+  adapter:
+    module: biocypher_metta.adapters.dbvar_adapter
+    cls: DBVarVariantAdapter
+    args:
+      filepath: ./samples/hsa/dbvar_sample.vcf.gz
+      label: structural_variant
+  outdir: dbvar
+  nodes: true
+  edges: false
