@@ -4,9 +4,6 @@ from biocypher_metta.metta_writer import MeTTaWriter
 
 class DummyWriter(MeTTaWriter):
     def __init__(self):
-        # Bypass BaseWriter heavy init by setting minimal attributes used by tests
-        # We won't call super().__init__
-        # Set attributes referenced by methods under test
         self.excluded_properties = []
         self.edge_node_types = {}
         self.label_is_ontology = {}
