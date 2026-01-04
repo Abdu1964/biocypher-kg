@@ -4,6 +4,7 @@ import logging
 import platform
 import shutil
 import re
+import os
 from pathlib import Path
 from typing import List, Dict, Optional, Union
 from rich.console import Console
@@ -13,6 +14,7 @@ from questionary import Validator, ValidationError, select, checkbox, text, conf
 import subprocess
 import json
 import gzip
+import tempfile
 
 logger = logging.getLogger(__name__)
 console = Console()
@@ -80,6 +82,45 @@ def find_aux_files(organism: str = None) -> Dict[str, str]:
     elif organism == "fly":
         return {k: v for k, v in files.items() if k.startswith("Fly")}
     return files
+
+
+def _ensure_rnacentral_rfam_three_cols(path: Path) -> None:
+    """Force RNAcentral RFAM annotations into a 3-column TSV to satisfy the adapter.
+
+    Input lines with more than three columns are truncated; missing GO terms fall
+    back to the RFAM accession so unpacking succeeds. Operates in-place on plain
+    or gzipped files.
+    """
+
+    try:
+        if "rnacentral_rfam_annotations" not in path.name:
+            return
+
+        is_gz = path.suffix == ".gz"
+        opener_in = gzip.open if is_gz else open
+        opener_out = gzip.open if is_gz else open
+
+        with tempfile.NamedTemporaryFile("wb", delete=False, dir=str(path.parent), suffix=path.suffix if is_gz else "") as tmp:
+            tmp_path = Path(tmp.name)
+            with opener_in(path, "rt", encoding="utf-8", errors="replace") as src, opener_out(tmp_path, "wt", encoding="utf-8", errors="replace") as out:
+                for line in src:
+                    parts = line.rstrip("\n").split("\t")
+                    if not parts or parts[0].startswith("#"):
+                        continue
+                    rna_id = parts[0]
+                    go_term = parts[1] if len(parts) > 1 else ""
+                    rfam = parts[2] if len(parts) > 2 else (parts[1] if len(parts) > 1 else "")
+                    if not rfam:
+                        continue
+                    if not go_term:
+                        go_term = rfam
+                    rfam_curie = rfam if rfam.startswith("Rfam:") else f"Rfam:{rfam}"
+                    out.write("\t".join([rna_id, go_term, rfam_curie]) + "\n")
+
+        path.unlink(missing_ok=True)
+        tmp_path.replace(path)
+    except Exception:
+        return
 
 def get_available_adapters(config_path: str) -> List[str]:
     try:
@@ -169,201 +210,3 @@ def show_help() -> None:
     - Use the detailed logs option to diagnose problems
     """
     console.print(Panel.fit(help_text, title="Help & Documentation"))
-
-
-
-def check_and_prepare_samples(adapters_config_path: str, selected_adapters: List[str] = None, limit: int = 10000
-) -> List[str]:
-    """Ensure sample files referenced by the adapters config exist.
-    If a sample is missing, attempt to find a download URL in `config/data_source_config.yaml`
-    and run `scripts/download_and_sample.py` to create a sampled file. Returns list of created files.
-    """
-    created = []
-    try:
-        config_path = Path(adapters_config_path)
-        if not config_path.exists():
-            console.print(f"[yellow]Adapters config not found: {config_path}[/]")
-            return created
-        with open(config_path) as f:
-            adapters = yaml.safe_load(f) or {}
-    except Exception as e:
-        console.print(f"[red]Failed to read adapters config: {e}[/]")
-        return created
-
-    data_source = {}
-    try:
-        ds_path = PROJECT_ROOT / "config" / "data_source_config.yaml"
-        if ds_path.exists():
-            with open(ds_path) as f:
-                data_source = yaml.safe_load(f) or {}
-    except Exception:
-        data_source = {}
-
-    def _is_file_sane(path: Path) -> (bool, str):
-        """Level-1 file sanity checks: size>0 and at least one non-blank line.
-        Supports plain text and gzip (.gz) files.
-        Returns (True, "") when sane, or (False, reason).
-        """
-        try:
-            if not path.exists():
-                return False, "file missing"
-
-            if path.is_dir():
-                for child in path.rglob('*'):
-                    if child.is_file():
-                        sane, reason = _is_file_sane(child)
-                        if sane:
-                            return True, "directory contains at least one sane file"
-                return False, "directory contains no sane files"
-
-            size = path.stat().st_size
-            if size == 0:
-                return False, "file size is 0 bytes"
-
-            open_fn = gzip.open if path.suffix == ".gz" else open
-            with open_fn(path, "rt", errors="ignore") as fh:
-                for line in fh:
-                    if line.strip():
-                        return True, ""
-            return False, "no non-blank lines found"
-        except Exception as e:
-            return False, f"exception while validating file: {e}"
-
-    for name, conf in (adapters.items() if isinstance(adapters, dict) else []):
-        if selected_adapters and name not in selected_adapters:
-            continue
-        args = {}
-        try:
-            args = conf.get("adapter", {}).get("args", {}) or {}
-        except Exception:
-            args = {}
-
-        file_fields = []
-        for k, v in args.items():
-            if isinstance(v, str) and ("samples" in v or k.lower().find("file") != -1 or k.lower().find("path") != -1):
-                file_fields.append(v)
-
-        for fp in file_fields:
-            out_path = Path(fp)
-            if not out_path.is_absolute():
-                out_path = PROJECT_ROOT / out_path
-
-            if out_path.exists():
-                sane, reason = _is_file_sane(out_path)
-                if sane:
-                    continue
-                else:
-                    console.print(f"[yellow]Existing sample {out_path} failed sanity check: {reason}. Will attempt to recreate.[/]")
-
-            basename = Path(fp).name
-            url = find_url_for_filename(str(PROJECT_ROOT / "config" / "data_source_config.yaml"), basename)
-
-            if not url:
-                for ds_key in data_source.keys():
-                    if ds_key in name_no_ext or name_no_ext.startswith(ds_key) or ds_key.startswith(name_no_ext):
-                        entry = data_source[ds_key]
-                        url_field = entry.get("url") if isinstance(entry, dict) else entry
-                        if isinstance(url_field, list):
-                            url = url_field[0]
-                        elif isinstance(url_field, dict):
-                            vals = list(url_field.values())
-                            url = vals[0] if vals else None
-                        else:
-                            url = url_field
-                        break
-
-            if not url:
-                console.print(Panel.fit(f"[yellow]Sample for adapter '{name}' is missing: {out_path}[/]"))
-                inp = text(f"Enter input URL or local path to download for '{name}' (leave blank to skip):")
-                val = inp.unsafe_ask()
-                if not val:
-                    console.print(f"[dim]Skipping adapter {name} (no input provided).[/]")
-                    continue
-                url = val
-
-            # run download_and_sample.py
-            cmd = ["python3", str(PROJECT_ROOT / "scripts" / "download_and_sample.py"), "--input", str(url), "--output", str(out_path), "--limit", str(limit)]
-            console.print(Panel.fit(f"[blue]Preparing sample for '{name}' by running download_and_sample.py[/]"))
-            try:
-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, cwd=str(PROJECT_ROOT))
-                for line in proc.stdout:
-                    console.print(f"[dim]{line.rstrip()}[/]")
-                proc.wait()
-
-                def _handle_result(returncode, out_path, attempt_url):
-                    if returncode == 0 and out_path.exists():
-                        sane, reason = _is_file_sane(out_path)
-                        if sane:
-                            console.print(f"[green]Wrote sample file: {out_path}[/]")
-                            created.append(str(out_path))
-                            return True
-                        else:
-                            console.print(f"[red]Sample created but failed sanity check ({reason}): {out_path}[/]")
-                            return False
-                    else:
-                        console.print(f"[red]Failed to create sample for adapter {name} using {attempt_url}[/]")
-                        return False
-
-                success = _handle_result(proc.returncode, out_path, url)
-                if not success:
-                   
-                    alt_inp = text(f"Enter alternate input URL or local path for '{name}' (leave blank to skip):")
-                    alt_val = alt_inp.unsafe_ask()
-                    if not alt_val:
-                        console.print(f"[dim]Skipping adapter {name} (no alternative provided).[/]")
-                    else:
-                        retry_cmd = ["python3", str(PROJECT_ROOT / "scripts" / "download_and_sample.py"), "--input", str(alt_val), "--output", str(out_path), "--limit", str(limit)]
-                        console.print(Panel.fit(f"[blue]Retrying sample preparation for '{name}' with provided input[/]"))
-                        try:
-                            proc2 = subprocess.Popen(retry_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, cwd=str(PROJECT_ROOT))
-                            for line in proc2.stdout:
-                                console.print(f"[dim]{line.rstrip()}[/]")
-                            proc2.wait()
-                            _handle_result(proc2.returncode, out_path, alt_val)
-                        except Exception as e:
-                            console.print(f"[red]Retry failed for {name}: {e}[/]")
-            except Exception as e:
-                console.print(f"[red]Error running download_and_sample for {name}: {e}[/]")
-
-    return created
-
-def find_url_for_filename(config_path: str, filename: str) -> Optional[str]:
-    """
-    Search all URLs in the data_source_config YAML for a URL ending with the given filename.
-    Handles URLs as strings, lists, or dicts.
-    """
-    config_path = Path(config_path)
-    if not config_path.exists():
-        return None
-
-    with open(config_path, "r") as f:
-        config = yaml.safe_load(f)
-
-    for entry in config.values():
-        urls = entry.get("url")
-        if not urls:
-            continue
-        # Handle string
-        if isinstance(urls, str):
-            if urls.strip().endswith(filename):
-                return urls.strip()
-       
-       
-        elif isinstance(urls, list):
-            for u in urls:
-                if isinstance(u, str) and u.strip().endswith(filename):
-                    return u.strip()
-                elif isinstance(u, dict):
-                    for suburl in u.values():
-                        if isinstance(suburl, str) and suburl.strip().endswith(filename):
-                            return suburl.strip()
-        
-        elif isinstance(urls, dict):
-            for suburl in urls.values():
-                if isinstance(suburl, str) and suburl.strip().endswith(filename):
-                    return suburl.strip()
-                elif isinstance(suburl, list):
-                    for u in suburl:
-                        if isinstance(u, str) and u.strip().endswith(filename):
-                            return u.strip()
-    return None

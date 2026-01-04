@@ -29,7 +29,7 @@ def test_normalize_text_preserves_urls(writer):
     label = "Some Label https://example.org/resource (extra)"
     out = writer.normalize_text(label)
     assert "https://example.org/resource" in out
-    assert "some_label" in out  # other text normalized
+    assert "some_label" in out  
 
 
 def test_check_property_preserves_url(writer):

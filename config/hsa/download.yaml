@@ -207,7 +207,7 @@ downloads:
         dest: rna_central/
         local_name: human.GRCh38.bed.gz
         method: http
-      - url: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz
+      - url: http://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/go_annotations/rnacentral_rfam_annotations.tsv.gz
         dest: rna_central/
         local_name: rfam_annotations.tsv.gz
         method: http

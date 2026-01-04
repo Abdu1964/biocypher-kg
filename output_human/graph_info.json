@@ -1,95 +1,88 @@
 {
-  "node_count": 1097,
-  "edge_count": 1335,
+  "node_count": 26448,
+  "edge_count": 246221,
   "dataset_count": 1,
-  "data_size": "0.04 GB",
+  "data_size": "0.05 GB",
   "top_entities": [
     {
-      "name": "gene",
-      "count": 52
-    },
-    {
-      "name": "transcript",
-      "count": 175
-    },
-    {
-      "name": "exon",
-      "count": 870
+      "name": "protein",
+      "count": 26448
     }
   ],
   "top_connections": [
     {
-      "name": "transcribes_to",
-      "count": 175
+      "name": "translates_to",
+      "count": 25159
     },
     {
-      "name": "part_of",
-      "count": 1160
+      "name": "has_xref",
+      "count": 221062
     }
   ],
   "frequent_relationships": [
     {
       "entities": [
-        "gene",
-        "transcript"
+        "transcript",
+        "protein"
       ],
-      "count": 175
+      "count": 25159
     },
     {
       "entities": [
-        "exon",
-        "transcript"
-      ],
-      "count": 580
-    },
-    {
-      "entities": [
-        "exon",
+        "protein",
         "gene"
       ],
-      "count": 580
+      "count": 20198
+    },
+    {
+      "entities": [
+        "protein",
+        "transcript"
+      ],
+      "count": 25159
+    },
+    {
+      "entities": [
+        "protein",
+        "protein"
+      ],
+      "count": 34383
+    },
+    {
+      "entities": [
+        "protein",
+        "biological_process"
+      ],
+      "count": 68869
+    },
+    {
+      "entities": [
+        "protein",
+        "cellular_component"
+      ],
+      "count": 43503
+    },
+    {
+      "entities": [
+        "protein",
+        "molecular_function"
+      ],
+      "count": 28950
     }
   ],
   "schema": {
     "nodes": [
       {
         "data": {
-          "name": "gene",
+          "name": "protein",
           "properties": [
-            "start",
-            "synonym",
-            "end",
-            "gene_name",
+            "accessions",
+            "is_isoform",
             "id",
-            "chr",
-            "gene_type"
-          ]
-        }
-      },
-      {
-        "data": {
-          "name": "transcript",
-          "properties": [
-            "transcript_id",
-            "transcript_name",
-            "gene_name",
-            "id",
-            "transcript_type"
-          ]
-        }
-      },
-      {
-        "data": {
-          "name": "exon",
-          "properties": [
-            "start",
-            "end",
-            "id",
-            "transcript_id",
-            "gene_id",
-            "exon_number",
-            "chr",
-            "exon_id"
+            "isoform_name",
+            "protein_name",
+            "canonical_accession",
+            "is_canonical"
           ]
         }
       }
@@ -97,28 +90,64 @@
     "edges": [
       {
         "data": {
-          "source": "gene",
-          "target": "transcript",
+          "source": "transcript",
+          "target": "protein",
           "possible_connections": [
-            "transcribes_to"
+            "translates_to"
           ]
         }
       },
       {
         "data": {
-          "source": "exon",
-          "target": "transcript",
-          "possible_connections": [
-            "part_of"
-          ]
-        }
-      },
-      {
-        "data": {
-          "source": "exon",
+          "source": "protein",
           "target": "gene",
           "possible_connections": [
-            "part_of"
+            "has_xref"
+          ]
+        }
+      },
+      {
+        "data": {
+          "source": "protein",
+          "target": "transcript",
+          "possible_connections": [
+            "has_xref"
+          ]
+        }
+      },
+      {
+        "data": {
+          "source": "protein",
+          "target": "protein",
+          "possible_connections": [
+            "has_xref"
+          ]
+        }
+      },
+      {
+        "data": {
+          "source": "protein",
+          "target": "biological_process",
+          "possible_connections": [
+            "has_xref"
+          ]
+        }
+      },
+      {
+        "data": {
+          "source": "protein",
+          "target": "cellular_component",
+          "possible_connections": [
+            "has_xref"
+          ]
+        }
+      },
+      {
+        "data": {
+          "source": "protein",
+          "target": "molecular_function",
+          "possible_connections": [
+            "has_xref"
           ]
         }
       }
@@ -126,19 +155,17 @@
   },
   "datasets": [
     {
-      "name": "GENCODE",
-      "version": "v44",
-      "url": "https://www.gencodegenes.org/human/",
+      "name": "UniProt",
+      "version": null,
+      "url": "https://www.uniprot.org/",
       "nodes": [
-        "exon",
-        "gene",
-        "transcript"
+        "protein"
       ],
       "edges": [
-        "transcribes_to",
-        "part_of"
+        "translates_to",
+        "has_xref"
       ],
-      "imported_on": "2025-12-27"
+      "imported_on": "2026-01-04"
     }
   ]
 }

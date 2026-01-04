@@ -89,7 +89,7 @@ rna_central:
   url:
     # bed: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/genome_coordinates/human.GRCh38.bed.gz
     bed: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/genome_coordinates/bed/homo_sapiens.GRCh38.bed.gz
-    rfam: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz
+    rfam: http://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/go_annotations/rnacentral_rfam_annotations.tsv.gz
 dgv:
   name: Database of Genomic Variants
   url: http://dgv.tcag.ca/dgv/docs/GRCh38_hg38_variants_2020-02-25.txt

@@ -12,9 +12,10 @@ from rich.panel import Panel
 from rich.table import Table
 
 # Import from modules
-from modules.utils import *
-from modules.config import *
-from modules.adapters import *
+from .modules.utils import *
+from .modules.config import *
+from .modules.adapters import *
+from .modules.sample_preparation import check_and_prepare_samples
 
 logger = logging.getLogger(__name__)
 
