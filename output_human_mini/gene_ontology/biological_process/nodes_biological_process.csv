@@ -1,0 +1,101 @@
+alternative_ids|id|source|source_url|synonym|term_name
+|GO_2000268|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||positive regulation of blood coagulation, intrinsic pathway
+|GO_0045668|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""down regulation of osteoblast differentiation"", ""down-regulation of osteoblast differentiation"", ""downregulation of osteoblast differentiation""]"|negative regulation of osteoblast differentiation
+"[""GO:0071843""]"|GO_0044085|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""cellular component biogenesis at cellular level""]"|cellular component biogenesis
+|GO_0006851|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""mitochondrial calcium transport""]"|mitochondrial calcium ion transmembrane transport
+|GO_0042885|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||microcin B17 transport
+|GO_0043179|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||rhythmic excitation
+|GO_1903587|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of blood vessel endothelial cell proliferation during sprouting angiogenesis""]"|regulation of blood vessel endothelial cell proliferation involved in sprouting angiogenesis
+|GO_0002487|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""endogenous peptide antigen processing and presentation via MHC class I via endolysosomal pathway""]"|antigen processing and presentation of endogenous peptide antigen via MHC class I via endolysosomal pathway
+|GO_0048638|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||regulation of developmental growth
+|GO_0070474|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""positive regulation of myometrial contraction"", ""positive regulation of myometrial smooth muscle contraction"", ""positive regulation of myometrium contraction"", ""up regulation of uterine smooth muscle contraction"", ""up-regulation of uterine smooth muscle contraction"", ""upregulation of uterine smooth muscle contraction""]"|positive regulation of uterine smooth muscle contraction
+|GO_0062149|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||detection of stimulus involved in sensory perception of pain
+|GO_0015829|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||valine transport
+|GO_0097722|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""sperm movement""]"|sperm motility
+|GO_0000956|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""nuclear mRNA breakdown"", ""nuclear mRNA catabolism"", ""nuclear mRNA degradation""]"|nuclear-transcribed mRNA catabolic process
+|GO_1904918|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""transmembrane L-histidine transport from lysosomal lumen to cytosol""]"|L-histidine transmembrane transport from lysosomal lumen to cytosol
+|GO_0141087|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""positive regulation of inflammasome-mediated signal transduction""]"|positive regulation of inflammasome-mediated signaling pathway
+"[""GO:2001202""]"|GO_0071635|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""negative regulation of TGF-B production"", ""negative regulation of TGF-beta production"", ""negative regulation of TGFB production"", ""negative regulation of TGFbeta production"", ""negative regulation of transforming growth factor-beta production""]"|negative regulation of transforming growth factor beta production
+|GO_0030225|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""macrophage cell differentiation""]"|macrophage differentiation
+"[""GO:0000218"", ""GO:0030462""]"|GO_0000755|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""zygote formation""]"|cytogamy
+|GO_0002834|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of response to tumour cell""]"|regulation of response to tumor cell
+|GO_1901554|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""response to acetaminophen""]"|response to paracetamol
+|GO_0051523|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||cell growth mode switching, monopolar to bipolar
+|GO_0034085|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||establishment of sister chromatid cohesion
+|GO_0035124|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||embryonic caudal fin morphogenesis
+|GO_0034240|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||negative regulation of macrophage fusion
+|GO_0003355|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||cilium movement involved in otolith formation
+|GO_0080148|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||negative regulation of response to water deprivation
+|GO_1901301|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of COPII coat-cargo complex assembly"", ""regulation of cargo loading into COPII vesicle"", ""regulation of cargo selection into COPII-coated vesicle""]"|regulation of cargo loading into COPII-coated vesicle
+"[""GO:0035414""]"|GO_0090090|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""negative regulation of Wnt receptor signaling pathway through beta-catenin"", ""negative regulation of canonical Wnt receptor signaling pathway"", ""negative regulation of canonical Wnt receptor signalling pathway"", ""negative regulation of canonical Wnt-activated signaling pathway""]"|negative regulation of canonical Wnt signaling pathway
+|GO_0140924|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||L-kynurenine transmembrane transport
+|GO_0044617|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""modulation of relaxation of smooth muscle in another organism"", ""modulation of relaxation of smooth muscle in other organism"", ""regulation of relaxation of smooth muscle in other organism""]"|venom-mediated smooth muscle relaxation
+|GO_0046052|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""UTP breakdown"", ""UTP catabolism"", ""UTP degradation"", ""UTP hydrolysis""]"|UTP catabolic process
+|GO_0016073|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""snRNA metabolism""]"|snRNA metabolic process
+|GO_0061016|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||snRNA localization to Cajal body
+|GO_0010755|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||regulation of plasminogen activation
+|GO_0035372|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""protein localisation to microtubule""]"|protein localization to microtubule
+"[""GO:0042033"", ""GO:0050755"", ""GO:0090195""]"|GO_0032602|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""chemokine anabolism"", ""chemokine biosynthesis"", ""chemokine formation"", ""chemokine synthesis""]"|chemokine production
+|GO_1904385|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||cellular response to angiotensin
+"[""GO:0051531"", ""GO:0051532""]"|GO_0070884|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of calcineurin-NFAT signaling pathway"", ""regulation of calcineurin-NFAT signalling cascade""]"|regulation of calcineurin-NFAT signaling cascade
+|GO_0015847|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||putrescine transport
+|GO_1905513|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""down regulation of short-term synaptic potentiation"", ""down regulation of synaptic facilitation"", ""down-regulation of short-term synaptic potentiation"", ""down-regulation of synaptic facilitation"", ""downregulation of short-term synaptic potentiation"", ""downregulation of synaptic facilitation"", ""negative regulation of synaptic facilitation""]"|negative regulation of short-term synaptic potentiation
+|GO_0036036|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||cardiac neural crest cell delamination
+|GO_0010213|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""light-independent DNA repair""]"|non-photoreactive DNA repair
+|GO_0035791|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""PDGF receptor-beta signaling pathway"", ""PDGFR-beta signaling pathway"", ""betaPDGF receptor signaling pathway"", ""platelet-derived growth factor receptor-beta signalling pathway""]"|platelet-derived growth factor receptor-beta signaling pathway
+|GO_1902816|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of protein localisation to microtubule""]"|regulation of protein localization to microtubule
+|GO_0018968|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||tetrahydrofuran catabolic process
+|GO_0043173|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||nucleotide salvage
+|GO_0002410|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||plasmacytoid dendritic cell chemotaxis
+|GO_0071280|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""cellular response to copper""]"|cellular response to copper ion
+|GO_1903704|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""negative regulation of production of siRNA involved in post-transcriptional gene silencing by RNA"", ""negative regulation of siRNA production"", ""down regulation of RNA interference, production of guide RNAs"", ""down regulation of RNA interference, production of siRNA"", ""down regulation of production of guide RNAs involved in RNA interference"", ""down regulation of production of siRNA involved in RNA interference"", ""down-regulation of RNA interference, production of guide RNAs"", ""down-regulation of RNA interference, production of siRNA"", ""down-regulation of production of guide RNAs involved in RNA interference"", ""down-regulation of production of siRNA involved in RNA interference"", ""downregulation of RNA interference, production of guide RNAs"", ""downregulation of RNA interference, production of siRNA"", ""downregulation of production of guide RNAs involved in RNA interference"", ""downregulation of production of siRNA involved in RNA interference"", ""negative regulation of RNA interference, production of guide RNAs"", ""negative regulation of RNA interference, production of siRNA"", ""negative regulation of production of guide RNAs involved in RNA interference"", ""negative regulation of production of siRNA involved in PTGS"", ""negative regulation of production of siRNA involved in RNA interference""]"|negative regulation of siRNA processing
+|GO_0075277|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||positive regulation of telium development
+|GO_0045463|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||R8 cell development
+|GO_2000552|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""negative regulation of Th2 cell cytokine production""]"|negative regulation of T-helper 2 cell cytokine production
+|GO_0034378|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||chylomicron assembly
+|GO_2000263|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||regulation of blood coagulation, extrinsic pathway
+|GO_1900211|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||regulation of mesenchymal cell apoptotic process involved in metanephros development
+|GO_0009167|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""purine ribonucleoside monophosphate metabolism""]"|purine ribonucleoside monophosphate metabolic process
+|GO_0002321|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||natural killer cell progenitor differentiation
+|GO_0033189|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||response to vitamin A
+|GO_0060453|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||regulation of gastric acid secretion
+|GO_0150079|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||negative regulation of neuroinflammatory response
+|GO_0097241|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""hemopoietic stem cell migration to bone marrow""]"|hematopoietic stem cell migration to bone marrow
+|GO_0038105|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||sequestering of TGFbeta from receptor via TGFbeta binding
+|GO_1901334|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""lactone metabolism""]"|lactone metabolic process
+|GO_2001105|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||maltoheptaose transport
+|GO_1905581|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""positive regulation of LDL clearance"", ""up regulation of LDL clearance"", ""up regulation of low-density lipoprotein particle clearance"", ""up-regulation of LDL clearance"", ""up-regulation of low-density lipoprotein particle clearance"", ""upregulation of LDL clearance"", ""upregulation of low-density lipoprotein particle clearance""]"|positive regulation of low-density lipoprotein particle clearance
+|GO_2000068|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of physiological defense response to insect""]"|regulation of defense response to insect
+|GO_0032804|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""down regulation of low-density lipoprotein receptor catabolic process"", ""down-regulation of low-density lipoprotein receptor catabolic process"", ""downregulation of low-density lipoprotein receptor catabolic process"", ""negative regulation of low-density lipoprotein receptor breakdown"", ""negative regulation of low-density lipoprotein receptor catabolic process"", ""negative regulation of low-density lipoprotein receptor catabolism"", ""negative regulation of low-density lipoprotein receptor degradation""]"|negative regulation of low-density lipoprotein particle receptor catabolic process
+|GO_0042104|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""positive regulation of activated T lymphocyte proliferation"", ""positive regulation of activated T-cell proliferation"", ""positive regulation of activated T-lymphocyte proliferation"", ""up regulation of activated T cell proliferation"", ""up-regulation of activated T cell proliferation"", ""upregulation of activated T cell proliferation""]"|positive regulation of activated T cell proliferation
+|GO_0033082|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of extrathymic T cell development""]"|regulation of extrathymic T cell differentiation
+|GO_0038119|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""CCL19-activated CCR7 signalling pathway""]"|CCL19-activated CCR7 signaling pathway
+|GO_1903859|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||regulation of dendrite extension
+|GO_0071348|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""cellular response to IL-11""]"|cellular response to interleukin-11
+|GO_0002247|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""clearance of damaged tissue during inflammatory response""]"|clearance of damaged tissue involved in inflammatory response wound healing
+|GO_0051485|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""terpenoid anabolism, mevalonate-dependent"", ""terpenoid formation, mevalonate-dependent"", ""terpenoid synthesis, mevalonate-dependent""]"|terpenoid biosynthetic process, mevalonate-dependent
+|GO_0001014|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||snoRNA transcription by RNA polymerase III
+|GO_0035201|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||leg disc anterior/posterior lineage restriction
+|GO_0060003|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""copper export""]"|copper ion export
+|GO_0061197|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||fungiform papilla morphogenesis
+|GO_2000497|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||positive regulation of cell proliferation involved in compound eye morphogenesis
+|GO_0021501|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||prechordal plate formation
+|GO_0080052|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||response to histidine
+|GO_0006751|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""glutathione breakdown"", ""glutathione catabolism"", ""glutathione degradation""]"|glutathione catabolic process
+|GO_0035239|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||tube morphogenesis
+"[""GO:0039528""]"|GO_0002753|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""cytoplasmic PRR signaling pathway"", ""cytoplasmic pathogen receptor signaling pathway"", ""cytoplasmic pattern recognition receptor signalling pathway"", ""cytosolic PAMP receptor signaling pathway"", ""cytosolic pattern recognition receptor signaling pathway""]"|cytoplasmic pattern recognition receptor signaling pathway
+|GO_0000098|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""sulfur amino acid breakdown"", ""sulfur amino acid catabolism"", ""sulfur amino acid degradation"", ""sulphur amino acid catabolic process"", ""sulphur amino acid catabolism""]"|sulfur amino acid catabolic process
+|GO_0051493|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of cytoskeleton organization and biogenesis"", ""regulation of cytoskeleton organisation""]"|regulation of cytoskeleton organization
+|GO_0140651|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||futile creatine cycle
+|GO_2000440|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of TLR15 signaling pathway"", ""regulation of toll-like receptor 15 signalling pathway""]"|regulation of toll-like receptor 15 signaling pathway
+"[""GO:0015725""]"|GO_0035429|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""gluconate transport"", ""gluconate membrane transport""]"|gluconate transmembrane transport
+|GO_0070796|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||regulation of cleistothecium development
+|GO_0160030|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||pollen intine formation
+|GO_1902059|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""down regulation of sporocarp development involved in sexual reproduction"", ""down-regulation of sporocarp development involved in sexual reproduction"", ""downregulation of sporocarp development involved in sexual reproduction""]"|negative regulation of sporocarp development involved in sexual reproduction
+|GO_1900834|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""regulation of Variecoxanthone B anabolism"", ""regulation of Variecoxanthone B biosynthesis"", ""regulation of Variecoxanthone B biosynthetic process"", ""regulation of Variecoxanthone B formation"", ""regulation of Variecoxanthone B synthesis"", ""regulation of emericellin anabolism"", ""regulation of emericellin biosynthesis"", ""regulation of emericellin formation"", ""regulation of emericellin synthesis""]"|regulation of emericellin biosynthetic process
+|GO_0006061|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""sorbitol anabolism"", ""sorbitol biosynthesis"", ""sorbitol formation"", ""sorbitol synthesis""]"|sorbitol biosynthetic process
+|GO_0045004|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||DNA replication proofreading
+|GO_1900634|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""pentadecane anabolism"", ""pentadecane biosynthesis"", ""pentadecane formation"", ""pentadecane synthesis""]"|pentadecane biosynthetic process
+|GO_1900322|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""down regulation of maltotetraose transport"", ""down-regulation of maltotetraose transport"", ""downregulation of maltotetraose transport""]"|negative regulation of maltotetraose transport
+|GO_0010938|Gene Ontology|http://purl.obolibrary.org/obo/go.owl||cytoplasmic microtubule depolymerization
+|GO_0072596|Gene Ontology|http://purl.obolibrary.org/obo/go.owl|"[""establishment of protein localisation to chloroplast""]"|establishment of protein localization to chloroplast

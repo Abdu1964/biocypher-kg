@@ -1,0 +1,79 @@
+chr|end|gene_name|gene_type|id|old_gene_name|source|source_url|start|synonym
+chr1|24894|DDX11L16|lncRNA|ENSG00000290825||GENCODE|https://www.gencodegenes.org/human/|11121|"[""HGNC:37102"", ""DEAD/H (Asp-Glu-Ala-Asp/His) box polypeptide 11 like 1"", ""DEAD/H box polypeptide 11 like 1"", ""DEAD/H (Asp-Glu-Ala-Asp/His) box helicase 11 like 1"", ""DEAD/H-box helicase 11 like 1 (pseudogene)"", ""DDX11L1""]"
+chr1|13670|DDX11L1|transcribed_unprocessed_pseudogene|ENSG00000223972||GENCODE|https://www.gencodegenes.org/human/|12010|
+chr1|30744|WASH7P|lncRNA|ENSG00000310526||GENCODE|https://www.gencodegenes.org/human/|14356|
+chr1|24886|WASH7P|transcribed_unprocessed_pseudogene|ENSG00000227232||GENCODE|https://www.gencodegenes.org/human/|14696|
+chr1|17436|MIR6859-1|miRNA|ENSG00000278267||GENCODE|https://www.gencodegenes.org/human/|17369|"[""microRNA mir-6859-1"", ""hsa-mir-6859-1"", ""MIR6859-1"", ""microRNA 6859-1"", ""HGNC:50039""]"
+chr1|31109|MIR1302-2HG|lncRNA|ENSG00000243485||GENCODE|https://www.gencodegenes.org/human/|28589|
+chr1|30503|MIR1302-2|miRNA|ENSG00000284332||GENCODE|https://www.gencodegenes.org/human/|30366|"[""MIRN1302-2"", ""HGNC:35294"", ""microRNA 1302-2"", ""hsa-mir-1302-2"", ""MIR1302-2""]"
+chr1|37595|FAM138A|lncRNA|ENSG00000237613||GENCODE|https://www.gencodegenes.org/human/|34553|"[""HGNC:32334"", ""F379"", ""chromosome 1 F379 retina specific protein"", ""family with sequence similarity 138 member A"", ""F379 retina-specific protein"", ""FAM138A"", ""FAM138F""]"
+chr1|40778|unknown|lncRNA|ENSG00000308361||GENCODE|https://www.gencodegenes.org/human/|36526|
+chr1|64116|unknown|lncRNA|ENSG00000290826||GENCODE|https://www.gencodegenes.org/human/|51891|
+chr1|53312|OR4G4P|transcribed_unprocessed_pseudogene|ENSG00000268020||GENCODE|https://www.gencodegenes.org/human/|52473|"[""OR4G4P"", ""olfactory receptor family 4 subfamily G member 4 pseudogene"", ""HGNC:14822""]"
+chr1|63887|OR4G11P|transcribed_unprocessed_pseudogene|ENSG00000240361||GENCODE|https://www.gencodegenes.org/human/|62949|"[""HGNC:31276"", ""olfactory receptor family 4 subfamily G member 11 pseudogene"", ""OR4G11P""]"
+chr1|71585|OR4F5|protein_coding|ENSG00000186092||GENCODE|https://www.gencodegenes.org/human/|65419|"[""OR4F5"", ""HGNC:14825"", ""olfactory receptor 4F5"", ""olfactory receptor family 4 subfamily F member 5""]"
+chr1|181719|unknown|lncRNA|ENSG00000241860||GENCODE|https://www.gencodegenes.org/human/|89295|
+chr1|91105|unknown|lncRNA|ENSG00000239945||GENCODE|https://www.gencodegenes.org/human/|89551|
+chr1|105742|unknown|lncRNA|ENSG00000308314||GENCODE|https://www.gencodegenes.org/human/|96638|
+chr1|134836|CICP27|processed_pseudogene|ENSG00000233750||GENCODE|https://www.gencodegenes.org/human/|131025|"[""capicua transcriptional repressor pseudogene 27"", ""capicua homolog pseudogene"", ""HGNC:48835"", ""CICP27""]"
+chr1|136246|unknown|lncRNA|ENSG00000308579||GENCODE|https://www.gencodegenes.org/human/|134914|
+chr1|135895|unknown|transcribed_processed_pseudogene|ENSG00000268903||GENCODE|https://www.gencodegenes.org/human/|135141|
+chr1|137965|unknown|transcribed_processed_pseudogene|ENSG00000269981||GENCODE|https://www.gencodegenes.org/human/|137682|
+chr1|140339|unknown|lncRNA|ENSG00000239906||GENCODE|https://www.gencodegenes.org/human/|139790|
+chr1|199861|unknown|lncRNA|ENSG00000310528||GENCODE|https://www.gencodegenes.org/human/|146386|
+chr1|157887|RNU6-1100P|snRNA|ENSG00000222623||GENCODE|https://www.gencodegenes.org/human/|157784|"[""HGNC:48063"", ""RNA, U6 small nuclear 1100, pseudogene"", ""RNU6-1100P""]"
+chr1|161525|unknown|lncRNA|ENSG00000241599||GENCODE|https://www.gencodegenes.org/human/|160446|
+chr1|184937|DDX11L2|lncRNA|ENSG00000308415||GENCODE|https://www.gencodegenes.org/human/|180931|
+chr1|201244|WASH9P|lncRNA|ENSG00000310527||GENCODE|https://www.gencodegenes.org/human/|182146|
+chr1|184174|DDX11L17|transcribed_unprocessed_pseudogene|ENSG00000279928||GENCODE|https://www.gencodegenes.org/human/|182696|
+chr1|195411|WASH9P|transcribed_unprocessed_pseudogene|ENSG00000279457||GENCODE|https://www.gencodegenes.org/human/|185217|
+chr1|187958|MIR6859-2|miRNA|ENSG00000273874||GENCODE|https://www.gencodegenes.org/human/|187891|
+chr1|199882|unknown|lncRNA|ENSG00000308625||GENCODE|https://www.gencodegenes.org/human/|199108|
+chr1|201629|unknown|lncRNA|ENSG00000308544||GENCODE|https://www.gencodegenes.org/human/|199948|
+chr1|359681|unknown|lncRNA|ENSG00000292994||GENCODE|https://www.gencodegenes.org/human/|257864|
+chr1|259024|unknown|transcribed_processed_pseudogene|ENSG00000228463||GENCODE|https://www.gencodegenes.org/human/|258568|"[""RPL23AP21"", ""ribosomal protein L23a pseudogene 21"", ""RPL23A_1_1"", ""HGNC:35827""]"
+chr1|266103|unknown|lncRNA|ENSG00000306775||GENCODE|https://www.gencodegenes.org/human/|258696|
+chr1|284291|unknown|lncRNA|ENSG00000286448||GENCODE|https://www.gencodegenes.org/human/|266753|
+chr1|348366|RPL23AP24|transcribed_processed_pseudogene|ENSG00000236679||GENCODE|https://www.gencodegenes.org/human/|347982|"[""RPL23AP24"", ""HGNC:36176"", ""ribosomal protein L23a pseudogene 24"", ""RPL23A_1_2""]"
+chr1|366052|unknown|lncRNA|ENSG00000236601||GENCODE|https://www.gencodegenes.org/human/|356138|
+chr1|532459|unknown|lncRNA|ENSG00000290385||GENCODE|https://www.gencodegenes.org/human/|365127|
+chr1|440232|WBP1LP7|processed_pseudogene|ENSG00000269732||GENCODE|https://www.gencodegenes.org/human/|439870|
+chr1|451678|OR4F29|protein_coding|ENSG00000284733||GENCODE|https://www.gencodegenes.org/human/|450740|"[""seven transmembrane helix receptor"", ""OR4F29"", ""olfactory receptor OR7-21"", ""olfactory receptor family 4 subfamily F member 29"", ""olfactory receptor 4F3/4F16/4F29"", ""OR7-21"", ""HGNC:31275"", ""olfactory receptor OR1-1""]"
+chr1|485208|unknown|transcribed_unprocessed_pseudogene|ENSG00000237094||GENCODE|https://www.gencodegenes.org/human/|485026|
+chr1|489906|CICP7|transcribed_processed_pseudogene|ENSG00000233653||GENCODE|https://www.gencodegenes.org/human/|487101|
+chr1|493241|unknown|unprocessed_pseudogene|ENSG00000250575||GENCODE|https://www.gencodegenes.org/human/|491225|
+chr1|516479|RNU6-50P|snRNA|ENSG00000278757|U6|GENCODE|https://www.gencodegenes.org/human/|516376|"[""LOC124904706""]"
+chr1|633129|unknown|lncRNA|ENSG00000293331||GENCODE|https://www.gencodegenes.org/human/|586054|
+chr1|827989|LINC00115|lncRNA|ENSG00000225880||GENCODE|https://www.gencodegenes.org/human/|586945|
+chr1|595116|unknown|lncRNA|ENSG00000235146||GENCODE|https://www.gencodegenes.org/human/|587577|
+chr1|629433|MTND1P23|unprocessed_pseudogene|ENSG00000225972||GENCODE|https://www.gencodegenes.org/human/|629062|"[""HGNC:42092"", ""NADH dehydrogenase subnit 1"", ""MTND1P23"", ""mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 1 pseudogene 23"", ""MT-ND1 pseudogene 23""]"
+chr1|630683|MTND2P28|unprocessed_pseudogene|ENSG00000225630||GENCODE|https://www.gencodegenes.org/human/|629640|"[""mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 2 pseudogene 28"", ""HGNC:42129"", ""MTND2P28"", ""MT-ND2 pseudogene 28""]"
+chr1|632616|MTCO1P12|unprocessed_pseudogene|ENSG00000237973||GENCODE|https://www.gencodegenes.org/human/|631074|"[""MT-CO1 pseudogene 12"", ""MTCO1P12"", ""HGNC:52014"", ""mitochondrially encoded cytochrome c oxidase I pseudogene 12""]"
+chr1|632413|unknown|miRNA|ENSG00000278791||GENCODE|https://www.gencodegenes.org/human/|632325|
+chr1|633438|MTCO2P12|unprocessed_pseudogene|ENSG00000229344||GENCODE|https://www.gencodegenes.org/human/|632757|"[""cytochrome C oxidase II subunit"", ""COII"", ""HGNC:52028"", ""mitochondrially encoded cytochrome c oxidase II pseudogene 12"", ""Cytochrome c oxidase subunit 2"", ""MTCO2P12"", ""MTCO2"", ""MT-CO2 pseudogene 12"", ""MT-CO2"", ""COXII"", ""COX2"", ""sarcoma antigen NY-SAR-71"", ""cytochrome c oxidase subunit II"", ""Cytochrome c oxidase polypeptide II""]"
+chr1|633741|MTATP8P1|unprocessed_pseudogene|ENSG00000240409||GENCODE|https://www.gencodegenes.org/human/|633535|"[""HGNC:44571"", ""MTATP8P1"", ""mitochondrially encoded ATP synthase 8 pseudogene 1"", ""MT-ATP8 pseudogene 1""]"
+chr1|634376|MTATP6P1|unprocessed_pseudogene|ENSG00000248527||GENCODE|https://www.gencodegenes.org/human/|633696|"[""MT-ATP6 pseudogene 1"", ""mitochondrially encoded ATP synthase 6 pseudogene 1"", ""ATP synthase 6"", ""MTATP6P1"", ""HGNC:44575""]"
+chr1|634922|MTCO3P12|unprocessed_pseudogene|ENSG00000198744||GENCODE|https://www.gencodegenes.org/human/|634376|"[""MT-CO3 pseudogene 12"", ""mitochondrially encoded cytochrome c oxidase III pseudogene 12"", ""MTCO3P12"", ""HGNC:52042""]"
+chr1|675265|WBP1LP6|processed_pseudogene|ENSG00000268663||GENCODE|https://www.gencodegenes.org/human/|674842|
+chr1|686654|OR4F16|protein_coding|ENSG00000284662||GENCODE|https://www.gencodegenes.org/human/|685716|"[""olfactory receptor 4F3/4F16/4F29"", ""olfactory receptor family 4 subfamily F member 16"", ""olfactory receptor OR4F16"", ""olfactory receptor OR7-21"", ""OR4F16"", ""OR1-1"", ""HGNC:15079"", ""OR7-21"", ""olfactory receptor OR1-1""]"
+chr1|720206|unknown|transcribed_processed_pseudogene|ENSG00000230021||GENCODE|https://www.gencodegenes.org/human/|720024|"[""LOC101928626""]"
+chr1|724903|CICP3|processed_pseudogene|ENSG00000229376||GENCODE|https://www.gencodegenes.org/human/|722092|
+chr1|758336|RNU6-1199P|snRNA|ENSG00000223181||GENCODE|https://www.gencodegenes.org/human/|758233|"[""HGNC:48162"", ""RNA, U6 small nuclear 1199, pseudogene"", ""RNU6-1199P""]"
+chr1|761989|unknown|lncRNA|ENSG00000229905||GENCODE|https://www.gencodegenes.org/human/|760911|
+chr1|774280|unknown|transcribed_unprocessed_pseudogene|ENSG00000228327||GENCODE|https://www.gencodegenes.org/human/|764723|
+chr1|810066|LINC01409|lncRNA|ENSG00000237491||GENCODE|https://www.gencodegenes.org/human/|778739|
+chr1|782050|unknown|transcribed_processed_pseudogene|ENSG00000285268||GENCODE|https://www.gencodegenes.org/human/|781937|
+chr1|810161|unknown|transcribed_unprocessed_pseudogene|ENSG00000230092||GENCODE|https://www.gencodegenes.org/human/|805799|
+chr1|819842|FAM87B|lncRNA|ENSG00000177757||GENCODE|https://www.gencodegenes.org/human/|817363|"[""HGNC:32236"", ""family with sequence similarity 87 member B"", ""FAM87B""]"
+chr1|868835|LINC01128|lncRNA|ENSG00000228794||GENCODE|https://www.gencodegenes.org/human/|825138|"[""LINC01128"", ""HGNC:49377"", ""long intergenic non-protein coding RNA 1128"", ""RP11-206L10.11""]"
+chr1|835618|unknown|lncRNA|ENSG00000297178||GENCODE|https://www.gencodegenes.org/human/|833098|
+chr1|852130|unknown|lncRNA|ENSG00000297224||GENCODE|https://www.gencodegenes.org/human/|850902|
+chr1|877032|FAM41C|lncRNA|ENSG00000230368||GENCODE|https://www.gencodegenes.org/human/|868052|"[""family with sequence similarity 41 member C"", ""Putative protein FAM41C"", ""FAM41C"", ""HGNC:27635""]"
+chr1|874349|TUBB8P11|unprocessed_pseudogene|ENSG00000234711||GENCODE|https://www.gencodegenes.org/human/|873292|"[""TUBB8P11"", ""HGNC:32337"", ""tubulin beta 8 class VIII pseudogene 11"", ""TUBB4Q pseudogene""]"
+chr1|877234|unknown|transcribed_unprocessed_pseudogene|ENSG00000283040||GENCODE|https://www.gencodegenes.org/human/|874529|
+chr1|889297|unknown|lncRNA|ENSG00000296088||GENCODE|https://www.gencodegenes.org/human/|882161|
+chr1|921034|unknown|lncRNA|ENSG00000272438||GENCODE|https://www.gencodegenes.org/human/|904786|
+chr1|910592|unknown|lncRNA|ENSG00000298603||GENCODE|https://www.gencodegenes.org/human/|908073|
+chr1|925614|LINC02593|lncRNA|ENSG00000223764||GENCODE|https://www.gencodegenes.org/human/|916865|"[""long intergenic non-protein coding RNA 2593"", ""HGNC:53933"", ""LINC02593""]"
+chr1|944575|SAMD11|protein_coding|ENSG00000187634||GENCODE|https://www.gencodegenes.org/human/|923923|"[""sterile alpha motif domain containing 11"", ""MRS"", ""SAMD11"", ""SAM domain-containing protein 11"", ""HGNC:28706"", ""sterile alpha motif domain-containing protein 11""]"
+chr1|960714|NOC2L|protein_coding|ENSG00000188976||GENCODE|https://www.gencodegenes.org/human/|943527|"[""protein NOC2 homolog"", ""NOC2L nucleolar associated transcriptional repressor"", ""NOC2-like protein"", ""novel INHAT repressor"", ""NOC2 like nucleolar associated transcriptional repressor"", ""novel INHAT (inhibitor of histone acetyltransferase) repressor"", ""NOC2L"", ""PPP1R112"", ""NET15"", ""NET7"", ""nucleolar complex associated 2 homolog"", ""protein phosphatase 1, regulatory subunit 12"", ""NIR"", ""nucleolar complex protein 2 homolog"", ""HGNC:24517""]"

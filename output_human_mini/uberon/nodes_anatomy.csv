@@ -1,0 +1,102 @@
+alternative_ids|id|source|source_url|synonym|term_name
+|UBERON_0001314|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""arteria obturatoria""]"|obturator artery
+|UBERON_0004047|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""cisterna interpeduncularis"", ""interpeduncular cistern""]"|basal cistern
+|UBERON_0007198|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""hermaphrodite-specific""]"|hermaphrodite anatomical structure
+|UBERON_3000798|UBERON|http://purl.obolibrary.org/obo/uberon.owl||presacral shield
+|UBERON_0004952|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""bronchiole submucosa""]"|submucosa of bronchiole
+|UBERON_0004702|UBERON|http://purl.obolibrary.org/obo/uberon.owl||respiratory system blood vessel endothelium
+|UBERON_0014775|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""future prosencephalon"", ""forebrain neuromere""]"|prosomere
+|UBERON_2005340|UBERON|http://purl.obolibrary.org/obo/uberon.owl||nucleus of the posterior recess
+|UBERON_0014907|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""intersegmental vessel"", ""intersegmental vessels"", ""intersomitic blood vessel"", ""intersomitic vessels"", ""segmental vessel""]"|intersomitic vessel
+|UBERON_3010683|UBERON|http://purl.obolibrary.org/obo/uberon.owl||distal-most prepollical element
+|UBERON_0002589|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""corticospinal tract, crossed"", ""crossed corticospinal tract"", ""fasciculus cerebrospinalis lateralis"", ""lateral corticospinal tract"", ""lateral corticospinal tract of the medulla"", ""tractus corticospinalis (pyramidalis) lateralis"", ""tractus corticospinalis lateralis"", ""corticospinal tract, crossed"", ""crossed pyramidal tract"", ""lateral pyramidal tract"", ""pyramidal tract, crossed""]"|lateral corticospinal tract
+|UBERON_0009853|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""corpus uteri"", ""uterine body"", ""uterine corpus""]"|body of uterus
+|UBERON_0006699|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""f. caecum linguae"", ""Morands foramen"", ""Morgagni foramen"", ""blind foramen of tongue"", ""cecal foramen of tongue"", ""ductus lingualis"", ""foramen caecum linguae"", ""foramen cecum of tongue"", ""foramen of Morgagni""]"|foramen cecum of tongue
+|UBERON_0010700|UBERON|http://purl.obolibrary.org/obo/uberon.owl||phalanx pre-cartilage condensation
+|UBERON_8490042|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""ADA tooth J"", ""FDI tooth 65"", ""left upper second primary molar tooth""]"|left upper second primary molar tooth
+|UBERON_3000193|UBERON|http://purl.obolibrary.org/obo/uberon.owl||foramen perilymphaticum accessorium
+|UBERON_0003426|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""adipose tissue of dermis"", ""dermis fat tissue"", ""dermis fatty tissue"", ""fat tissue of dermis"", ""fatty tissue of dermis""]"|dermis adipose tissue
+|UBERON_0004632|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""T7 vertebra"", ""seventh dorsal vertebra"", ""seventh thoracic vertebra""]"|thoracic vertebra 7
+|UBERON_8490002|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""ADA tooth 3"", ""FDI tooth 16"", ""right upper first secondary molar tooth""]"|right upper first secondary molar tooth
+|UBERON_0002194|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""capsula nodi lymphoidei"", ""lymph node capsule""]"|capsule of lymph node
+|UBERON_2000703|UBERON|http://purl.obolibrary.org/obo/uberon.owl||ventral motor nucleus trigeminal nerve
+|UBERON_0018134|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""folded ridge of skin of scrotum"", ""scrotal rugae""]"|rugal fold of scrotum
+|UBERON_8480015|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""pelvic-rectal space""]"|supra levator space
+|UBERON_8410002|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""lymphatic vessel of small intestine""]"|small intestine lymphatic vessel
+|UBERON_2002258|UBERON|http://purl.obolibrary.org/obo/uberon.owl||trituration tooth
+|UBERON_0000373|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""tapetum corporis callosi""]"|tapetum of corpus callosum
+|UBERON_0004879|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""margins""]"|marginal zone of embryo
+|UBERON_3000977|UBERON|http://purl.obolibrary.org/obo/uberon.owl||body external integument structure
+|UBERON_6007020|UBERON|http://purl.obolibrary.org/obo/uberon.owl||insect metatarsus of male prothoracic leg
+|UBERON_0014778|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""group of cells""]"|cell group
+|UBERON_0006796|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""optic lobe""]"|cephalopod optic lobe
+|UBERON_0002648|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""eminentia mediana anterior""]"|anterior median eminence
+|UBERON_4200001|UBERON|http://purl.obolibrary.org/obo/uberon.owl||postpubis
+"[""UBERON:0005713""]"|UBERON_0003842|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""central lumen"", ""neural lumen"", ""neurocoel"", ""cavity of neural tube"", ""lumen of neural tube"", ""neural tube neural lumen""]"|neural tube lumen
+|UBERON_3000052|UBERON|http://purl.obolibrary.org/obo/uberon.owl||braincase and otic capsule skeleton
+|UBERON_0005105|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""caudal mesonephric tubule""]"|posterior mesonephric tubule
+|UBERON_4300139|UBERON|http://purl.obolibrary.org/obo/uberon.owl||posterolingual region
+|UBERON_0002693|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""lateral occipito -temporal sulcus"", ""sulcus occipitotemporalis"", ""sulcus temporalis inferior (Roberts)"", ""inferior temporal fissure"", ""inferior temporal fissure (Crosby)"", ""inferior temporal sulcus (roberts)"", ""inferior temporal sulcus (szikla)"", ""inferior temporal sulcus-2"", ""lateral occipitotemporal sulcus"", ""occipito-temporal sulcus"", ""third temporal sulcus""]"|occipitotemporal sulcus
+|UBERON_8600104|UBERON|http://purl.obolibrary.org/obo/uberon.owl||intervertebral vein
+|UBERON_3010239|UBERON|http://purl.obolibrary.org/obo/uberon.owl||subocular groove
+|UBERON_0038934|UBERON|http://purl.obolibrary.org/obo/uberon.owl||superior deep lateral cervical lymph node
+|UBERON_0011287|UBERON|http://purl.obolibrary.org/obo/uberon.owl||rostral organ
+|UBERON_2002256|UBERON|http://purl.obolibrary.org/obo/uberon.owl||blind side
+|UBERON_3000036|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""processus basalis""]"|basal process of palatoquadrate
+|UBERON_0002949|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""tectospinal pathway"", ""tectospinal tract"", ""tectospinal tract of the medulla"", ""tractus tectospinalis"", ""Helds bundle"", ""tectospinal pathway""]"|tectospinal tract
+|UBERON_0039163|UBERON|http://purl.obolibrary.org/obo/uberon.owl||lateral sacral lymph node
+|UBERON_0018608|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""first permanent molar"", ""first permanent molar tooth"", ""permanent first molar tooth""]"|permanent molar tooth 1
+|UBERON_2000033|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""ICM"", ""intermediate cell mass of Oellacher"", ""posterior intermediate cell mass""]"|intermediate cell mass of mesoderm
+|UBERON_0011582|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""limb/fin skeleton"", ""skeletal parts of limb/fin"", ""skeleton of limb/fin""]"|paired limb/fin skeleton
+|UBERON_0005853|UBERON|http://purl.obolibrary.org/obo/uberon.owl||sacral spinal cord ventral column
+|UBERON_0002270|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""Cloquets canal"", ""Cloquets canal"", ""central artery of retina"", ""hyaloid arteries"", ""arteria hyaloidea""]"|hyaloid artery
+|UBERON_4300248|UBERON|http://purl.obolibrary.org/obo/uberon.owl||fused hypural 1 and 2
+|UBERON_0004736|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""glomerulus of metanephros""]"|metanephric glomerulus
+|UBERON_0028424|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""ongur, price, and ferry (2003) area 32""]"|Ongur, Price, and Ferry (2003) area 32
+|UBERON_0001382|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""musculus pectineus"", ""M. pectineus"", ""pectineus""]"|pectineus muscle
+|UBERON_2000507|UBERON|http://purl.obolibrary.org/obo/uberon.owl||epineural
+|UBERON_0015053|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""humerus element""]"|humerus endochondral element
+|UBERON_0007247|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""superior olivary complex nucleus""]"|nucleus of superior olivary complex
+|UBERON_0006322|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""musculus rectus inferior bulbi"", ""ventral recti"", ""ventral rectus"", ""inferior rectus"", ""inferior rectus muscle"", ""m. rectus inferior"", ""musculus rectus inferior"", ""ventral rectus extraocular muscle""]"|inferior rectus extraocular muscle
+|UBERON_0001614|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""arteria temporalis superficialis""]"|superficial temporal artery
+|UBERON_2002282|UBERON|http://purl.obolibrary.org/obo/uberon.owl||preopercle-opercle joint
+|UBERON_0000166|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""mouth"", ""oral part of face"", ""oral fissure"", ""oral orifice""]"|oral opening
+|UBERON_3010168|UBERON|http://purl.obolibrary.org/obo/uberon.owl||tarsal fringe
+|UBERON_0005485|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""valve of the inferior vena cava"", ""valvula venae cavae inferioris"", ""eustachean valve"", ""eustachian valve"", ""inferior vena cava valve""]"|valve of inferior vena cava
+|UBERON_0018111|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""muscular coat of rectum"", ""muscularis externa of rectum"", ""rectal muscularis propria"", ""tunica muscularis (rectum)"", ""tunica muscularis recti""]"|muscle layer of rectum
+|UBERON_0038734|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""visceral para-aortic lymph node"", ""visceral pre-aortic node"", ""visceral preaortic lymph node""]"|visceral pre-aortic lymph node
+|UBERON_0002290|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""4th ventricle choroid plexus"", ""chorioid plexus of cerebral hemisphere of fourth ventricle"", ""chorioid plexus of fourth ventricle"", ""choroid plexus fourth ventricle"", ""fourth ventricle chorioid plexus of cerebral hemisphere"", ""fourth ventricle choroid plexus""]"|choroid plexus of fourth ventricle
+|UBERON_0005243|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""interventricular septum endocardial tissue"", ""endocardium of interventricular septum""]"|interventricular septum endocardium
+|UBERON_0007312|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""arteriae pudendae"", ""arteriae pudendales""]"|pudendal artery
+|UBERON_0015222|UBERON|http://purl.obolibrary.org/obo/uberon.owl||ventral nasal meatus
+|UBERON_0003923|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""dorsal pancreas anlage"", ""dorsal pancreatic anlage"", ""posterior pancreatic anlage"", ""posterior pancreatic bud"", ""pancreas dorsal primordium duct bud"", ""pancreas primordium dorsal bud"", ""primary pancreatic bud""]"|dorsal pancreatic bud
+|UBERON_0008290|UBERON|http://purl.obolibrary.org/obo/uberon.owl||afterfeather
+|UBERON_2001183|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""stratum laxum""]"|dermal superficial region
+|UBERON_0001505|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""coracobrachialis muscle"", ""musculus coracobrachialis"", ""Pirogoffs aponeurosis"", ""coracobrachial"", ""coracobrachialis""]"|coracobrachialis muscle
+|UBERON_0013136|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""labial vein"", ""labial vein of face"", ""lip vein"", ""vena labialis""]"|vein of lip
+|UBERON_0011683|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""adductor mandibulae complex"", ""levator mandibulae"", ""dorsal adductor mandibulae"", ""m. adductor mandibulae""]"|adductor mandibulae
+|UBERON_0003058|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""ipochord"", ""subnotochordal rod""]"|hypochord
+|UBERON_0016484|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""subgingival plaque""]"|subgingival dental plaque
+|UBERON_0014570|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""alveus of the CA1 field""]"|CA1 alveus
+|UBERON_0015017|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""incus element""]"|incus endochondral element
+|UBERON_0014735|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""paleocortex"", ""paleocortex (Zilles)"", ""palaeocortex"", ""paleocortex (semicortex)""]"|paleocortex
+|UBERON_0004937|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""pyloric part of stomach submucosa"", ""pyloric submucosa"", ""pylorus submucosa"", ""stomach pyloric region submucosa"", ""submucosa of pyloric part of stomach"", ""submucosa of stomach pyloric region""]"|submucosa of pylorus
+|UBERON_0008946|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""parenchyma of lung"", ""pulmonary parenchyma"", ""respiratory portion of lung""]"|lung parenchyma
+|UBERON_0002029|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""biliary epithelium"", ""epithelial tissue of gall bladder"", ""epithelial tissue of gallbladder"", ""epithelium of gallbladder"", ""gall bladder epithelial tissue"", ""gall bladder epithelium"", ""gallbladder epithelial tissue"", ""gallbladder epithelium""]"|epithelium of gall bladder
+|UBERON_0016538|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""gray matter of temporal lobe"", ""cortex of temporal lobe"", ""temporal lobe cortex"", ""temporal neocortex""]"|temporal cortex
+|UBERON_0006726|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""lateral angle of eye"", ""lateral canthus"", ""outer canthi"", ""temporal canthus"", ""lateral canthus of eye"", ""lateral palpebral commissure""]"|outer canthus
+|UBERON_0036216|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""jacobson%27s nerve"", ""nerve of jacobson"", ""tympanic"", ""tympanic branch"", ""tympanic branch of the glossopharyngeal""]"|tympanic nerve
+|UBERON_0008800|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""distal endoderm""]"|parietal endoderm
+|UBERON_0012136|UBERON|http://purl.obolibrary.org/obo/uberon.owl||prehallux
+|UBERON_0014381|UBERON|http://purl.obolibrary.org/obo/uberon.owl||whorl of hair
+|UBERON_0022776|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""composite part spanning multiple base regional parts of brain""]"|composite part spanning multiple base regional parts of brain
+|UBERON_0005983|UBERON|http://purl.obolibrary.org/obo/uberon.owl||heart layer
+|UBERON_0006599|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""future hypochord""]"|presumptive hypochord
+|UBERON_0036164|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""AG"", ""limen insula"", ""ambiens gyrus"", ""gyrus ambiens""]"|ambient gyrus
+|UBERON_0014863|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""veliger""]"|veliger stage
+|UBERON_0008948|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""cranial lobe of lung"", ""lobus superior"", ""lobus superior pulmonis"", ""superior lobe of lung""]"|upper lobe of lung
+|UBERON_2001431|UBERON|http://purl.obolibrary.org/obo/uberon.owl||primitive olfactory epithelium
+|UBERON_2002175|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""ROLE"", ""rostral cranial nerve VIII motor nucleus""]"|rostral octaval nerve motor nucleus
+|UBERON_0003224|UBERON|http://purl.obolibrary.org/obo/uberon.owl||chorion syncytiotrophoblast
+|UBERON_0013118|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""cerebral sulci"", ""cerebral sulcus"", ""cerebral sulci""]"|sulcus of brain
+|UBERON_0000401|UBERON|http://purl.obolibrary.org/obo/uberon.owl|"[""lower ramus"", ""rami mandibulae"", ""ramus mandibulae"", ""mandible ramus"", ""ramus of mandible""]"|mandibular ramus

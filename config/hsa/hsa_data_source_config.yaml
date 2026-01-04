@@ -5,8 +5,7 @@ roadmap:
 
 gencode:
   name: GENCODE v49
-  url: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/gencode.v49.annotation.gtf.gz
-
+  url: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/gencode.v49.annotation.gtf.gz 
 uniprot:
   name: UniProtKB/Swiss-Prot
   url:  https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/taxonomic_divisions/uniprot_sprot_human.dat.gz

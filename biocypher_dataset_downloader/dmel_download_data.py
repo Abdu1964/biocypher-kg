@@ -306,9 +306,9 @@ def download_data(output_dir: Annotated[pathlib.Path, typer.Option(exists=False,
             download_flybase(output_dir, config["flybase"])
             # download_gencode(output_dir, config["gencode"])       # this must be called with tflink because tflink needs Drosophila_melanogaster.gene_info.gz that is downloaded with gencode data
             
-            # uniprot_data_filename = download_uniprot(output_dir, config["uniprot"])
-            # dmel_uniprot_data_filename = save_uniprot_dmel_data(uniprot_data_filename)
-            # create_ensembl_to_uniprot_dict(dmel_uniprot_data_filename, 'aux_files/dmel/string_ensembl_uniprot_map.pkl')
+            uniprot_data_filename = download_uniprot(output_dir, config["uniprot"])
+            dmel_uniprot_data_filename = save_uniprot_dmel_data(uniprot_data_filename)
+            create_ensembl_to_uniprot_dict(dmel_uniprot_data_filename, 'aux_files/dmel/dmel_string_ensembl_uniprot_map.pkl')
             # download_reactome(output_dir, config["reactome"])
 
             # download_tflink_and_gencode(output_dir, config["tflink"], config["gencode"])            

@@ -98,10 +98,8 @@ def _normalize_rnacentral_rfam(path: Path) -> None:
 def _normalize_tabular_file(path: Path) -> None:
     """General tabular file normalization - ensure consistent formatting."""
     def processor(line: str):
-        # Skip completely empty lines
         if not line.strip():
             return None
-        # Basic cleanup: ensure consistent tab separation, remove trailing whitespace
         parts = line.split("\t")
         cleaned_line = "\t".join(part.strip() for part in parts)
         return cleaned_line

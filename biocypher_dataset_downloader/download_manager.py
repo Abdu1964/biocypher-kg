@@ -74,6 +74,9 @@ class DownloadManager:
                 self._handle_multiple_urls(source_config, save_dir)
             else:
                 self._handle_single_url(source_config, save_dir)
+            
+            # Post-download processing
+            self._post_download_processing(source_id, save_dir)
         except Exception as e:
             logger.error(f"Error downloading {source_id}: {str(e)}")
             raise
@@ -131,6 +134,164 @@ class DownloadManager:
                 self.download_file(url, filepath)
             except Exception as e:
                 logger.warning(f"Failed to download {file_name}: {str(e)}")
+
+    def _post_download_processing(self, source_id: str, save_dir: Path):
+        """Perform post-download processing like updating mappings"""
+        if source_id == 'uniprot':
+            logger.info("Updating Ensembl to UniProt mappings after UniProt download")
+            self._update_ensembl_uniprot_mappings(save_dir)
+        elif source_id == 'gencode':
+            logger.info("Updating gene info mappings after GENCODE download")
+            self._update_gene_info_mappings(save_dir)
+        # Add other post-download processing here as needed
+
+    def _update_ensembl_uniprot_mappings(self, uniprot_dir: Path):
+        """Update the Ensembl to UniProt mapping files"""
+        import gzip
+        from Bio import SeqIO
+        import pickle
+        
+        uniprot_files = list(uniprot_dir.glob("*.dat.gz"))
+        if not uniprot_files:
+            logger.warning("No UniProt .dat.gz file found")
+            return
+        
+        uniprot_file = uniprot_files[0]
+        logger.info(f"Processing {uniprot_file} for mappings")
+        
+        if 'human' in str(uniprot_file):
+            output_file = Path("aux_files/string_ensembl_uniprot_map.pkl")
+            species_filter = lambda record: True
+        elif 'invertebrates' in str(uniprot_file):
+            output_file = Path("aux_files/dmel/dmel_string_ensembl_uniprot_map.pkl")
+            species_filter = lambda record: record.id.endswith('DROME')
+        else:
+            logger.warning(f"Unknown UniProt file type: {uniprot_file}")
+            return
+        
+        ensembl_uniprot_ids = {}
+        with gzip.open(uniprot_file, 'rt') as input_file:
+            records = SeqIO.parse(input_file, 'swiss')
+            for record in records:
+                if not species_filter(record):
+                    continue
+                dbxrefs = record.dbxrefs
+                for item in dbxrefs:
+                    if item.startswith('STRING'):
+                        try:
+                            ensembl_id = item.split(':')[-1].split('.')[1]
+                            uniprot_id = record.id
+                            if ensembl_id:
+                                ensembl_uniprot_ids[ensembl_id] = uniprot_id
+                        except IndexError:
+                            logger.warning(f"Failed to parse STRING dbxref: {item}")
+        
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(output_file, 'wb') as pickle_file:
+            pickle.dump(ensembl_uniprot_ids, pickle_file)
+        logger.info(f"Updated {output_file} with {len(ensembl_uniprot_ids)} mappings")
+
+    def _update_gene_info_mappings(self, gencode_dir: Path):
+        """Update gene info derived mappings"""
+        import gzip
+        import csv
+        import pickle
+        
+        gene_info_files = list(gencode_dir.glob("*gene_info.gz"))
+        
+        # If no gene_info file in download dir, check aux_files
+        if not gene_info_files:
+            aux_files = list(Path("aux_files").glob("*gene_info.gz"))
+            if aux_files:
+                gene_info_files = aux_files
+            else:
+                logger.warning("No gene_info.gz file found in download directory or aux_files")
+                return
+        
+        gene_info_file = gene_info_files[0]
+        logger.info(f"Processing {gene_info_file} for gene mappings")
+        
+        is_dmel = 'Drosophila' in str(gene_info_file)
+        aux_dir = Path("aux_files/dmel") if is_dmel else Path("aux_files")
+        
+        entrez_to_ensembl = {}
+        ensembl_to_entrez = {}
+        hgnc_to_ensembl = {}
+        ensembl_to_hgnc = {}
+        symbol_to_ensembl = {}
+        ensembl_to_symbol = {}
+        ensembl_to_pos = {}
+        
+        with gzip.open(gene_info_file, 'rt') as tsv_file:
+            reader = csv.DictReader(tsv_file, delimiter='\t')
+            for row in reader:
+                gene_id = row.get('GeneID')
+                symbol = row.get('Symbol')
+                dbxrefs = row.get('dbXrefs', '').split('|')
+                chromosome = row.get('chromosome')
+                start_pos = row.get('start_position_on_the_genomic_accession')
+                end_pos = row.get('end_position_on_the_genomic_accession')
+                
+                # Extract Ensembl ID
+                ensembl_id = None
+                for xref in dbxrefs:
+                    if xref.startswith('Ensembl:'):
+                        ensembl_id = xref.split(':')[1]
+                        break
+                    elif is_dmel and xref.startswith('FLYBASE:'):
+                        ensembl_id = xref.split(':')[1]
+                        break
+                
+                # Extract HGNC ID
+                hgnc_id = None
+                for xref in dbxrefs:
+                    if xref.startswith('HGNC:'):
+                        hgnc_id = xref.split(':')[1]
+                        break
+                
+                if ensembl_id:
+                    # Entrez mappings
+                    if gene_id:
+                        entrez_to_ensembl[gene_id] = ensembl_id
+                        ensembl_to_entrez[ensembl_id] = gene_id
+                    
+                    # HGNC mappings
+                    if hgnc_id:
+                        hgnc_to_ensembl[hgnc_id] = ensembl_id
+                        ensembl_to_hgnc[ensembl_id] = hgnc_id
+                    
+                    # Symbol mappings
+                    if symbol:
+                        symbol_to_ensembl[symbol] = ensembl_id
+                        ensembl_to_symbol[ensembl_id] = symbol
+                    
+                    # Position mapping
+                    if chromosome and start_pos and end_pos:
+                        ensembl_to_pos[ensembl_id] = {
+                            'chr': chromosome,
+                            'start': int(start_pos),
+                            'end': int(end_pos)
+                        }
+        
+        # Save the mappings
+        mappings = {
+            'entrez_to_ensembl.pkl': entrez_to_ensembl,
+            'ensembl_to_entrez.pkl': ensembl_to_entrez,
+            'hgnc_to_ensembl.pkl': hgnc_to_ensembl,
+            'ensembl_to_hgnc.pkl': ensembl_to_hgnc,
+            'hgnc_symbol_map.pkl': symbol_to_ensembl,  # Assuming this is symbol to ensembl
+            'ensembl_to_pos.pkl': ensembl_to_pos,
+        }
+        
+        if not is_dmel:
+            mappings['hgnc_ensembl_map.pkl'] = ensembl_to_hgnc  # Assuming this is ensembl to hgnc
+        
+        for filename, data in mappings.items():
+            filepath = aux_dir / filename
+            filepath.parent.mkdir(parents=True, exist_ok=True)
+            with open(filepath, 'wb') as f:
+                pickle.dump(data, f)
+            logger.info(f"Updated {filepath} with {len(data)} mappings")
 
     def download_source(self, source_id: str):
         """Download a specific source"""

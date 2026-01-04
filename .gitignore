@@ -172,6 +172,7 @@ ontology_dataset_cache/
 
 output/
 output_cli/
-output_human
+output_human/
+output_human_mini/
 output_fly/
 samples/

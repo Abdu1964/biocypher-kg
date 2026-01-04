@@ -1,7 +1,7 @@
 import typer
 from pathlib import Path
 from typing_extensions import Annotated
-from downloader import DownloadManager
+from download_manager import DownloadManager
 import logging
 
 logging.basicConfig(level=logging.INFO)

@@ -3,9 +3,18 @@ import hashlib
 from math import log10, floor, isinf
 from liftover import get_lifter
 
-import hgvs.dataproviders.uta
-from hgvs.easy import parser
-from hgvs.extras.babelfish import Babelfish
+# Lazy import HGVS to avoid connection issues on import
+_hgvs_dataproviders_uta = None
+_hgvs_easy_parser = None
+_hgvs_extras_babelfish = None
+
+def _get_hgvs_imports():
+    global _hgvs_dataproviders_uta, _hgvs_easy_parser, _hgvs_extras_babelfish
+    if _hgvs_dataproviders_uta is None:
+        import hgvs.dataproviders.uta as _hgvs_dataproviders_uta
+        from hgvs.easy import parser as _hgvs_easy_parser
+        from hgvs.extras.babelfish import Babelfish as _hgvs_extras_babelfish
+    return _hgvs_dataproviders_uta, _hgvs_easy_parser, _hgvs_extras_babelfish
 
 ALLOWED_ASSEMBLIES = ['GRCh38']
 _lifters = {}
@@ -44,11 +53,12 @@ def build_variant_id_from_hgvs(hgvs_id, validate=True, assembly='GRCh38'):
     # translate hgvs naming to vcf format e.g. NC_000003.12:g.183917980C>T -> 3_183917980_C_T
     if validate:  # use tools from hgvs, which corrects ref allele if it's wrong
         # got connection timed out error occasionally, could add a retry function
-        hdp = hgvs.dataproviders.uta.connect()
-        babelfish38 = Babelfish(hdp, assembly_name=assembly)
+        hgvs_dataproviders_uta, hgvs_easy_parser, hgvs_extras_babelfish = _get_hgvs_imports()
+        hdp = hgvs_dataproviders_uta.connect()
+        babelfish38 = hgvs_extras_babelfish(hdp, assembly_name=assembly)
         try:
             chr, pos_start, ref, alt, type = babelfish38.hgvs_to_vcf(
-                parser.parse(hgvs_id))
+                hgvs_easy_parser.parse(hgvs_id))
         except Exception as e:
             print(e)
             return None
