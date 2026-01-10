@@ -3,9 +3,9 @@ roadmap:
   name: Roadmap Epigenomics Project
   url: https://personal.broadinstitute.org/jernst/MODEL_IMPUTED12MARKS
 
-gencode:
+gencode:            # About the file to be downloaded:	"It contains the comprehensive gene annotation on the reference chromosomes only"
   name: GENCODE v49
-  url: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/gencode.v49.annotation.gtf.gz
+  url: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/gencode.v49.annotation.gtf.gz       
 
 uniprot:
   name: UniProtKB/Swiss-Prot
@@ -37,7 +37,8 @@ gtex_eqtl:
   name: GTEx eQTL
   # bucket: adult-gtex
   # path: bulk-qtl/v8/single-tissue-cis-qtl/GTEx_Analysis_v8_eQTL.tar
-  url: https://storage.googleapis.com/adult-gtex/bulk-qtl/v10/single-tissue-cis-qtl/GTEx_Analysis_v10_eQTL.tar
+  # Prefer FORGEdb unified export (much smaller than the GTEx tar archive).
+  url: https://forgedb.cancer.gov/api/gtex/v1.0/gtex.forgedb.csv.gz
 topld:
   name: TopLD
   url:
@@ -89,13 +90,15 @@ rna_central:
   url:
     # bed: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/genome_coordinates/human.GRCh38.bed.gz
     bed: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/genome_coordinates/bed/homo_sapiens.GRCh38.bed.gz
-    rfam: https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz
+    # Adapter expects 3-column URS/GO/Rfam annotations.
+    rfam: http://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/go_annotations/rnacentral_rfam_annotations.tsv.gz
 dgv:
   name: Database of Genomic Variants
   url: http://dgv.tcag.ca/dgv/docs/GRCh38_hg38_variants_2020-02-25.txt
 epd:
   name: Eukaryotic Promoter Database
-  url: https://epd.epfl.ch/EPD/get_promoter_seq?db=hg38&format=bed&nb_seq=0
+  # Direct BED download from EPDnew FTP (stable; avoids HTML landing pages)
+  url: https://epd.expasy.org/ftp/epdnew/H_sapiens/current/Hs_EPDnew.bed
 dbvar:
   name: NCBI dbVar
   url: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh38/vcf/GRCh38.variant_call.all.vcf.gz
@@ -111,10 +114,10 @@ gwas:
   url: https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2025/09/30/gwas-catalog-associations_ontology-annotated.tsv*
 enhancer_atlas:
   name: EnhancerAtlas
-  url: http://www.enhanceratlas.org/data/download/enhancer_atlas_2.0/9606_all_tissues.bed   #  http://www.enhanceratlas.org/ is not accessible...
-fabian:
-  name: Fabian
-  url: https://fabian.bioinf.mpi-inf.mpg.de/downloads/human_grch38.tar.gz
+  url: http://www.enhanceratlas.org/data/download/enhancer_atlas_2.0/9606_all_tissues.bed   #  http://www.enhanceratlas.org/ is not accessible most of the time...
+# fabian:
+#   name: Fabian
+#   url: https://fabian.bioinf.mpi-inf.mpg.de/downloads/human_grch38.tar.gz
 
 brenda_tissue_ontology:
   name: BRENDA Tissue Ontology

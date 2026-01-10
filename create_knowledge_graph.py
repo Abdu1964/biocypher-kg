@@ -1,6 +1,7 @@
 """
 Knowledge graph generation through BioCypher script
 """
+
 from datetime import date
 from pathlib import Path
 
@@ -8,11 +9,12 @@ from biocypher import BioCypher
 from biocypher_metta.metta_writer import *
 from biocypher_metta.prolog_writer import PrologWriter
 from biocypher_metta.neo4j_csv_writer import *
-from biocypher_metta.kgx_writer import *
+# from biocypher_metta.kgx_writer import *
 from biocypher_metta.parquet_writer import ParquetWriter
 from biocypher_metta.networkx_writer import NetworkXWriter
 from biocypher._logger import logger
 import typer
+import re
 import yaml
 import importlib  #for reflection
 from typing_extensions import Annotated
@@ -21,26 +23,29 @@ import json
 from collections import Counter, defaultdict
 from typing import Union, List, Optional
 
+from biocypher_cli.modules.sample_preparation import check_and_prepare_samples
+
 
 app = typer.Typer()
 
 # Function to choose the writer class based on user input
-def get_writer(writer_type: str, output_dir: Path):
+# Added schema_config_path parameter
+def get_writer(writer_type: str, output_dir: Path, schema_config_path: Path):
     if writer_type.lower() == 'metta':
-        return MeTTaWriter(schema_config="config/schema_config.yaml",
+        return MeTTaWriter(schema_config=str(schema_config_path), # Replaced hardcoded path
                            biocypher_config="config/biocypher_config.yaml",
                            output_dir=output_dir)
     elif writer_type.lower() == 'prolog':
-        return PrologWriter(schema_config="config/schema_config.yaml",
+        return PrologWriter(schema_config=str(schema_config_path), 
                             biocypher_config="config/biocypher_config.yaml",
                             output_dir=output_dir)
     elif writer_type.lower() == 'neo4j':
-        return Neo4jCSVWriter(schema_config="config/schema_config.yaml",
+        return Neo4jCSVWriter(schema_config=str(schema_config_path), 
                                biocypher_config="config/biocypher_config.yaml",
                                output_dir=output_dir)
     elif writer_type.lower() == 'parquet':
         return ParquetWriter(
-            schema_config="config/schema_config.yaml",
+            schema_config=str(schema_config_path), 
             biocypher_config="config/biocypher_config.yaml",
             output_dir=output_dir,
             buffer_size=10000,
@@ -49,13 +54,13 @@ def get_writer(writer_type: str, output_dir: Path):
 
     elif writer_type.lower() == 'kgx':
         return KGXWriter(
-            schema_config="config/schema_config.yaml",
+            schema_config=str(schema_config_path), 
                                biocypher_config="config/biocypher_config.yaml",
                                output_dir=output_dir)
 
     elif writer_type.lower() == 'networkx':
         return NetworkXWriter(
-            schema_config="config/schema_config.yaml",
+            schema_config=str(schema_config_path), 
             biocypher_config="config/biocypher_config.yaml",
             output_dir=output_dir
         )
@@ -63,14 +68,15 @@ def get_writer(writer_type: str, output_dir: Path):
     else:
         raise ValueError(f"Unknown writer type: {writer_type}")
 
-def preprocess_schema():
+#  Added schema_config_path parameter
+def preprocess_schema(schema_config_path: Path):
     def convert_input_labels(label, replace_char="_"):
         if isinstance(label, list):
             return [item.replace(" ", replace_char) for item in label]
         return label.replace(" ", replace_char)
 
     bcy = BioCypher(
-        schema_config_path="config/schema_config.yaml", 
+        schema_config_path=str(schema_config_path), # Replaced hardcoded path
         biocypher_config_path="config/biocypher_config.yaml"
     )
     schema = bcy._get_ontology_mapping()._extend_schema()
@@ -257,18 +263,30 @@ def process_adapters(adapters_dict, dbsnp_rsids_dict, dbsnp_pos_dict, writer, wr
 
 # Run build
 @app.command()
-def main(
-    output_dir: Annotated[Path, typer.Option(help="Output directory")],
-    adapters_config: Annotated[Path, typer.Option(help="Path to adapters config YAML file")],
-    dbsnp_rsids: Annotated[Path, typer.Option(help="Path to dbSNP rsids pickle file")],
-    dbsnp_pos: Annotated[Path, typer.Option(help="Path to dbSNP position pickle file")],
-    writer_type: Annotated[str, typer.Option(help="Choose writer type: metta, prolog, neo4j, parquet, networkx, KGX")] = "metta",
-    write_properties: Annotated[bool, typer.Option(help="Write properties to nodes and edges")] = True,
-    add_provenance: Annotated[bool, typer.Option(help="Add provenance to nodes and edges")] = True,
-    buffer_size: Annotated[int, typer.Option(help="Buffer size for Parquet writer")] = 10000,
-    overwrite: Annotated[bool, typer.Option(help="Overwrite existing Parquet files")] = True,
-    include_adapters: Annotated[Optional[List[str]], typer.Option(help="Specific adapters to include (space-separated, default: all)")] = None,
-):
+def main(output_dir: Annotated[Path, typer.Option(exists=True, file_okay=False, dir_okay=True)], 
+         adapters_config: Annotated[Path, typer.Option(exists=True, file_okay=True, dir_okay=False)],
+         dbsnp_rsids: Annotated[Path, typer.Option(exists=True, file_okay=True, dir_okay=False)],
+         dbsnp_pos: Annotated[Path, typer.Option(exists=True, file_okay=True, dir_okay=False)],
+         # NEW: Added schema_config as a mandatory CLI option
+         schema_config: Annotated[Path, typer.Option(
+             exists=True, file_okay=True, dir_okay=False,
+             help="Path to the schema config YAML file (required)."
+         )],
+         writer_type: str = typer.Option(default="metta", help="Choose writer type: metta, prolog, neo4j, parquet, networkx,KGX"),
+         write_properties: bool = typer.Option(True, help="Write properties to nodes and edges"),
+         add_provenance: bool = typer.Option(True, help="Add provenance to nodes and edges"),
+         buffer_size: int = typer.Option(10000, help="Buffer size for Parquet writer"),
+         overwrite: bool = typer.Option(True, help="Overwrite existing Parquet files"),
+         include_adapters: Optional[List[str]] = typer.Option(
+             None,
+             help=(
+                 "Adapters to include (default: all). Repeat the option, or pass a single "
+                 "comma/space-separated string. Examples: "
+                 "--include-adapters a --include-adapters b  OR  --include-adapters a,b  OR  "
+                 "--include-adapters 'a b'"
+             ),
+             case_sensitive=False,
+         )):
     """
     Main function. Call individual adapters to download and process data. Build
     via BioCypher from node and edge data.
@@ -281,14 +299,16 @@ def main(
     dbsnp_pos_dict = pickle.load(open(dbsnp_pos, 'rb'))
 
     # Choose the writer based on user input or default to 'metta'
-    bc = get_writer(writer_type, output_dir)
+    #  Passed schema_config to get_writer
+    bc = get_writer(writer_type, output_dir, schema_config)
     logger.info(f"Using {writer_type} writer")
 
     if writer_type == 'parquet':
         bc.buffer_size = buffer_size
         bc.overwrite = overwrite
 
-    schema_dict = preprocess_schema()
+    #  Passed schema_config to preprocess_schema
+    schema_dict = preprocess_schema(schema_config)
 
     with open(adapters_config, "r") as fp:
         try:
@@ -297,20 +317,86 @@ def main(
             logger.error("Error while trying to load adapter config")
             logger.error(e)
 
+    available_adapters = list(adapters_dict.keys())
+
     # Filter adapters if specific ones are requested
     if include_adapters:
-         original_count = len(adapters_dict)
-         include_lower = [a.lower() for a in include_adapters]
-         adapters_dict = {
-             k: v for k, v in adapters_dict.items()
-             if k.lower() in include_lower
-         }
-         if not adapters_dict:
-             available = "\n".join(f" - {a}" for a in adapters_dict.keys())
-             logger.error(f"No matching adapters found. Available adapters:\n{available}")
-             raise typer.Exit(1)
-             
-         logger.info(f"Filtered to {len(adapters_dict)}/{original_count} adapters")
+        original_count = len(adapters_dict)
+
+        # Typer/Click consumes one value per option occurrence. To support a more
+        # user-friendly input, split any provided values on commas/whitespace.
+        include_tokens: List[str] = []
+        for raw in include_adapters:
+            if raw is None:
+                continue
+            token_str = str(raw).strip()
+            if not token_str:
+                continue
+            include_tokens.extend([t for t in re.split(r"[\s,]+", token_str) if t])
+
+        include_lower = {a.lower() for a in include_tokens}
+        adapters_dict = {
+            k: v for k, v in adapters_dict.items()
+            if k.lower() in include_lower
+        }
+
+        if not adapters_dict:
+            available = "\n".join(f" - {a}" for a in available_adapters)
+            logger.error(
+                "No matching adapters found for --include-adapters. "
+                f"Available adapters:\n{available}"
+            )
+            raise typer.Exit(1)
+
+        logger.info(f"Filtered to {len(adapters_dict)}/{original_count} adapters")
+
+    def _missing_inputs_for_selected_adapters() -> List[Path]:
+        missing: List[Path] = []
+        project_root = Path(__file__).resolve().parent
+
+        for _name, conf in (adapters_dict.items() if isinstance(adapters_dict, dict) else []):
+            args = {}
+            try:
+                args = conf.get("adapter", {}).get("args", {}) or {}
+            except Exception:
+                args = {}
+
+            for key, val in args.items():
+                if not isinstance(val, str):
+                    continue
+                key_l = str(key).lower()
+                if "file" not in key_l and "path" not in key_l and "samples" not in val:
+                    continue
+
+                out_path = Path(val)
+                if not out_path.is_absolute():
+                    out_path = project_root / out_path
+
+                if not out_path.exists():
+                    missing.append(out_path)
+
+        return missing
+
+    missing_inputs = _missing_inputs_for_selected_adapters()
+    if missing_inputs:
+        logger.info(
+            "Some adapter input files are missing; running sample preparation to download/sample them. "
+            "(This mirrors the BioCypher CLI behavior.)"
+        )
+        created, skipped = check_and_prepare_samples(
+            str(adapters_config),
+            selected_adapters=list(adapters_dict.keys()),
+            return_skipped=True,
+        )
+        if skipped:
+            logger.error(f"Sample preparation skipped adapters: {', '.join(skipped)}")
+            raise typer.Exit(1)
+
+        still_missing = _missing_inputs_for_selected_adapters()
+        if still_missing:
+            missing_str = "\n".join(f" - {p}" for p in still_missing)
+            logger.error(f"Missing required input files after sample preparation:\n{missing_str}")
+            raise typer.Exit(1)
     # Run adapters
     nodes_count, nodes_props, edges_count, datasets_dict = process_adapters(
         adapters_dict, dbsnp_rsids_dict, dbsnp_pos_dict, bc, write_properties, add_provenance, schema_dict
@@ -346,3 +432,6 @@ def main(
 
 if __name__ == "__main__":
     app()
+
+
+
