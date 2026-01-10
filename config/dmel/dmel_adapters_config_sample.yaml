@@ -351,6 +351,34 @@ dmel_allele_to_allele_genetic_interaction_adapter:
     nodes: False
     edges: True
 
+epd_promoter_dmel:
+  adapter:
+    module: biocypher_metta.adapters.epd_adapter
+    cls: EPDAdapter
+    args:
+      filepath: ./samples/dmel/epd/Dm_EPDnew.bed.gz
+      hgnc_to_ensembl_map: null
+      flybase_gene_info_path: ./aux_files/dmel/Drosophila_melanogaster.gene_info.gz
+      label: promoter
+      taxon_id: 7227
+  outdir: epd
+  nodes: True
+  edges: False
+
+epd_promoter_regulates_gene_dmel:
+  adapter:
+    module: biocypher_metta.adapters.epd_adapter
+    cls: EPDAdapter
+    args:
+      filepath: ./samples/dmel/epd/Dm_EPDnew.bed.gz
+      hgnc_to_ensembl_map: null
+      flybase_gene_info_path: ./aux_files/dmel/Drosophila_melanogaster.gene_info.gz
+      type: promoter to gene association
+      label: promoter_gene
+      taxon_id: 7227
+  outdir: epd
+  nodes: False
+  edges: True
 
 dmel_expressed_in:
   adapter:
