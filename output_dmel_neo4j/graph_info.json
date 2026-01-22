@@ -1,0 +1,48 @@
+{
+  "node_count": 0,
+  "edge_count": 24416,
+  "dataset_count": 1,
+  "data_size": "0.00 GB",
+  "top_entities": [],
+  "top_connections": [
+    {
+      "name": "coexpressed_with",
+      "count": 24416
+    }
+  ],
+  "frequent_relationships": [
+    {
+      "entities": [
+        "gene",
+        "gene"
+      ],
+      "count": 24416
+    }
+  ],
+  "schema": {
+    "nodes": [],
+    "edges": [
+      {
+        "data": {
+          "source": "gene",
+          "target": "gene",
+          "possible_connections": [
+            "coexpressed_with"
+          ]
+        }
+      }
+    ]
+  },
+  "datasets": [
+    {
+      "name": "CoXPresdb",
+      "version": "v22-05",
+      "url": "https://coxpresdb.jp/",
+      "nodes": [],
+      "edges": [
+        "coexpressed_with"
+      ],
+      "imported_on": "2026-01-22"
+    }
+  ]
+}
