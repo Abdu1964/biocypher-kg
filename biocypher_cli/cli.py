@@ -12,9 +12,9 @@ from rich.panel import Panel
 from rich.table import Table
 
 # Import from modules
-from modules.utils import *
-from modules.config import *
-from modules.adapters import *
+from biocypher_cli.modules.utils import *
+from biocypher_cli.modules.config import *
+from biocypher_cli.modules.adapters import *
 
 logger = logging.getLogger(__name__)
 
@@ -22,9 +22,10 @@ def build_default_human_command() -> List[str]:
     return [
         "python3", str(PROJECT_ROOT / "create_knowledge_graph.py"),
         "--output-dir", str(PROJECT_ROOT / "output_human"),
-        "--adapters-config", str(PROJECT_ROOT / "config/adapters_config_sample.yaml"),
-        "--dbsnp-rsids", str(PROJECT_ROOT / "aux_files/abc_tissues_to_ontology_map.pkl"),
-        "--dbsnp-pos", str(PROJECT_ROOT / "aux_files/abc_tissues_to_ontology_map.pkl"),
+        "--adapters-config", str(PROJECT_ROOT / "config/hsa/hsa_adapters_config_sample.yaml"),
+        "--dbsnp-rsids", str(PROJECT_ROOT / "aux_files/hsa/sample_dbsnp_rsids.pkl"),
+        "--dbsnp-pos", str(PROJECT_ROOT / "aux_files/hsa/sample_dbsnp_pos.pkl"),
+        "--schema-config", str(PROJECT_ROOT / "config/hsa/hsa_schema_config.yaml"),
         "--writer-type", "neo4j", "--no-add-provenance"
     ]
 
