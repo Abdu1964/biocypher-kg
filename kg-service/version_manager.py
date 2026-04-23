@@ -366,16 +366,17 @@ class VersionManager:
 
         logger.info(f"AtomSpace version: {current_atomspace_version or 'None'} → {new_atomspace_version}")
 
-        # Build per-file list for changed datasets (relative paths like "gaf/edges_foo.csv")
-        # neo4j_loader uses these for per-relationship surgical deletes and file-level loading.
         changed_files = []
         for dataset in changed_datasets:
             folder = self.output_dir / dataset
             if dataset == "root":
                 for csv_file in sorted(self.output_dir.glob("*.csv")):
                     changed_files.append(str(csv_file.relative_to(self.output_dir)))
-            else:
+            elif folder.is_dir():
                 for csv_file in sorted(folder.rglob("*.csv")):
+                    changed_files.append(str(csv_file.relative_to(self.output_dir)))
+            else:
+                for csv_file in sorted(self.output_dir.rglob("*.csv")):
                     changed_files.append(str(csv_file.relative_to(self.output_dir)))
 
         # Return tuple format expected by neo4j_loader.py
