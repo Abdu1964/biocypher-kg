@@ -366,8 +366,19 @@ class VersionManager:
 
         logger.info(f"AtomSpace version: {current_atomspace_version or 'None'} → {new_atomspace_version}")
 
+        # Collect all CSV files from changed dataset folders as relative paths
+        changed_files = []
+        for dataset in changed_datasets:
+            folder = self.output_dir / dataset
+            if folder.is_dir():
+                for csv_file in sorted(folder.rglob("*.csv")):
+                    changed_files.append(str(csv_file.relative_to(self.output_dir)))
+            else:
+                for csv_file in sorted(self.output_dir.rglob("*.csv")):
+                    changed_files.append(str(csv_file.relative_to(self.output_dir)))
+
         # Return tuple format expected by neo4j_loader.py
-        return (new_atomspace_version, new_dataset_versions, changed_datasets)
+        return (new_atomspace_version, new_dataset_versions, changed_datasets, changed_files)
 
     def finalize_version(self, output_dir, atomspace_version, dataset_versions, 
                          changed_datasets, build_id):
