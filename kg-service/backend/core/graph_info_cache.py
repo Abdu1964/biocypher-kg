@@ -120,6 +120,24 @@ class GraphInfoCache:
             logger.error(f" Error loading graph info: {e}")
             return None
     
+    def needs_refresh(self) -> bool:
+        """
+        Returns True if Neo4j has data newer than the cache.
+        Compares latest import_timestamp in Neo4j against cache's generated_at.
+        """
+        if not self.cache_file.exists():
+            return True
+
+        cached = self.load_from_file()
+        if not cached or not cached.get("generated_at"):
+            return True
+
+        latest_neo4j = neo4j_client.get_last_updated()
+        if not latest_neo4j:
+            return True
+
+        return latest_neo4j > cached["generated_at"]
+
     def refresh(self):
         """Generate and save graph info"""
         data = self.generate_graph_info()

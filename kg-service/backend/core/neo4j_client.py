@@ -2,6 +2,7 @@ from neo4j import GraphDatabase
 from typing import List, Dict, Any, Optional
 from backend.core.config import settings
 import logging
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -40,8 +41,8 @@ class Neo4jClient:
     
     def get_database_size(self) -> dict:
         """
-        Get actual Neo4j store size in GB using apoc.monitor.store().
-        Always returns a dict with size_gb, even if None.
+        Get actual Neo4j store size in GB.
+        Tries apoc.monitor.store() first, falls back to docker exec du.
         """
         try:
             with self.driver.session(database=settings.NEO4J_DATABASE) as session:
@@ -50,12 +51,24 @@ class Neo4jClient:
                     YIELD totalStoreSize
                     RETURN totalStoreSize
                 """).single()
-
                 if result and result["totalStoreSize"] is not None:
                     size_bytes = int(result["totalStoreSize"])
                     size_gb = round(size_bytes / (1024**3), 2)
                     return {"size_gb": size_gb, "method": "apoc"}
+        except Exception:
+            pass
 
+        # Fallback: read from Docker container directly
+        try:
+            result = subprocess.run(
+                ["docker", "exec", "neo4j-observatory", "du", "-sb",
+                 "/var/lib/neo4j/data/databases"],
+                capture_output=True, text=True, timeout=30
+            )
+            if result.returncode == 0:
+                size_bytes = int(result.stdout.split()[0])
+                size_gb = round(size_bytes / (1024**3), 2)
+                return {"size_gb": size_gb, "method": "docker"}
         except Exception as e:
             logger.error(f"Failed to get database size: {e}")
 
@@ -76,16 +89,18 @@ class Neo4jClient:
 
     def get_total_counts(self) -> Dict[str, int]:
         with self.driver.session(database=settings.NEO4J_DATABASE) as session:
-            nodes = session.run("MATCH (n) RETURN count(n) as count").single()["count"]
-            edges = session.run("MATCH ()-[r]->() RETURN count(r) as count").single()["count"]
-            return {"node_count": nodes, "edge_count": edges}
+            result = session.run("""
+                MATCH (n) WITH count(n) as node_count
+                MATCH ()-[r]->() RETURN node_count, count(r) as edge_count
+            """).single()
+            return {"node_count": result["node_count"], "edge_count": result["edge_count"]}
 
     def get_node_type_distribution(self, limit: int = 20) -> list:
         """Get distribution of node types"""
         with self.driver.session(database=settings.NEO4J_DATABASE) as session:
             result = session.run("""
                 MATCH (n)
-                WHERE NOT n:DatasetHash AND NOT n:DatasetVersion 
+                WHERE NOT n:DatasetHash AND NOT n:DatasetVersion
                     AND NOT n:KGVersion AND NOT n:DatasetMapping
                 WITH labels(n)[0] as type, count(*) as count
                 WHERE type IS NOT NULL
@@ -93,9 +108,7 @@ class Neo4jClient:
                 ORDER BY count DESC
                 LIMIT $limit
             """, limit=limit)
-            
-            return [{"name": record["type"], "count": record["count"]} 
-                    for record in result]  # ← Changed "type" to "name"
+            return [{"name": record["type"], "count": record["count"]} for record in result]
 
     def get_edge_type_distribution(self, limit: int = 30) -> list:
         """Get distribution of relationship types"""
@@ -272,9 +285,8 @@ class Neo4jClient:
             ]
 
     def get_datasets_with_metadata(self) -> list:
-        """Get complete dataset metadata (batched to avoid memory issues)"""
+        """Get complete dataset metadata (4 queries total instead of 3N+1)"""
         with self.driver.session(database=settings.NEO4J_DATABASE) as session:
-            # Get all datasets first
             datasets_result = session.run("""
                 MATCH (dv:DatasetVersion {db_type: "neo4j"})
                 OPTIONAL MATCH (dm:DatasetMapping {folder: dv.dataset, db_type: "neo4j"})
@@ -284,55 +296,62 @@ class Neo4jClient:
                     dm.source as source
                 ORDER BY name
             """)
-            
+
             datasets = []
+            source_to_dataset = {}
             for record in datasets_result:
                 source = record["source"]
                 if not source:
                     continue
-                
-                # Get ALL node types (batched aggregation - no memory issues!)
-                node_types_result = session.run("""
-                    CALL {
-                        MATCH (n)
-                        WHERE n.source = $source
-                            AND NOT n:DatasetHash AND NOT n:DatasetVersion 
-                            AND NOT n:KGVersion AND NOT n:DatasetMapping
-                        RETURN DISTINCT labels(n)[0] as label
-                    } IN TRANSACTIONS OF 10000 ROWS
-                    RETURN collect(DISTINCT label) as labels
-                """, source=source).single()
-                
-                node_types = [l.lower() for l in node_types_result["labels"] if l]
-                
-                # Get ALL edge types (batched aggregation)
-                edge_types_result = session.run("""
-                    CALL {
-                        MATCH ()-[r]->()
-                        WHERE r.source = $source
-                        RETURN DISTINCT type(r) as rel_type
-                    } IN TRANSACTIONS OF 10000 ROWS
-                    RETURN collect(DISTINCT rel_type) as types
-                """, source=source).single()
-                
-                edge_types = [t.lower() for t in edge_types_result["types"] if t]
-                
-                # Get URL (quick lookup)
-                url_result = session.run("""
-                    MATCH (n)
-                    WHERE n.source = $source AND n.source_url IS NOT NULL
-                    RETURN n.source_url as url
-                    LIMIT 1
-                """, source=source).single()
-                
-                datasets.append({
+                entry = {
                     "name": record["name"].upper() if record["name"] else "UNKNOWN",
                     "version": record["version"],
-                    "url": url_result["url"] if url_result else None,
-                    "nodes": sorted(node_types),
-                    "edges": sorted(edge_types),
+                    "url": None,
+                    "nodes": [],
+                    "edges": [],
                     "imported_on": record["imported_on"][:10] if record["imported_on"] else None
-                })
-            
+                }
+                datasets.append(entry)
+                source_to_dataset[source] = entry
+
+            if not source_to_dataset:
+                return datasets
+
+            sources = list(source_to_dataset.keys())
+
+            # Batch: node types + URL per source in one query
+            node_result = session.run("""
+                MATCH (n)
+                WHERE n.source IN $sources
+                  AND NOT n:DatasetHash AND NOT n:DatasetVersion
+                  AND NOT n:KGVersion AND NOT n:DatasetMapping
+                WITH n.source AS source, labels(n)[0] AS label, n.source_url AS url
+                WHERE label IS NOT NULL
+                RETURN source,
+                       collect(DISTINCT label) AS labels,
+                       [u IN collect(url) WHERE u IS NOT NULL][0] AS url
+            """, sources=sources)
+            for record in node_result:
+                src = record["source"]
+                if src in source_to_dataset:
+                    source_to_dataset[src]["nodes"] = sorted(
+                        [l.lower() for l in record["labels"] if l]
+                    )
+                    source_to_dataset[src]["url"] = record["url"]
+
+            # Batch: all edge types per source in one query
+            edge_result = session.run("""
+                MATCH ()-[r]->()
+                WHERE r.source IN $sources
+                WITH r.source AS source, type(r) AS rel_type
+                RETURN source, collect(DISTINCT rel_type) AS types
+            """, sources=sources)
+            for record in edge_result:
+                src = record["source"]
+                if src in source_to_dataset:
+                    source_to_dataset[src]["edges"] = sorted(
+                        [t.lower() for t in record["types"] if t]
+                    )
+
             return datasets
 neo4j_client = Neo4jClient()

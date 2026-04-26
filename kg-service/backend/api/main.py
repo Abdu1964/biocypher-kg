@@ -34,13 +34,16 @@ app.add_middleware(
 scheduler = BackgroundScheduler()
 
 def refresh_graph_info():
-    """Background task to refresh graph_info.json"""
+    """Background task to refresh graph_info.json only if Neo4j has new data"""
     try:
-        logger.info("🔄 Auto-refreshing graph_info.json...")
-        graph_info_cache.refresh()
-        logger.info("✅ Auto-refresh complete!")
+        if graph_info_cache.needs_refresh():
+            logger.info("🔄 Changes detected — refreshing graph_info.json...")
+            graph_info_cache.refresh()
+            logger.info("✅ Refresh complete!")
+        else:
+            logger.info("✅ No changes in Neo4j since last cache — skipping refresh")
     except Exception as e:
-        logger.error(f"❌ Auto-refresh failed: {e}")
+        logger.error(f"❌ Refresh failed: {e}")
 
 # Schedule refresh every 72 hour
 scheduler.add_job(refresh_graph_info, 'interval', hours=72, id='graph_info_refresh')
@@ -54,19 +57,16 @@ async def startup_event():
     scheduler.start()
     logger.info("✅ Background scheduler started (refresh every 72 hours)")
     
-    # If cache doesn't exist, trigger generation in background (non-blocking!)
-    if not graph_info_cache.cache_file.exists():
-        logger.info("📊 Scheduling initial graph_info.json generation (background)...")
-        # Run 5 seconds from now (non-blocking)
-        scheduler.add_job(
-            refresh_graph_info, 
-            'date', 
-            run_date=datetime.now() + timedelta(seconds=5),
-            id='initial_generation'
-        )
-        logger.info("⏳ Initial generation will start in 5 seconds (API ready now!)")
-    else:
-        logger.info("✓ Existing cache file found, using it")
+    # Always regenerate on startup in the background (non-blocking)
+    # API serves old cache (if it exists) while regeneration runs
+    logger.info("📊 Scheduling graph_info.json refresh on startup (background)...")
+    scheduler.add_job(
+        refresh_graph_info,
+        'date',
+        run_date=datetime.now() + timedelta(seconds=5),
+        id='initial_generation'
+    )
+    logger.info("⏳ Refresh will start in 5 seconds (API ready now!)")
 
 @app.on_event("shutdown")
 async def shutdown_event():
